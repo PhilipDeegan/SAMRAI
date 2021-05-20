@@ -765,7 +765,7 @@ SideData<TYPE>::fillAll(
  *************************************************************************
  *
  * Print side centered data.  Note:  makes call to specialized printAxis
- * routine in SideDataSpecialized.C
+ * routine in SideDataSpecialized.cpp
  *
  *************************************************************************
  */

@@ -15,13 +15,13 @@ set (solv_headers
   NonlinearSolverStrategy.h
   nvector.h
   PETSc_SAMRAIVectorReal.h
-  PETSc_SAMRAIVectorReal.C
+  PETSc_SAMRAIVectorReal.cpp
   PETScAbstractVectorReal.h
-  PETScAbstractVectorReal.C
+  PETScAbstractVectorReal.cpp
   PoissonSpecifications.h
   RobinBcCoefStrategy.h
   SAMRAIVectorReal.h
-  SAMRAIVectorReal.C
+  SAMRAIVectorReal.cpp
   SimpleCellRobinBcCoefs.h
   SNES_SAMRAIContext.h
   SNESAbstractFunctions.h
@@ -30,34 +30,34 @@ set (solv_headers
   SundialsAbstractVector.h)
 
 set_source_files_properties(
-  PETScAbstractVectorReal.C
-  PETSc_SAMRAIVectorReal.C
-  SAMRAIVectorReal.C
+  PETScAbstractVectorReal.cpp
+  PETSc_SAMRAIVectorReal.cpp
+  SAMRAIVectorReal.cpp
   PROPERTIES HEADER_FILE_ONLY TRUE)
 
 set (solv_sources
-  CVODEAbstractFunctions.C
-  CVODESolver.C
-  CartesianRobinBcHelper.C
-  CellPoissonFACOps.C
-  CellPoissonFACSolver.C
-  CellPoissonHypreSolver.C
-  FACOperatorStrategy.C
-  FACPreconditioner.C
-  GhostCellRobinBcCoefs.C
-  KINSOLAbstractFunctions.C
-  KINSOLSolver.C
-  KINSOL_SAMRAIContext.C
-  LocationIndexRobinBcCoefs.C
-  NonlinearSolverStrategy.C
-  PoissonSpecifications.C
-  RobinBcCoefStrategy.C
-  SNESAbstractFunctions.C
-  SNES_SAMRAIContext.C
-  SimpleCellRobinBcCoefs.C
-  SundialsAbstractVector.C
-  Sundials_SAMRAIVector.C
-  solv_NVector.C
+  CVODEAbstractFunctions.cpp
+  CVODESolver.cpp
+  CartesianRobinBcHelper.cpp
+  CellPoissonFACOps.cpp
+  CellPoissonFACSolver.cpp
+  CellPoissonHypreSolver.cpp
+  FACOperatorStrategy.cpp
+  FACPreconditioner.cpp
+  GhostCellRobinBcCoefs.cpp
+  KINSOLAbstractFunctions.cpp
+  KINSOLSolver.cpp
+  KINSOL_SAMRAIContext.cpp
+  LocationIndexRobinBcCoefs.cpp
+  NonlinearSolverStrategy.cpp
+  PoissonSpecifications.cpp
+  RobinBcCoefStrategy.cpp
+  SNESAbstractFunctions.cpp
+  SNES_SAMRAIContext.cpp
+  SimpleCellRobinBcCoefs.cpp
+  SundialsAbstractVector.cpp
+  Sundials_SAMRAIVector.cpp
+  solv_NVector.cpp
   fortran/solv_cartesianrobinbchelper2d.f
   fortran/solv_cartesianrobinbchelper3d.f
   fortran/solv_cellpoissonfacops2d.f

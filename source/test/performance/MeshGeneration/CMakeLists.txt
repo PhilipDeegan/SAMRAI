@@ -1,5 +1,5 @@
 set (meshgeneration_sources
-  mg.C)
+  mg.cpp)
 
 set(meshgeneration_depends testlib)
 set(meshgeneration_depends ${meshgeneration_depends} ${SAMRAI_LIBRARIES})

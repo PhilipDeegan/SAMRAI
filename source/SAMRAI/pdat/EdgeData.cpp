@@ -655,7 +655,7 @@ EdgeData<TYPE>::fillAll(
  *************************************************************************
  *
  * Print edge centered data.  Note:  makes call to specialized printAxis
- * routine in EdgeDataSpecialized.C
+ * routine in EdgeDataSpecialized.cpp
  *
  *************************************************************************
  */

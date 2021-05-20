@@ -11,7 +11,7 @@
 This test exercises Refine operations on multiblock configurations.
 The files included in this directory are as follows:
  
-   main.C                -  driver
+   main.cpp                -  driver
    *MultiblockTest.[C,h] -  Classes for patch data-specific tests
    PatchMultiblockTestStrategy.[C,h]
                          -  Implementaion of RefinePatchStrategy

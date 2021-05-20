@@ -170,6 +170,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchFaceDataMiscellaneousOpsReal.C"
+#include "SAMRAI/math/PatchFaceDataMiscellaneousOpsReal.cpp"
 
 #endif

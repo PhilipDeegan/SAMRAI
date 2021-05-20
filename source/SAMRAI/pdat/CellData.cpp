@@ -659,7 +659,7 @@ CellData<TYPE>::putBlueprintField(
  *************************************************************************
  *
  * Print cell centered data.  Note:  makes call to specialized print
- * routine in CellDataSpecialized.C
+ * routine in CellDataSpecialized.cpp
  *
  *************************************************************************
  */

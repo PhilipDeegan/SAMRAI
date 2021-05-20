@@ -104,6 +104,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/CellVariable.C"
+#include "SAMRAI/pdat/CellVariable.cpp"
 
 #endif

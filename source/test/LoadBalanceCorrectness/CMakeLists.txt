@@ -1,5 +1,5 @@
 set(lbcorrectness_sources
-  main-lbcorrectness.C)
+  main-lbcorrectness.cpp)
 
 set(lbcorrectness_depends testlib)
 set(lbcorrectness_depends ${lbcorrectness_depends} ${SAMRAI_LIBRARIES})

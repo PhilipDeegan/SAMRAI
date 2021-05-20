@@ -131,6 +131,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchSideDataOpsReal.C"
+#include "SAMRAI/math/PatchSideDataOpsReal.cpp"
 
 #endif

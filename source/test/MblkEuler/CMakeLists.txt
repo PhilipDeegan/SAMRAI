@@ -1,7 +1,7 @@
 set (mblkeuler_sources
-  main.C
-  MblkEuler.C
-  MblkGeometry.C
+  main.cpp
+  MblkEuler.cpp
+  MblkGeometry.cpp
   boundaryconditions.f)
 
 set(mblkeuler_depends testlib)

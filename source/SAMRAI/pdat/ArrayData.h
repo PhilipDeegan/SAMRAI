@@ -738,6 +738,6 @@ typename ArrayData<TYPE>::template ConstView<DIM> get_const_view(const ArrayData
 }
 }
 
-#include "SAMRAI/pdat/ArrayData.C"
+#include "SAMRAI/pdat/ArrayData.cpp"
 
 #endif

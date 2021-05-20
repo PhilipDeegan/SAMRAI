@@ -386,7 +386,7 @@ private:
 }
 }
 
-#include "SAMRAI/solv/PETSc_SAMRAIVectorReal.C"
+#include "SAMRAI/solv/PETSc_SAMRAIVectorReal.cpp"
 
 #endif
 #endif

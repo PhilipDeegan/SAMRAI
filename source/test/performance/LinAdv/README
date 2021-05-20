@@ -12,7 +12,7 @@ This README explains how to use the AMR LinAdv performance test
 code in the SAMRAI library.  The files included in this directory
 are as follows:  
 
-          main.C       -  application driver program
+          main.cpp       -  application driver program
           LinAdv.[C,h] -  C++ class containing routines specific to the 
                           LinAdv example and which are called 
                           from SAMRAI AMR library routines
@@ -21,7 +21,7 @@ are as follows:
 
 To understand the construction of this application code from pieces 
 specific to the LinAdv model and more generic pieces in the SAMRAI
-library consider the object construction pattern in the main.C file.
+library consider the object construction pattern in the main.cpp file.
 For more details on these files and the LinAdv class consult the comments
 in those files and the LinAdv.h class header file.
 
@@ -48,7 +48,7 @@ INPUT FILES:
 
    The LinAdv application code is composed of various classes that implement
    the algorithmic and numerical routines in the AMR solution process (see 
-   comments in the main.C code for more discussion of the various objects 
+   comments in the main.cpp code for more discussion of the various objects 
    used to build the application).  User-specified inputs control the 
    behavior of the objects.  Those objects expecting input are:
 

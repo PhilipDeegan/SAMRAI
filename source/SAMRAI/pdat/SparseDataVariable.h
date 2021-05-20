@@ -89,6 +89,6 @@ private:
 } // end namespace pdat.
 } // end namespace SAMRAI
 
-#include "SAMRAI/pdat/SparseDataVariable.C"
+#include "SAMRAI/pdat/SparseDataVariable.cpp"
 
 #endif

@@ -791,7 +791,7 @@ private:
 }
 }
 
-#include "SAMRAI/solv/PETScAbstractVectorReal.C"
+#include "SAMRAI/solv/PETScAbstractVectorReal.cpp"
 
 #endif
 #endif

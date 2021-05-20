@@ -8,12 +8,12 @@ set (appu_headers
   VisMaterialsDataStrategy.h)
 
 set (appu_sources
-  BoundaryUtilityStrategy.C
-  CartesianBoundaryUtilities2.C
-  CartesianBoundaryUtilities3.C
-  VisDerivedDataStrategy.C
-  VisItDataWriter.C
-  VisMaterialsDataStrategy.C
+  BoundaryUtilityStrategy.cpp
+  CartesianBoundaryUtilities2.cpp
+  CartesianBoundaryUtilities3.cpp
+  VisDerivedDataStrategy.cpp
+  VisItDataWriter.cpp
+  VisMaterialsDataStrategy.cpp
   fortran/appu_cpdat2buf2d.f
   fortran/appu_cpdat2buf3d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/appu_cartbdry2d.f

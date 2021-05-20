@@ -15,7 +15,7 @@ this directory are as follows:
  
    FACPoisson.[Ch]  -      Class to set up and solve the scalar Poisson
                            equation.
-   main.C               -  example main program
+   main.cpp               -  example main program
    test_inputs/*.input  -  2d and 3d input files
    example_inputs       -  2d and 3d example problems
 

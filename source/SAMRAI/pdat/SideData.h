@@ -682,6 +682,6 @@ typename SideData<TYPE>::template ConstView<DIM> get_const_view(const SideData<T
 }
 }
 
-#include "SAMRAI/pdat/SideData.C"
+#include "SAMRAI/pdat/SideData.cpp"
 
 #endif

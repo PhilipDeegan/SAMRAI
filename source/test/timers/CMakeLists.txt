@@ -1,12 +1,12 @@
 set ( timer_sources
-        Foo.C
-        main_timer.C)
+        Foo.cpp
+        main_timer.cpp)
 
 set ( stats_sources
-        main_stats.C)
+        main_stats.cpp)
 
 set ( example_sources
-  main_example.C)
+  main_example.cpp)
 
 blt_add_executable(
   NAME timer_timertest

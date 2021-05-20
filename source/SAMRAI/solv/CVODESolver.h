@@ -179,7 +179,7 @@ namespace solv {
  * at Lawrence Livermore National Laboratory (LLNL).  Many of the comments
  * in this class were taken verbatim from CVODE header files.  For more
  * information about CVODE and a complete description of the operations
- * and data structures used by this class, see S.D. Cohen and A.C. Hindmarsh,
+ * and data structures used by this class, see S.D. Cohen and A.cpp. Hindmarsh,
  * "CVODE User Guide", UCRL-MA-118618, Lawrence Livermore National
  * Laboratory, 1994.
  *

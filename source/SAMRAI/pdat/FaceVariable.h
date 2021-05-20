@@ -116,6 +116,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/FaceVariable.C"
+#include "SAMRAI/pdat/FaceVariable.cpp"
 
 #endif

@@ -1,7 +1,7 @@
 set (convdiff_sources
-  ConvDiff.C
-  main.C
-  MainRestartData.C
+  ConvDiff.cpp
+  main.cpp
+  MainRestartData.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/compute_rhs2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/compute_rhs3d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/init2d.f

@@ -266,6 +266,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchSideDataBasicOps.C"
+#include "SAMRAI/math/PatchSideDataBasicOps.cpp"
 
 #endif

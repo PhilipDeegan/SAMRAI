@@ -37,6 +37,6 @@ struct SumOperation
 }
 }
 
-#include "SAMRAI/pdat/SumOperation.C"
+#include "SAMRAI/pdat/SumOperation.cpp"
 
 #endif

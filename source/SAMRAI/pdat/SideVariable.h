@@ -162,6 +162,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/SideVariable.C"
+#include "SAMRAI/pdat/SideVariable.cpp"
 
 #endif

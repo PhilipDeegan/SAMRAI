@@ -27,50 +27,53 @@ using namespace tbox;
  * Define data to communicate, based on sender, recipient and count.
  ************************************************************************
  */
-template<class TYPE>
+template <class TYPE>
 class TypeIndependentTester
 {
 
-public:
+ public:
    void
    runTest(
-      int& pass_count,
-      int& fail_count,
-      tbox::SAMRAI_MPI::Comm isolated_communicator,
-      int max_first_data_length,
-      int use_advance_some,
-      int num_cycles,
-      int group_rel_first,
-      int group_rel_last);
+       int& pass_count,
+       int& fail_count,
+       tbox::SAMRAI_MPI::Comm isolated_communicator,
+       int max_first_data_length,
+       int use_advance_some,
+       int num_cycles,
+       int group_rel_first,
+       int group_rel_last);
    void setSendData(
-      int fr,
-      int to,
-      int count,
-      std::vector<TYPE>& send_data) {
+       int fr,
+       int to,
+       int count,
+       std::vector<TYPE>& send_data)
+   {
       NULL_USE(to);
       send_data.resize(count);
-      for (int i = 0; i < count; ++i) send_data[i] = (TYPE)(fr + count + i);
+      for (int i = 0; i < count; ++i)
+         send_data[i] = (TYPE)(fr + count + i);
    }
    bool checkRecvData(
-      int fr,
-      int to,
-      int count,
-      int recv_size,
-      const TYPE* recv_data,
-      std::string& size_correct,
-      std::string& data_correct) {
+       int fr,
+       int to,
+       int count,
+       int recv_size,
+       const TYPE* recv_data,
+       std::string& size_correct,
+       std::string& data_correct)
+   {
       NULL_USE(to);
 
       bool rval = false;
-      if (recv_size == count) size_correct = "SIZE OK";
+      if (recv_size == count)
+         size_correct = "SIZE OK";
       else {
          size_correct = "WRONG SIZE";
          rval = true;
       }
       data_correct = "DATA OK";
       for (int i = 0; i < count; ++i) {
-         if (!tbox::MathUtilities<double>::equalEps(recv_data[i], fr + count
-                + i)) {
+         if (!tbox::MathUtilities<double>::equalEps(recv_data[i], fr + count + i)) {
             data_correct = " WRONG DATA";
             rval = true;
             break;
@@ -80,16 +83,16 @@ public:
    }
 };
 
-template<class TYPE>
+template <class TYPE>
 void TypeIndependentTester<TYPE>::runTest(
-   int& pass_count,
-   int& fail_count,
-   tbox::SAMRAI_MPI::Comm isolated_communicator,
-   int max_first_data_length,
-   int use_advance_some,
-   int num_cycles,
-   int group_rel_first,
-   int group_rel_last)
+    int& pass_count,
+    int& fail_count,
+    tbox::SAMRAI_MPI::Comm isolated_communicator,
+    int max_first_data_length,
+    int use_advance_some,
+    int num_cycles,
+    int group_rel_first,
+    int group_rel_last)
 {
    tbox::SAMRAI_MPI mpi(tbox::SAMRAI_MPI::getSAMRAIWorld());
    const int nproc = mpi.getSize();
@@ -104,7 +107,7 @@ void TypeIndependentTester<TYPE>::runTest(
       TBOX_ERROR("Invalid input: group_rel_last < group_rel_first");
    }
    const int group_size =
-      tbox::MathUtilities<int>::Min(group_rel_last - group_rel_first + 1, nproc);
+       tbox::MathUtilities<int>::Min(group_rel_last - group_rel_first + 1, nproc);
 
    plog << num_cycles << " cycles." << std::endl;
    plog << "num procs = " << nproc << std::endl;
@@ -144,7 +147,8 @@ void TypeIndependentTester<TYPE>::runTest(
 
    for (int i = 0; i < group_size; ++i) {
       int peer_rank = iproc + group_rel_first + i;
-      while (peer_rank < 0) peer_rank += nproc;
+      while (peer_rank < 0)
+         peer_rank += nproc;
       peer_rank %= nproc;
       peer_comms[i].setPeerRank(peer_rank);
       plog << "Proc " << std::setw(3) << iproc
@@ -154,7 +158,8 @@ void TypeIndependentTester<TYPE>::runTest(
 
    for (int i = 0; i < group_size; ++i) {
       int peer_rank = iproc - group_rel_last + i;
-      while (peer_rank < 0) peer_rank += nproc;
+      while (peer_rank < 0)
+         peer_rank += nproc;
       peer_rank %= nproc;
       peer_comms[i + group_size].setPeerRank(peer_rank);
       plog << "Proc " << std::setw(3) << iproc
@@ -196,7 +201,7 @@ void TypeIndependentTester<TYPE>::runTest(
           */
 
          AsyncCommPeer<TYPE>* completed_comm_ =
-            CPP_CAST<AsyncCommPeer<TYPE> *>(completed_member);
+             CPP_CAST<AsyncCommPeer<TYPE>*>(completed_member);
          TBOX_ASSERT(completed_comm_);
          AsyncCommPeer<TYPE>& completed_comm = *completed_comm_;
 
@@ -216,12 +221,12 @@ void TypeIndependentTester<TYPE>::runTest(
             // completed_comm is a receiver.  Do accuracy check on received data.
             std::string size_correct, data_correct;
             bool fail = checkRecvData(completed_comm.getPeerRank(),
-                  iproc,
-                  completion_counter[completed_comm_index],
-                  completed_comm.getRecvSize(),
-                  completed_comm.getRecvData(),
-                  size_correct,
-                  data_correct);
+                                      iproc,
+                                      completion_counter[completed_comm_index],
+                                      completed_comm.getRecvSize(),
+                                      completed_comm.getRecvData(),
+                                      size_correct,
+                                      data_correct);
             plog << "comm_peer[" << std::setw(3) << completed_comm_index
                  << "] finished recv # " << std::setw(3)
                  << completion_counter[completed_comm_index]
@@ -229,8 +234,10 @@ void TypeIndependentTester<TYPE>::runTest(
                  << std::setw(5) << size_correct << ' '
                  << std::setw(5) << data_correct << ' '
                  << std::endl;
-            if (fail) ++fail_count;
-            else ++pass_count;
+            if (fail)
+               ++fail_count;
+            else
+               ++pass_count;
          }
 
          // Count number of completions for the current AsyncCommPeer.
@@ -238,7 +245,6 @@ void TypeIndependentTester<TYPE>::runTest(
 
          // Count number of completions for the whole test.
          ++count;
-
       }
 
       /*
@@ -255,14 +261,14 @@ void TypeIndependentTester<TYPE>::runTest(
             if (i < group_size) {
                // This is a sender.
                peer_comm.setMPITag(2 * completion_counter[i],
-                  2 * completion_counter[i] + 1);
+                                   2 * completion_counter[i] + 1);
                std::vector<TYPE> send_data;
                setSendData(iproc,
-                  peer_comm.getPeerRank(),
-                  completion_counter[i],
-                  send_data);
+                           peer_comm.getPeerRank(),
+                           completion_counter[i],
+                           send_data);
                peer_comm.beginSend(send_data.size() > 0 ? &send_data[0] : 0,
-                  static_cast<int>(send_data.size()));
+                                   static_cast<int>(send_data.size()));
                /*
                 * Check if the new communication is done (because if it is,
                 * the stage won't detect it--stage only detects non-NULL request.
@@ -280,7 +286,7 @@ void TypeIndependentTester<TYPE>::runTest(
             } else {
                // This is a receiver.
                peer_comm.setMPITag(2 * completion_counter[i],
-                  2 * completion_counter[i] + 1);
+                                   2 * completion_counter[i] + 1);
                peer_comm.beginRecv();
                /*
                 * Check if the new communication is done (because if it is,
@@ -289,12 +295,12 @@ void TypeIndependentTester<TYPE>::runTest(
                if (peer_comm.isDone()) {
                   std::string size_correct, data_correct;
                   bool fail = checkRecvData(peer_comm.getPeerRank(),
-                        iproc,
-                        completion_counter[i],
-                        peer_comm.getRecvSize(),
-                        peer_comm.getRecvData(),
-                        size_correct,
-                        data_correct);
+                                            iproc,
+                                            completion_counter[i],
+                                            peer_comm.getRecvSize(),
+                                            peer_comm.getRecvData(),
+                                            size_correct,
+                                            data_correct);
                   plog << "comm_peer[" << std::setw(3) << i
                        << "] finished recv # " << std::setw(3)
                        << completion_counter[i]
@@ -303,17 +309,16 @@ void TypeIndependentTester<TYPE>::runTest(
                        << std::setw(5) << size_correct << ' '
                        << std::setw(5) << data_correct << ' '
                        << std::endl;
-                  if (fail) ++fail_count;
-                  else ++pass_count;
+                  if (fail)
+                     ++fail_count;
+                  else
+                     ++pass_count;
                   ++completion_counter[i];
                   ++count;
                }
             }
-
          }
-
       }
-
    }
 
    delete[] peer_comms;
@@ -335,8 +340,8 @@ template class TypeIndependentTester<char>;
  */
 
 int main(
-   int argc,
-   char* argv[])
+    int argc,
+    char* argv[])
 {
    /*
     * Initialize MPI, SAMRAI.
@@ -414,11 +419,11 @@ int main(
       base_name = main_db->getStringWithDefault("base_name", base_name);
 
       int max_first_data_length =
-         main_db->getIntegerWithDefault("max_first_data_length", 1);
+          main_db->getIntegerWithDefault("max_first_data_length", 1);
 
       bool use_advance_some = false;
       use_advance_some = main_db->getBoolWithDefault("use_advance_some",
-            use_advance_some);
+                                                     use_advance_some);
 
       /*
        * Start logging.
@@ -426,7 +431,7 @@ int main(
       const std::string log_file_name = base_name + ".log";
       bool log_all_nodes = false;
       log_all_nodes = main_db->getBoolWithDefault("log_all_nodes",
-            log_all_nodes);
+                                                  log_all_nodes);
       if (log_all_nodes) {
          PIO::logAllNodes(log_file_name);
       } else {
@@ -449,12 +454,12 @@ int main(
       plog << "\n\n\n";
 
       const int num_cycles =
-         main_db->getIntegerWithDefault("num_cycles", 1);
+          main_db->getIntegerWithDefault("num_cycles", 1);
 
       const int group_rel_first =
-         main_db->getIntegerWithDefault("group_rel_first", 0);
+          main_db->getIntegerWithDefault("group_rel_first", 0);
       const int group_rel_last =
-         main_db->getIntegerWithDefault("group_rel_last", 1);
+          main_db->getIntegerWithDefault("group_rel_last", 1);
 
       int pass_count, fail_count;
 
@@ -462,13 +467,13 @@ int main(
       plog << "sizeof(int) = " << sizeof(int) << "\n";
       TypeIndependentTester<int> tester_int;
       tester_int.runTest(pass_count,
-         fail_count,
-         isolated_communicator,
-         max_first_data_length,
-         use_advance_some,
-         num_cycles,
-         group_rel_first,
-         group_rel_last);
+                         fail_count,
+                         isolated_communicator,
+                         max_first_data_length,
+                         use_advance_some,
+                         num_cycles,
+                         group_rel_first,
+                         group_rel_last);
       plog << "pass_count = " << pass_count << std::endl;
       plog << "bad_count  = " << fail_count << std::endl;
       total_fail_count += fail_count;
@@ -477,13 +482,13 @@ int main(
       plog << "sizeof(float) = " << sizeof(float) << "\n";
       TypeIndependentTester<float> tester_float;
       tester_float.runTest(pass_count,
-         fail_count,
-         isolated_communicator,
-         max_first_data_length,
-         use_advance_some,
-         num_cycles,
-         group_rel_first,
-         group_rel_last);
+                           fail_count,
+                           isolated_communicator,
+                           max_first_data_length,
+                           use_advance_some,
+                           num_cycles,
+                           group_rel_first,
+                           group_rel_last);
       plog << "pass_count = " << pass_count << std::endl;
       plog << "bad_count  = " << fail_count << std::endl;
       total_fail_count += fail_count;
@@ -492,13 +497,13 @@ int main(
       plog << "sizeof(double) = " << sizeof(double) << "\n";
       TypeIndependentTester<double> tester_double;
       tester_double.runTest(pass_count,
-         fail_count,
-         isolated_communicator,
-         max_first_data_length,
-         use_advance_some,
-         num_cycles,
-         group_rel_first,
-         group_rel_last);
+                            fail_count,
+                            isolated_communicator,
+                            max_first_data_length,
+                            use_advance_some,
+                            num_cycles,
+                            group_rel_first,
+                            group_rel_last);
       plog << "pass_count = " << pass_count << std::endl;
       plog << "bad_count  = " << fail_count << std::endl;
       total_fail_count += fail_count;
@@ -507,18 +512,19 @@ int main(
       plog << "sizeof(char) = " << sizeof(char) << "\n";
       TypeIndependentTester<char> tester_char;
       tester_char.runTest(pass_count,
-         fail_count,
-         isolated_communicator,
-         max_first_data_length,
-         use_advance_some,
-         num_cycles,
-         group_rel_first,
-         group_rel_last);
+                          fail_count,
+                          isolated_communicator,
+                          max_first_data_length,
+                          use_advance_some,
+                          num_cycles,
+                          group_rel_first,
+                          group_rel_last);
       plog << "pass_count = " << pass_count << std::endl;
       plog << "bad_count  = " << fail_count << std::endl;
       total_fail_count += fail_count;
 
-      plog << "\n************** Test completed **************\n" << std::endl;
+      plog << "\n************** Test completed **************\n"
+           << std::endl;
       input_db->printClassData(tbox::plog);
 
       /*
@@ -533,7 +539,6 @@ int main(
 
       plog << "Process " << std::setw(5) << iproc << " got " << fail_count
            << " failures and " << pass_count << " successes." << std::endl;
-
    }
 
    if (total_fail_count == 0) {

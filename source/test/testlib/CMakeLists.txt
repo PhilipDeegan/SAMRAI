@@ -13,19 +13,19 @@ set (testlib_headers
   SphericalShellGenerator.h)
 
 set (testlib_sources
-  AutoTester.C
-  DerivedVisOwnerData.C
-  MblkHyperbolicLevelIntegrator.C
-  MblkHyperbolicPatchStrategy.C
-  SkeletonBoundaryUtilities2.C
-  SkeletonBoundaryUtilities3.C
-  SkeletonCellDoubleConservativeLinearRefine.C
-  SkeletonCellDoubleWeightedAverage.C
-  MeshGenerationStrategy.C
-  SinusoidalFrontGenerator.C
-  SphericalShellGenerator.C
-  ShrunkenLevelGenerator.C
-  get-input-filename.C
+  AutoTester.cpp
+  DerivedVisOwnerData.cpp
+  MblkHyperbolicLevelIntegrator.cpp
+  MblkHyperbolicPatchStrategy.cpp
+  SkeletonBoundaryUtilities2.cpp
+  SkeletonBoundaryUtilities3.cpp
+  SkeletonCellDoubleConservativeLinearRefine.cpp
+  SkeletonCellDoubleWeightedAverage.cpp
+  MeshGenerationStrategy.cpp
+  SinusoidalFrontGenerator.cpp
+  SphericalShellGenerator.cpp
+  ShrunkenLevelGenerator.cpp
+  get-input-filename.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/skelbdry2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/skelbdry3d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/upfluxsum2d.f

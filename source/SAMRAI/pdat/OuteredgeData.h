@@ -812,6 +812,6 @@ typename OuteredgeData<TYPE>::template ConstView<DIM> get_const_view(
 }
 }
 
-#include "SAMRAI/pdat/OuteredgeData.C"
+#include "SAMRAI/pdat/OuteredgeData.cpp"
 
 #endif

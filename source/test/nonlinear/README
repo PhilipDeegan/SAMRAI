@@ -13,14 +13,14 @@ SAMRAI application.  This example is for 2D and 3D only.
 
 The files included in this directory are as follows:
  
-          ModifiedBratuProblem.h, ModifiedBratuProblem.C
+          ModifiedBratuProblem.h, ModifiedBratuProblem.cpp
                         -  Class to set up and solve the modified Bratu
                            problem..
           ModifiedBratuFort.h
                         -  Declarations of FORTRAN functions for
                            the modified Bratu problem.
           fortran/*     -  FORTRAN files for numerical kernels
-          main.C        -  example main program.
+          main.cpp        -  example main program.
           test_inputs/*input
                         -  2D input files for regression testing
           performance_inputs/*input

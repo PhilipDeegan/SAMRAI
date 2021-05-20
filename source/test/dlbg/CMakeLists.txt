@@ -1,6 +1,6 @@
 set ( dlbg_sources
-  main.C
-  DLBGTest.C)
+  main.cpp
+  DLBGTest.cpp)
 
 set(dlbg_depends testlib)
 set(dlbg_depends ${dlbg_depends} ${SAMRAI_LIBRARIES})

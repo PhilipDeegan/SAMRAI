@@ -488,6 +488,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/HierarchyDataOpsReal.C"
+#include "SAMRAI/math/HierarchyDataOpsReal.cpp"
 
 #endif

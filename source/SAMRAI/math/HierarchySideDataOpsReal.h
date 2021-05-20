@@ -657,6 +657,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/HierarchySideDataOpsReal.C"
+#include "SAMRAI/math/HierarchySideDataOpsReal.cpp"
 
 #endif

@@ -13,7 +13,7 @@ In particular, several Variables are created and registered with the
 VariableDatabase.  Then access of Variable, Context, and Descriptor indices
 are tested using the getVariable(), getContext(), and 
 mapVariableAndContextToIndex() methods.  There are also a section of 
-code near the end of main-var_db.C that are errors in the usage of 
+code near the end of main-var_db.cpp that are errors in the usage of 
 the VariableDatabase.  These are removed by the preprocessor in the
 distribution version of the code.
 

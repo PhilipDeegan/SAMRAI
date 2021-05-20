@@ -474,5 +474,5 @@ public:
 
 }
 }
-#include "SAMRAI/pdat/SideConstantRefine.C"
+#include "SAMRAI/pdat/SideConstantRefine.cpp"
 #endif

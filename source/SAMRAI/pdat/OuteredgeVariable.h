@@ -92,6 +92,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/OuteredgeVariable.C"
+#include "SAMRAI/pdat/OuteredgeVariable.cpp"
 
 #endif

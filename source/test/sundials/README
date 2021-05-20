@@ -11,7 +11,7 @@
 This example demonstrates use of CVODE vectors to solve the heat eqn. in
 SAMRAI.  The files included in this directory are as follows:
  
-          main.C               -  example main program
+          main.cpp               -  example main program
           CVODEModel.[Ch]      -  example user routines that supply interface
                                   methods to CVODE operations in the library 
           cvode-dir.[2d,3d].input  -  2d and 3d Dirichlet input files

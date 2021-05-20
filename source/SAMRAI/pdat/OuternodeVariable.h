@@ -93,6 +93,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/OuternodeVariable.C"
+#include "SAMRAI/pdat/OuternodeVariable.cpp"
 
 #endif

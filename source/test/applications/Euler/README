@@ -12,7 +12,7 @@ This README explains how to compile and run the application solving
 the Euler equations of gas dynamics. The files included in this directory
 are as follows:
 
-          main.C         -  application driver program
+          main.cpp         -  application driver program
           Euler.[C,h]    -  C++ class containing routines specific to the
                             Euler example and which are called from SAMRAI
                             AMR library routines
@@ -21,7 +21,7 @@ are as follows:
 
 To understand the construction of this application code from pieces
 specific to the Euler model and more generic pieces in the SAMRAI
-library consider the object construction pattern in the main.C file.
+library consider the object construction pattern in the main.cpp file.
 For more details on library classes and the Euler class consult the
 the comments in the header files for the library classes and the
 Euler.h class header file.

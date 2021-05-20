@@ -250,6 +250,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchNodeDataBasicOps.C"
+#include "SAMRAI/math/PatchNodeDataBasicOps.cpp"
 
 #endif

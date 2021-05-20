@@ -167,6 +167,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/NodeDataFactory.C"
+#include "SAMRAI/pdat/NodeDataFactory.cpp"
 
 #endif

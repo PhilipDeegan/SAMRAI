@@ -1,6 +1,6 @@
 set (indx_dataops_sources
-  indx_dataops.C
-  SampleIndexData.C)
+  indx_dataops.cpp
+  SampleIndexData.cpp)
 
 set(dataops_depends ${SAMRAI_LIBRARIES})
 
@@ -22,84 +22,84 @@ blt_add_executable(
 
 blt_add_executable(
   NAME cell_patchtest
-  SOURCES cell_patchtest.C
+  SOURCES cell_patchtest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME cell_hiertest
-  SOURCES cell_hiertest.C
+  SOURCES cell_hiertest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME cell_hiertest3d
-  SOURCES cell_hiertest.C
+  SOURCES cell_hiertest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME edge_hiertest
-  SOURCES edge_hiertest.C
+  SOURCES edge_hiertest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME face_hiertest
-  SOURCES face_hiertest.C
+  SOURCES face_hiertest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME side_hiertest
-  SOURCES side_hiertest.C
+  SOURCES side_hiertest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME node_hiertest
-  SOURCES node_hiertest.C
+  SOURCES node_hiertest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME cell_cplxtest
-  SOURCES cell_cplxtest.C
+  SOURCES cell_cplxtest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME edge_cplxtest
-  SOURCES edge_cplxtest.C
+  SOURCES edge_cplxtest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME node_cplxtest
-  SOURCES node_cplxtest.C
+  SOURCES node_cplxtest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME face_cplxtest
-  SOURCES face_cplxtest.C
+  SOURCES face_cplxtest.cpp
   DEPENDS_ON
     ${dataops_depends})
 
 
 blt_add_executable(
   NAME side_cplxtest
-  SOURCES side_cplxtest.C
+  SOURCES side_cplxtest.cpp
   DEPENDS_ON
     ${dataops_depends})
 

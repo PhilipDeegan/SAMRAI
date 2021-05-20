@@ -1,6 +1,6 @@
 set (hierarchy_sources
-  main.C
-  HierarchyTester.C)
+  main.cpp
+  HierarchyTester.cpp)
 
 set(hierarchy_depends ${hierarchy_depends} ${SAMRAI_LIBRARIES})
 

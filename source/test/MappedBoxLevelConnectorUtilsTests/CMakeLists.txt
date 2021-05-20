@@ -1,5 +1,5 @@
 set (mapped_boxlevel_sources
-  main-mblcu.C)
+  main-mblcu.cpp)
 
 blt_add_executable(
   NAME mblcu

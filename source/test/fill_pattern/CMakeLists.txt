@@ -1,5 +1,5 @@
 set ( fill_pattern_sources
-  main-fill-pattern.C)
+  main-fill-pattern.cpp)
 
 set(fill_pattern_depends ${SAMRAI_LIBRARIES})
 

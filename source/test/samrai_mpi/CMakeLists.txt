@@ -1,14 +1,14 @@
 set (mpi_on_sources
-  main-runtime-on.C
-  mpi-interface-tests.C)
+  main-runtime-on.cpp
+  mpi-interface-tests.cpp)
 
 set (mpi_off_sources
-  main-runtime-off.C
-  mpi-interface-tests.C)
+  main-runtime-off.cpp
+  mpi-interface-tests.cpp)
 
 set (mpi_disabled_sources
-  main-runtime-disabled.C
-  mpi-interface-tests.C)
+  main-runtime-disabled.cpp
+  mpi-interface-tests.cpp)
 
 if(ENABLE_MPI)
   set(TASKS 1)

@@ -203,6 +203,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/ArrayDataMiscellaneousOpsReal.C"
+#include "SAMRAI/math/ArrayDataMiscellaneousOpsReal.cpp"
 
 #endif

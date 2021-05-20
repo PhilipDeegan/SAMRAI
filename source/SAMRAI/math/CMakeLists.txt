@@ -1,156 +1,156 @@
 set (math_headers
-  ArrayDataBasicOps.C
+  ArrayDataBasicOps.cpp
   ArrayDataBasicOps.h
-  ArrayDataMiscellaneousOpsReal.C
+  ArrayDataMiscellaneousOpsReal.cpp
   ArrayDataMiscellaneousOpsReal.h
   ArrayDataNormOpsComplex.h
   ArrayDataNormOpsInteger.h
-  ArrayDataNormOpsReal.C
+  ArrayDataNormOpsReal.cpp
   ArrayDataNormOpsReal.h
   HierarchyCellDataOpsComplex.h
   HierarchyCellDataOpsInteger.h
-  HierarchyCellDataOpsReal.C
+  HierarchyCellDataOpsReal.cpp
   HierarchyCellDataOpsReal.h
   HierarchyDataOpsComplex.h
   HierarchyDataOpsInteger.h
   HierarchyDataOpsManager.h
-  HierarchyDataOpsReal.C
+  HierarchyDataOpsReal.cpp
   HierarchyDataOpsReal.h
   HierarchyEdgeDataOpsComplex.h
   HierarchyEdgeDataOpsInteger.h
-  HierarchyEdgeDataOpsReal.C
+  HierarchyEdgeDataOpsReal.cpp
   HierarchyEdgeDataOpsReal.h
   HierarchyFaceDataOpsComplex.h
   HierarchyFaceDataOpsInteger.h
-  HierarchyFaceDataOpsReal.C
+  HierarchyFaceDataOpsReal.cpp
   HierarchyFaceDataOpsReal.h
   HierarchyNodeDataOpsComplex.h
   HierarchyNodeDataOpsInteger.h
-  HierarchyNodeDataOpsReal.C
+  HierarchyNodeDataOpsReal.cpp
   HierarchyNodeDataOpsReal.h
   HierarchySideDataOpsComplex.h
   HierarchySideDataOpsInteger.h
-  HierarchySideDataOpsReal.C
+  HierarchySideDataOpsReal.cpp
   HierarchySideDataOpsReal.h
-  PatchCellDataBasicOps.C
+  PatchCellDataBasicOps.cpp
   PatchCellDataBasicOps.h
-  PatchCellDataMiscellaneousOpsReal.C
+  PatchCellDataMiscellaneousOpsReal.cpp
   PatchCellDataMiscellaneousOpsReal.h
   PatchCellDataNormOpsComplex.h
-  PatchCellDataNormOpsReal.C
+  PatchCellDataNormOpsReal.cpp
   PatchCellDataNormOpsReal.h
   PatchCellDataOpsComplex.h
   PatchCellDataOpsInteger.h
-  PatchCellDataOpsReal.C
+  PatchCellDataOpsReal.cpp
   PatchCellDataOpsReal.h
-  PatchEdgeDataBasicOps.C
+  PatchEdgeDataBasicOps.cpp
   PatchEdgeDataBasicOps.h
-  PatchEdgeDataMiscellaneousOpsReal.C
+  PatchEdgeDataMiscellaneousOpsReal.cpp
   PatchEdgeDataMiscellaneousOpsReal.h
   PatchEdgeDataNormOpsComplex.h
-  PatchEdgeDataNormOpsReal.C
+  PatchEdgeDataNormOpsReal.cpp
   PatchEdgeDataNormOpsReal.h
   PatchEdgeDataOpsComplex.h
   PatchEdgeDataOpsInteger.h
-  PatchEdgeDataOpsReal.C
+  PatchEdgeDataOpsReal.cpp
   PatchEdgeDataOpsReal.h
-  PatchFaceDataBasicOps.C
+  PatchFaceDataBasicOps.cpp
   PatchFaceDataBasicOps.h
-  PatchFaceDataMiscellaneousOpsReal.C
+  PatchFaceDataMiscellaneousOpsReal.cpp
   PatchFaceDataMiscellaneousOpsReal.h
   PatchFaceDataNormOpsComplex.h
-  PatchFaceDataNormOpsReal.C
+  PatchFaceDataNormOpsReal.cpp
   PatchFaceDataNormOpsReal.h
   PatchFaceDataOpsComplex.h
   PatchFaceDataOpsInteger.h
-  PatchFaceDataOpsReal.C
+  PatchFaceDataOpsReal.cpp
   PatchFaceDataOpsReal.h
-  PatchNodeDataBasicOps.C
+  PatchNodeDataBasicOps.cpp
   PatchNodeDataBasicOps.h
-  PatchNodeDataMiscellaneousOpsReal.C
+  PatchNodeDataMiscellaneousOpsReal.cpp
   PatchNodeDataMiscellaneousOpsReal.h
   PatchNodeDataNormOpsComplex.h
-  PatchNodeDataNormOpsReal.C
+  PatchNodeDataNormOpsReal.cpp
   PatchNodeDataNormOpsReal.h
   PatchNodeDataOpsComplex.h
   PatchNodeDataOpsInteger.h
-  PatchNodeDataOpsReal.C
+  PatchNodeDataOpsReal.cpp
   PatchNodeDataOpsReal.h
-  PatchSideDataBasicOps.C
+  PatchSideDataBasicOps.cpp
   PatchSideDataBasicOps.h
-  PatchSideDataMiscellaneousOpsReal.C
+  PatchSideDataMiscellaneousOpsReal.cpp
   PatchSideDataMiscellaneousOpsReal.h
   PatchSideDataNormOpsComplex.h
-  PatchSideDataNormOpsReal.C
+  PatchSideDataNormOpsReal.cpp
   PatchSideDataNormOpsReal.h
   PatchSideDataOpsComplex.h
   PatchSideDataOpsInteger.h
-  PatchSideDataOpsReal.C
+  PatchSideDataOpsReal.cpp
   PatchSideDataOpsReal.h)
 
 set_source_files_properties(
-  ArrayDataBasicOps.C
-  ArrayDataMiscellaneousOpsReal.C
-  ArrayDataNormOpsReal.C
-  HierarchyCellDataOpsReal.C
-  HierarchyDataOpsReal.C
-  HierarchyEdgeDataOpsReal.C
-  HierarchyFaceDataOpsReal.C
-  HierarchyNodeDataOpsReal.C
-  HierarchySideDataOpsReal.C
-  PatchCellDataBasicOps.C
-  PatchCellDataMiscellaneousOpsReal.C
-  PatchCellDataNormOpsReal.C
-  PatchCellDataOpsReal.C
-  PatchEdgeDataBasicOps.C
-  PatchEdgeDataMiscellaneousOpsReal.C
-  PatchEdgeDataNormOpsReal.C
-  PatchEdgeDataOpsReal.C
-  PatchFaceDataBasicOps.C
-  PatchFaceDataMiscellaneousOpsReal.C
-  PatchFaceDataNormOpsReal.C
-  PatchFaceDataOpsReal.C
-  PatchNodeDataBasicOps.C
-  PatchNodeDataMiscellaneousOpsReal.C
-  PatchNodeDataNormOpsReal.C
-  PatchNodeDataOpsReal.C
-  PatchSideDataBasicOps.C
-  PatchSideDataMiscellaneousOpsReal.C
-  PatchSideDataNormOpsReal.C
-  PatchSideDataOpsReal.C
+  ArrayDataBasicOps.cpp
+  ArrayDataMiscellaneousOpsReal.cpp
+  ArrayDataNormOpsReal.cpp
+  HierarchyCellDataOpsReal.cpp
+  HierarchyDataOpsReal.cpp
+  HierarchyEdgeDataOpsReal.cpp
+  HierarchyFaceDataOpsReal.cpp
+  HierarchyNodeDataOpsReal.cpp
+  HierarchySideDataOpsReal.cpp
+  PatchCellDataBasicOps.cpp
+  PatchCellDataMiscellaneousOpsReal.cpp
+  PatchCellDataNormOpsReal.cpp
+  PatchCellDataOpsReal.cpp
+  PatchEdgeDataBasicOps.cpp
+  PatchEdgeDataMiscellaneousOpsReal.cpp
+  PatchEdgeDataNormOpsReal.cpp
+  PatchEdgeDataOpsReal.cpp
+  PatchFaceDataBasicOps.cpp
+  PatchFaceDataMiscellaneousOpsReal.cpp
+  PatchFaceDataNormOpsReal.cpp
+  PatchFaceDataOpsReal.cpp
+  PatchNodeDataBasicOps.cpp
+  PatchNodeDataMiscellaneousOpsReal.cpp
+  PatchNodeDataNormOpsReal.cpp
+  PatchNodeDataOpsReal.cpp
+  PatchSideDataBasicOps.cpp
+  PatchSideDataMiscellaneousOpsReal.cpp
+  PatchSideDataNormOpsReal.cpp
+  PatchSideDataOpsReal.cpp
   PROPERTIES HEADER_FILE_ONLY True )
 
 set (math_sources
-  ArrayDataNormOpsComplex.C
-  ArrayDataNormOpsInteger.C
-  HierarchyCellDataOpsComplex.C
-  HierarchyCellDataOpsInteger.C
-  HierarchyDataOpsComplex.C
-  HierarchyDataOpsInteger.C
-  HierarchyDataOpsManager.C
-  HierarchyEdgeDataOpsComplex.C
-  HierarchyEdgeDataOpsInteger.C
-  HierarchyFaceDataOpsComplex.C
-  HierarchyFaceDataOpsInteger.C
-  HierarchyNodeDataOpsComplex.C
-  HierarchyNodeDataOpsInteger.C
-  HierarchySideDataOpsComplex.C
-  HierarchySideDataOpsInteger.C
-  PatchCellDataNormOpsComplex.C
-  PatchCellDataOpsComplex.C
-  PatchCellDataOpsInteger.C
-  PatchEdgeDataNormOpsComplex.C
-  PatchEdgeDataOpsComplex.C
-  PatchEdgeDataOpsInteger.C
-  PatchFaceDataNormOpsComplex.C
-  PatchFaceDataOpsComplex.C
-  PatchFaceDataOpsInteger.C
-  PatchNodeDataNormOpsComplex.C
-  PatchNodeDataOpsComplex.C
-  PatchNodeDataOpsInteger.C
-  PatchSideDataNormOpsComplex.C
-  PatchSideDataOpsComplex.C
-  PatchSideDataOpsInteger.C)
+  ArrayDataNormOpsComplex.cpp
+  ArrayDataNormOpsInteger.cpp
+  HierarchyCellDataOpsComplex.cpp
+  HierarchyCellDataOpsInteger.cpp
+  HierarchyDataOpsComplex.cpp
+  HierarchyDataOpsInteger.cpp
+  HierarchyDataOpsManager.cpp
+  HierarchyEdgeDataOpsComplex.cpp
+  HierarchyEdgeDataOpsInteger.cpp
+  HierarchyFaceDataOpsComplex.cpp
+  HierarchyFaceDataOpsInteger.cpp
+  HierarchyNodeDataOpsComplex.cpp
+  HierarchyNodeDataOpsInteger.cpp
+  HierarchySideDataOpsComplex.cpp
+  HierarchySideDataOpsInteger.cpp
+  PatchCellDataNormOpsComplex.cpp
+  PatchCellDataOpsComplex.cpp
+  PatchCellDataOpsInteger.cpp
+  PatchEdgeDataNormOpsComplex.cpp
+  PatchEdgeDataOpsComplex.cpp
+  PatchEdgeDataOpsInteger.cpp
+  PatchFaceDataNormOpsComplex.cpp
+  PatchFaceDataOpsComplex.cpp
+  PatchFaceDataOpsInteger.cpp
+  PatchNodeDataNormOpsComplex.cpp
+  PatchNodeDataOpsComplex.cpp
+  PatchNodeDataOpsInteger.cpp
+  PatchSideDataNormOpsComplex.cpp
+  PatchSideDataOpsComplex.cpp
+  PatchSideDataOpsInteger.cpp)
 
 set (math_depends
   SAMRAI_hier

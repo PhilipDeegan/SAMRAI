@@ -469,5 +469,5 @@ public:
 
 } // namespace pdat
 } // namespace SAMRAI
-#include "SAMRAI/pdat/EdgeConstantRefine.C"
+#include "SAMRAI/pdat/EdgeConstantRefine.cpp"
 #endif

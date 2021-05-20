@@ -1,5 +1,5 @@
 set (mblktree_sources
-  main-mbtree.C)
+  main-mbtree.cpp)
 
 set (mblktree_depends_on
     SAMRAI_hier

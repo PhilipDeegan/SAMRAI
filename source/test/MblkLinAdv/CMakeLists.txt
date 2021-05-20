@@ -1,8 +1,8 @@
 set (mblklinadv_sources
-  MblkGeometry.C
-  MblkLinAdv.C
-  SkeletonOutersideDoubleWeightedAverage.C
-  main.C)
+  MblkGeometry.cpp
+  MblkLinAdv.cpp
+  SkeletonOutersideDoubleWeightedAverage.cpp
+  main.cpp)
 
 
 set(mblklinadv_depends testlib)

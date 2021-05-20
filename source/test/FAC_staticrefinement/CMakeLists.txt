@@ -1,6 +1,6 @@
 set (facstaticrefinement_sources
-  FACPoisson.C
-  main.C
+  FACPoisson.cpp
+  main.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/facpoisson2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/facpoisson3d.f)
 

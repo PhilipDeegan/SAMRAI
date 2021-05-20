@@ -1,5 +1,5 @@
 set (indexdata_sources
-  main.C)
+  main.cpp)
 
 set(indexdata_depends ${SAMRAI_LIBRARIES})
 

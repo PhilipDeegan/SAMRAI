@@ -16,7 +16,7 @@ endif ()
 
 blt_add_executable(
   NAME kvtest
-  SOURCES kvtest.C
+  SOURCES kvtest.cpp
   DEPENDS_ON ${vector_depends})
 
 blt_add_test(
@@ -26,7 +26,7 @@ blt_add_test(
 
 blt_add_executable(
   NAME pvtest
-  SOURCES pvtest.C
+  SOURCES pvtest.cpp
   DEPENDS_ON ${vector_depends})
 
 blt_add_test(

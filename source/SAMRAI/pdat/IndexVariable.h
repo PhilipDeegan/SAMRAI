@@ -91,6 +91,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/IndexVariable.C"
+#include "SAMRAI/pdat/IndexVariable.cpp"
 
 #endif

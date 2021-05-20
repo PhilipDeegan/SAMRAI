@@ -1,5 +1,5 @@
 set (rank_group_sources
-  main.C)
+  main.cpp)
 
 set(rank_group_depends ${SAMRAI_LIBRARIES})
 

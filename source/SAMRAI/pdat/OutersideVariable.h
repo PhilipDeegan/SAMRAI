@@ -109,6 +109,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/OutersideVariable.C"
+#include "SAMRAI/pdat/OutersideVariable.cpp"
 
 #endif

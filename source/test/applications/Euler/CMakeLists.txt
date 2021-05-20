@@ -1,6 +1,6 @@
 set (euler_sources
-  Euler.C
-  main.C
+  Euler.cpp
+  main.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/avgint2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/avgint3d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/flaten1d2d.f

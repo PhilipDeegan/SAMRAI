@@ -12,7 +12,7 @@ This test demonstrates use of simple boundary utilities to implement and unit
 test basic boundary conditions in a SAMRAI application.  The files included in
 this directory are as follows:
  
-   main.C                   -  unit tester
+   main.cpp                   -  unit tester
    BoundaryDataTester.[Ch]  -  example user routines for boundary data
    test_inputs/*.input      -  various 2d and 3d input files
  

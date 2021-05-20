@@ -656,6 +656,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/HierarchyEdgeDataOpsReal.C"
+#include "SAMRAI/math/HierarchyEdgeDataOpsReal.cpp"
 
 #endif

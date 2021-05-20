@@ -1,10 +1,10 @@
 set ( tbox_headers
   AllocatorDatabase.h
   Array.h
-  Array.C
+  Array.cpp
   AsyncCommGroup.h
   AsyncCommPeer.h
-  AsyncCommPeer.C
+  AsyncCommPeer.cpp
   AsyncCommStage.h
   BalancedDepthFirstTree.h
   BreadthFirstRankTree.h
@@ -28,7 +28,7 @@ set ( tbox_headers
   IOStream.h
   Logger.h
   MathUtilities.h
-  MathUtilities.C
+  MathUtilities.cpp
   MemoryDatabase.h
   MemoryDatabaseFactory.h
   MemoryUtilities.h
@@ -61,61 +61,61 @@ set ( tbox_headers
   Utilities.h)
 
 set_source_files_properties(
-  Array.C
-  MathUtilities.C
-  AsyncCommPeer.C
+  Array.cpp
+  MathUtilities.cpp
+  AsyncCommPeer.cpp
   PROPERTIES HEADER_FILE_ONLY TRUE)
 
 set (tbox_sources
-  AllocatorDatabase.C
-  ArraySpecial.C
-  AsyncCommGroup.C
-  AsyncCommStage.C
-  BalancedDepthFirstTree.C
-  BreadthFirstRankTree.C
-  CenteredRankTree.C
-  Clock.C
-  ConduitDatabase.C
-  CommGraphWriter.C
-  Database.C
-  DatabaseBox.C
-  DatabaseFactory.C
-  Dimension.C
-  Grammar.C
-  HDFDatabase.C
-  HDFDatabaseFactory.C
-  IEEE.C
-  InputManager.C
-  Logger.C
-  MathUtilitiesSpecial.C
-  MemoryDatabase.C
-  MemoryDatabaseFactory.C
-  MemoryUtilities.C
-  MessageStream.C
-  NullDatabase.C
-  PIO.C
-  ParallelBuffer.C
-  Parser.C
-  RankGroup.C
-  RankTreeStrategy.C
-  ReferenceCounter.C
-  RestartManager.C
-  SAMRAIManager.C
-  SAMRAI_MPI.C
-  Scanner.C
-  Schedule.C
-  Serializable.C
-  SiloDatabase.C
-  SiloDatabaseFactory.C
-  StartupShutdownManager.C
-  StatTransaction.C
-  Statistic.C
-  Statistician.C
-  Timer.C
-  TimerManager.C
-  Tracer.C
-  Transaction.C
-  Utilities.C)
+  AllocatorDatabase.cpp
+  ArraySpecial.cpp
+  AsyncCommGroup.cpp
+  AsyncCommStage.cpp
+  BalancedDepthFirstTree.cpp
+  BreadthFirstRankTree.cpp
+  CenteredRankTree.cpp
+  Clock.cpp
+  ConduitDatabase.cpp
+  CommGraphWriter.cpp
+  Database.cpp
+  DatabaseBox.cpp
+  DatabaseFactory.cpp
+  Dimension.cpp
+  Grammar.cpp
+  HDFDatabase.cpp
+  HDFDatabaseFactory.cpp
+  IEEE.cpp
+  InputManager.cpp
+  Logger.cpp
+  MathUtilitiesSpecial.cpp
+  MemoryDatabase.cpp
+  MemoryDatabaseFactory.cpp
+  MemoryUtilities.cpp
+  MessageStream.cpp
+  NullDatabase.cpp
+  PIO.cpp
+  ParallelBuffer.cpp
+  Parser.cpp
+  RankGroup.cpp
+  RankTreeStrategy.cpp
+  ReferenceCounter.cpp
+  RestartManager.cpp
+  SAMRAIManager.cpp
+  SAMRAI_MPI.cpp
+  Scanner.cpp
+  Schedule.cpp
+  Serializable.cpp
+  SiloDatabase.cpp
+  SiloDatabaseFactory.cpp
+  StartupShutdownManager.cpp
+  StatTransaction.cpp
+  Statistic.cpp
+  Statistician.cpp
+  Timer.cpp
+  TimerManager.cpp
+  Tracer.cpp
+  Transaction.cpp
+  Utilities.cpp)
 
 if (ENABLE_HDF5)
   set(tbox_depends ${tbox_depends} hdf5)
@@ -146,7 +146,7 @@ if (ENABLE_RAJA)
 endif ()
 
 if (ENABLE_CUDA)
-  set(cuda_sources Schedule.C)
+  set(cuda_sources Schedule.cpp)
   set_source_files_properties(${cuda_sources} PROPERTIES LANGUAGE CUDA)
 
   if (ENABLE_NVTX_REGIONS)

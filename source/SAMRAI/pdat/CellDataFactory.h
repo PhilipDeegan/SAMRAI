@@ -163,6 +163,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/CellDataFactory.C"
+#include "SAMRAI/pdat/CellDataFactory.cpp"
 
 #endif

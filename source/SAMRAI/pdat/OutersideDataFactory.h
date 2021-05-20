@@ -161,6 +161,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/OutersideDataFactory.C"
+#include "SAMRAI/pdat/OutersideDataFactory.cpp"
 
 #endif

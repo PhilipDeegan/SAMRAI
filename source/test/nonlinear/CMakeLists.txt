@@ -1,6 +1,6 @@
 set (nonlinear_sources
-  main.C
-  ModifiedBratuProblem.C
+  main.cpp
+  ModifiedBratuProblem.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/FACjacobian1d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/FACjacobian2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/FACjacobian3d.f

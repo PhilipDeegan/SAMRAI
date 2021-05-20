@@ -1,5 +1,5 @@
 set (mapping_connector_sources
-  main-modify.C)
+  main-modify.cpp)
 
 blt_add_executable(
   NAME mapping-connector

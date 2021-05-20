@@ -161,6 +161,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/OuterfaceDataFactory.C"
+#include "SAMRAI/pdat/OuterfaceDataFactory.cpp"
 
 #endif

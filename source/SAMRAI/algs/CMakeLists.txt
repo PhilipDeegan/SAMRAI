@@ -16,21 +16,21 @@ set (algs_headers
   TimeRefinementLevelStrategy.h)
 
 set (algs_sources
-  HyperbolicLevelIntegrator.C
-  HyperbolicPatchStrategy.C
-  ImplicitEquationStrategy.C
-  ImplicitIntegrator.C
-  MethodOfLinesIntegrator.C
-  MethodOfLinesPatchStrategy.C
-  OuteredgeSumTransaction.C
-  OuteredgeSumTransactionFactory.C
-  OuternodeSumTransaction.C
-  OuternodeSumTransactionFactory.C
-  PatchBoundaryEdgeSum.C
-  PatchBoundaryNodeSum.C
-  TimeRefinementIntegrator.C
-  TimeRefinementIntegratorConnectorWidthRequestor.C
-  TimeRefinementLevelStrategy.C
+  HyperbolicLevelIntegrator.cpp
+  HyperbolicPatchStrategy.cpp
+  ImplicitEquationStrategy.cpp
+  ImplicitIntegrator.cpp
+  MethodOfLinesIntegrator.cpp
+  MethodOfLinesPatchStrategy.cpp
+  OuteredgeSumTransaction.cpp
+  OuteredgeSumTransactionFactory.cpp
+  OuternodeSumTransaction.cpp
+  OuternodeSumTransactionFactory.cpp
+  PatchBoundaryEdgeSum.cpp
+  PatchBoundaryNodeSum.cpp
+  TimeRefinementIntegrator.cpp
+  TimeRefinementIntegratorConnectorWidthRequestor.cpp
+  TimeRefinementLevelStrategy.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/algs_nodeouternodeops2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/algs_nodeouternodeops3d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/algs_upfluxsum1d.f

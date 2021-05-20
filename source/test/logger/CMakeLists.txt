@@ -1,5 +1,5 @@
 set (defaultlogger_sources
-        defaultloggertest.C)
+        defaultloggertest.cpp)
 
 blt_add_executable(
         NAME defaultlogger
@@ -8,7 +8,7 @@ blt_add_executable(
           SAMRAI_tbox)
 
 set (userlogger_sources
-        userloggertest.C)
+        userloggertest.cpp)
 
 blt_add_executable(
         NAME userlogger

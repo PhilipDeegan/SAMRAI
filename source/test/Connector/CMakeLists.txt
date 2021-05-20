@@ -1,5 +1,5 @@
 set ( connector_sources
-  main.C)
+  main.cpp)
 
 blt_add_executable(
   NAME Connector

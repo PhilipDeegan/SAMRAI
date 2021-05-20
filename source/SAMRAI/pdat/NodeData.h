@@ -547,6 +547,6 @@ typename NodeData<TYPE>::template ConstView<DIM> get_const_view(const NodeData<T
 }
 }
 
-#include "SAMRAI/pdat/NodeData.C"
+#include "SAMRAI/pdat/NodeData.cpp"
 
 #endif

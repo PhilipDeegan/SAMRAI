@@ -32,14 +32,14 @@ namespace SAMRAI {
 
   KINSOL is developed in the Center for Applied Scientific Computing (CASC)
   at Lawrence Livermore National Laboratory (LLNL).  For more information
-  about KINSOL, see A.G. Taylor, and A.C. Hindmarsh, "User Documentation for
+  about KINSOL, see A.G. Taylor, and A.cpp. Hindmarsh, "User Documentation for
   KINSOL, A Nonlinear Solver for Sequential and Parallel Computers",
   UCRL-ID-13185, July 1998.
 
   CVODE/CVODE was developed in the Center for Applied Scientific Computing
   (CASC) at Lawrence Livermore National Laboratory (LLNL).  For more
   information about CVODE and a complete description of the operations
-  and data structures used by this class, see S.D. Cohen and A.C.
+  and data structures used by this class, see S.D. Cohen and A.cpp.
   Hindmarsh, "CVODE User Guide", UCRL-MA-118618, Lawrence Livermore National
   Laboratory, 1994.
   - @ref package_solvers_packages_sundials_vector "vector"

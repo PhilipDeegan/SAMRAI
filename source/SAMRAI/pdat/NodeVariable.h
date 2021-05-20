@@ -110,6 +110,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/NodeVariable.C"
+#include "SAMRAI/pdat/NodeVariable.cpp"
 
 #endif

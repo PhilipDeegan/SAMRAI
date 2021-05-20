@@ -1,5 +1,5 @@
 set (treecommunication_sources
-  tcb.C)
+  tcb.cpp)
 
 blt_add_executable(
   NAME treecommunication

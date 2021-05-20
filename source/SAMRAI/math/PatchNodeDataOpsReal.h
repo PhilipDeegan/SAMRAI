@@ -130,6 +130,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchNodeDataOpsReal.C"
+#include "SAMRAI/math/PatchNodeDataOpsReal.cpp"
 
 #endif

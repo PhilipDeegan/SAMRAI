@@ -100,6 +100,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/EdgeVariable.C"
+#include "SAMRAI/pdat/EdgeVariable.cpp"
 
 #endif

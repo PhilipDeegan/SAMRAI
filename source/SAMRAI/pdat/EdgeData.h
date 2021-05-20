@@ -611,6 +611,6 @@ typename EdgeData<TYPE>::template ConstView<DIM> get_const_view(
 }
 }
 
-#include "SAMRAI/pdat/EdgeData.C"
+#include "SAMRAI/pdat/EdgeData.cpp"
 
 #endif

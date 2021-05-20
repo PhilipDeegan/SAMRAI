@@ -84,7 +84,7 @@ namespace solv {
  * KINSOL was developed in the Center for Applied Scientific Computing (CASC)
  * at Lawrence Livermore National Laboratory (LLNL).  For more information
  * about KINSOL and a complete description of the operations and data
- * structures used by this class, see A.G. Taylor and A.C. Hindmarsh,
+ * structures used by this class, see A.G. Taylor and A.cpp. Hindmarsh,
  * "User documentation for KINSOL, a nonlinear solver for sequential and
  * parallel computers", UCRL-ID-131185, Lawrence Livermore National
  * Laboratory, 1998.

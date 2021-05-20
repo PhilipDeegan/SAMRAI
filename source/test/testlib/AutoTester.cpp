@@ -697,7 +697,7 @@ void AutoTester::getFromInput(
       if (tester_db->keyExists("correct_result")) {
          d_correct_result = tester_db->getDoubleVector("correct_result");
       } else {
-         TBOX_WARNING("main.C: TESTING is on but no `correct_result' array"
+         TBOX_WARNING("main.cpp: TESTING is on but no `correct_result' array"
             << "is given in input file." << std::endl);
       }
 

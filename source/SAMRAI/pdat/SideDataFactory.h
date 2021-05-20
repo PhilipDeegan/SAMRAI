@@ -243,6 +243,6 @@ private:
 } // Namespace pdat
 } // Namespace SAMRAI
 
-#include "SAMRAI/pdat/SideDataFactory.C"
+#include "SAMRAI/pdat/SideDataFactory.cpp"
 
 #endif

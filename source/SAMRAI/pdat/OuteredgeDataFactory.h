@@ -174,6 +174,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/OuteredgeDataFactory.C"
+#include "SAMRAI/pdat/OuteredgeDataFactory.cpp"
 
 #endif

@@ -1,6 +1,6 @@
 blt_add_executable(
   NAME transformation
-  SOURCES main.C
+  SOURCES main.cpp
   DEPENDS_ON
     SAMRAI_pdat
     SAMRAI_hier

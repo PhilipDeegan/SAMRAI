@@ -108,6 +108,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/OuterfaceVariable.C"
+#include "SAMRAI/pdat/OuterfaceVariable.cpp"
 
 #endif

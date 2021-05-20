@@ -1,6 +1,6 @@
 set (patchbdrysum_sources
-  main.C
-  HierSumTest.C
+  main.cpp
+  HierSumTest.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/edgeops2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/edgeops3d.f)
 

@@ -119,6 +119,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/ArrayDataOperationUtilities.C"
+#include "SAMRAI/pdat/ArrayDataOperationUtilities.cpp"
 
 #endif

@@ -1,15 +1,15 @@
 set ( communication_sources
-  main.C
-  CommTester.C
-  PatchDataTestStrategy.C
-  CellDataTest.C
-  EdgeDataTest.C
-  FaceDataTest.C
-  NodeDataTest.C
-  OuterfaceDataTest.C
-  OuternodeDataTest.C
-  OutersideDataTest.C
-  SideDataTest.C)
+  main.cpp
+  CommTester.cpp
+  PatchDataTestStrategy.cpp
+  CellDataTest.cpp
+  EdgeDataTest.cpp
+  FaceDataTest.cpp
+  NodeDataTest.cpp
+  OuterfaceDataTest.cpp
+  OuternodeDataTest.cpp
+  OutersideDataTest.cpp
+  SideDataTest.cpp)
 
 set(communication_depends ${SAMRAI_LIBRARIES})
 

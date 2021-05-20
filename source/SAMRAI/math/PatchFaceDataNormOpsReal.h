@@ -249,6 +249,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchFaceDataNormOpsReal.C"
+#include "SAMRAI/math/PatchFaceDataNormOpsReal.cpp"
 
 #endif

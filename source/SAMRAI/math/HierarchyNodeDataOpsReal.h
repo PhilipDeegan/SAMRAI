@@ -655,6 +655,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/HierarchyNodeDataOpsReal.C"
+#include "SAMRAI/math/HierarchyNodeDataOpsReal.cpp"
 
 #endif

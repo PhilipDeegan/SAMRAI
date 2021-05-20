@@ -251,6 +251,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchCellDataNormOpsReal.C"
+#include "SAMRAI/math/PatchCellDataNormOpsReal.cpp"
 
 #endif

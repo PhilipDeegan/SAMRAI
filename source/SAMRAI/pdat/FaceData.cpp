@@ -700,7 +700,7 @@ FaceData<TYPE>::fillAll(
  *************************************************************************
  *
  * Print face centered data.  Note:  makes call to specialized printAxis
- * routine in FaceDataSpecialized.C
+ * routine in FaceDataSpecialized.cpp
  *
  *************************************************************************
  */

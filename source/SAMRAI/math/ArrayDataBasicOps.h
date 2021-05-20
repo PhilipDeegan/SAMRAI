@@ -262,6 +262,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/ArrayDataBasicOps.C"
+#include "SAMRAI/math/ArrayDataBasicOps.cpp"
 
 #endif

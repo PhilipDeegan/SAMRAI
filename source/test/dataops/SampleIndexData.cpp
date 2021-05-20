@@ -150,9 +150,9 @@ void SampleIndexData::getFromRestart(
  */
 
 //#include "SampleIndexData.h"
-//#include "SAMRAI/pdat/IndexData.C"
-//#include "SAMRAI/pdat/IndexDataFactory.C"
-//#include "SAMRAI/pdat/IndexVariable.C"
+//#include "SAMRAI/pdat/IndexData.cpp"
+//#include "SAMRAI/pdat/IndexDataFactory.cpp"
+//#include "SAMRAI/pdat/IndexVariable.cpp"
 //#include "SAMRAI/pdat/CellGeometry.h"
 //
 //namespace SAMRAI {

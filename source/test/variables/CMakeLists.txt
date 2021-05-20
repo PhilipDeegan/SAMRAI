@@ -11,7 +11,7 @@ if (ENABLE_CUDA)
 endif ()
 
 blt_add_executable(NAME variables
-  SOURCES main-var_db.C
+  SOURCES main-var_db.cpp
   DEPENDS_ON ${variables_depends})
 
 target_compile_definitions(variables PUBLIC TESTING=1)

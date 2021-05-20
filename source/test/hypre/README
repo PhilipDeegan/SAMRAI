@@ -19,7 +19,7 @@
 This test demonstrates the use of and unit tests the CellPoissonHypreSolver
 class.  The files included in this directory are as follows:
  
-   main.C               -  driver
+   main.cpp               -  driver
    HyprePoisson.[Ch]    -  Class to set up and solve the scalar Poisson
                            equation on a single level.  Also supplies required
                            implementations to interfaces for building grid and

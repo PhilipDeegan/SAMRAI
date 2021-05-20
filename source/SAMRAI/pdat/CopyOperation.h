@@ -37,6 +37,6 @@ struct CopyOperation
 }
 }
 
-#include "SAMRAI/pdat/CopyOperation.C"
+#include "SAMRAI/pdat/CopyOperation.cpp"
 
 #endif

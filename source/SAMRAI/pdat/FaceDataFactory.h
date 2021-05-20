@@ -181,6 +181,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/FaceDataFactory.C"
+#include "SAMRAI/pdat/FaceDataFactory.cpp"
 
 #endif

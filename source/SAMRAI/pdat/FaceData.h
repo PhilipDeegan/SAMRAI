@@ -616,6 +616,6 @@ typename FaceData<TYPE>::template ConstView<DIM> get_const_view(
 }
 }
 
-#include "SAMRAI/pdat/FaceData.C"
+#include "SAMRAI/pdat/FaceData.cpp"
 
 #endif

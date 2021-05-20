@@ -1,5 +1,5 @@
 set ( time_interp_sources
-  main.C
+  main.cpp
 )
 
 set(time_interp_depends ${SAMRAI_LIBRARIES})

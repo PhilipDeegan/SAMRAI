@@ -16,7 +16,7 @@ cd $dir_name
 #
 
 bison -d -p yy Grammar.y
-perl grammer_fixup.pl Grammar.tab.c > Grammar.C
+perl grammer_fixup.pl Grammar.tab.c > Grammar.cpp
 perl grammer_fixup.pl Grammar.tab.h > Grammar.h
 rm Grammar.tab.c
 rm Grammar.tab.h
@@ -26,7 +26,7 @@ rm Grammar.tab.h
 #
 
 flex -Pyy -otemp.$$ Scanner.l
-perl scanner_fixup.pl temp.$$ > Scanner.C 
+perl scanner_fixup.pl temp.$$ > Scanner.cpp 
 rm temp.$$
 
 # Add some pragma's to ignore warnings from compilers for
@@ -68,9 +68,9 @@ cat >> temp.$$ <<-EOF
 #pragma report(disable, CPPC5328)
 #endif
 EOF
-cat temp.$$ Scanner.C > temp2.$$
-mv temp2.$$ Scanner.C
-cat temp.$$ Grammar.C > temp2.$$
-mv temp2.$$ Grammar.C
+cat temp.$$ Scanner.cpp > temp2.$$
+mv temp2.$$ Scanner.cpp
+cat temp.$$ Grammar.cpp > temp2.$$
+mv temp2.$$ Grammar.cpp
 rm temp.$$
 

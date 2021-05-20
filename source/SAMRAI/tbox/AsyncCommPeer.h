@@ -661,6 +661,6 @@ private:
 }
 }
 
-#include "SAMRAI/tbox/AsyncCommPeer.C"
+#include "SAMRAI/tbox/AsyncCommPeer.cpp"
 
 #endif  // included_tbox_AsyncCommPeer

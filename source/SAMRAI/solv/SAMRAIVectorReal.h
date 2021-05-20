@@ -752,6 +752,6 @@ private:
 }
 }
 
-#include "SAMRAI/solv/SAMRAIVectorReal.C"
+#include "SAMRAI/solv/SAMRAIVectorReal.cpp"
 
 #endif

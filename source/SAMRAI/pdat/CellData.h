@@ -567,6 +567,6 @@ typename CellData<TYPE>::template ConstView<DIM> get_const_view(const CellData<T
 }
 }
 
-#include "SAMRAI/pdat/CellData.C"
+#include "SAMRAI/pdat/CellData.cpp"
 
 #endif

@@ -1,6 +1,6 @@
 set (sundials_sources
-  main.C
-  CVODEModel.C
+  main.cpp
+  CVODEModel.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/FACjacobian2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/FACjacobian3d.f)
 

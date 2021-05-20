@@ -656,6 +656,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/HierarchyFaceDataOpsReal.C"
+#include "SAMRAI/math/HierarchyFaceDataOpsReal.cpp"
 
 #endif

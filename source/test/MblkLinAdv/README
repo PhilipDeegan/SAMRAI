@@ -11,7 +11,7 @@
 This README explains how to compile and run the Multiblock Linear Advection
 application.  The files in this directory are as follows:
 
-    main.C             -  application driver program
+    main.cpp             -  application driver program
     MblkLinAdv.[C,h]   -  C++ class containing routines specific to the
                           Linear Advection example and which are called from
                           SAMRAI AMR library routines

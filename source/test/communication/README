@@ -11,7 +11,7 @@
 This test exercises refining and coarsening operations.  The files
 included in this directory are as follows:
 
-   main.C                -  driver
+   main.cpp                -  driver
    CommTester.[Ch]       - Implementation of RefinePatchStrategy,
                            CoarsenPatchStrategy, and StandardTagAndInitStrategy
    PatchDataTestStrategy.[Ch]

@@ -1,6 +1,6 @@
 set (hypre_sources
-  main.C
-  HyprePoisson.C
+  main.cpp
+  HyprePoisson.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/hyprepoisson2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/hyprepoisson3d.f)
 

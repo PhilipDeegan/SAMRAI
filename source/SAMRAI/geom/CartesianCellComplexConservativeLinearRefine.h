@@ -118,5 +118,5 @@ public:
 } // end namespace geom
 } // end namespace SAMRAI
 
-#include "SAMRAI/geom/CartesianCellConservativeLinearRefine.C"
+#include "SAMRAI/geom/CartesianCellConservativeLinearRefine.cpp"
 #endif

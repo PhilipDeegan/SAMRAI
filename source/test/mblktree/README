@@ -11,7 +11,7 @@
 This test exercises tree-based box searches multiblock configurations.
 The files included in this directory are as follows:
  
-   main-mblktree.C       -  Entire code for the test
+   main-mblktree.cpp       -  Entire code for the test
    test_inputs/*.input   -  Input files for a variety of 2D and 3D
                             multiblock configurations
 

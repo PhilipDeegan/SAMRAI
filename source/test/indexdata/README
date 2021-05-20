@@ -11,7 +11,7 @@
 This test demonstrates the use of and unit tests the IndexData class.  The
 files included in this directory are as follows:
  
-   main.C  -  unit tester
+   main.cpp  -  unit tester
 
 
 COMPILATION AND EXECUTION

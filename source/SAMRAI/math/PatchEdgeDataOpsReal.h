@@ -129,6 +129,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchEdgeDataOpsReal.C"
+#include "SAMRAI/math/PatchEdgeDataOpsReal.cpp"
 
 #endif

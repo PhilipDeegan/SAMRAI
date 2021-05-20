@@ -130,6 +130,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchCellDataOpsReal.C"
+#include "SAMRAI/math/PatchCellDataOpsReal.cpp"
 
 #endif

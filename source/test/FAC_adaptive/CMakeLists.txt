@@ -1,16 +1,16 @@
 set (facadaptive_sources
-  AdaptivePoisson.C
-  GaussianFcn.C
-  PoissonGaussianDiffcoefSolution.C
-  PoissonGaussianSolution.C
-  PoissonMultigaussianSolution.C
-  PoissonPolynomialSolution.C
-  PoissonSineSolution.C
-  QuarticFcn.C
-  SinusoidFcn.C
-  main.C
-  patchFcns.C
-  setArrayData.C)
+  AdaptivePoisson.cpp
+  GaussianFcn.cpp
+  PoissonGaussianDiffcoefSolution.cpp
+  PoissonGaussianSolution.cpp
+  PoissonMultigaussianSolution.cpp
+  PoissonPolynomialSolution.cpp
+  PoissonSineSolution.cpp
+  QuarticFcn.cpp
+  SinusoidFcn.cpp
+  main.cpp
+  patchFcns.cpp
+  setArrayData.cpp)
 
 set(facadaptive_depends testlib)
 set(facadaptive_depends ${facadaptive_depends} ${SAMRAI_LIBRARIES})

@@ -250,6 +250,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchCellDataBasicOps.C"
+#include "SAMRAI/math/PatchCellDataBasicOps.cpp"
 
 #endif

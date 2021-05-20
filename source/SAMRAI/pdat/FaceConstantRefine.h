@@ -474,5 +474,5 @@ public:
 
 }
 }
-#include "SAMRAI/pdat/FaceConstantRefine.C"
+#include "SAMRAI/pdat/FaceConstantRefine.cpp"
 #endif

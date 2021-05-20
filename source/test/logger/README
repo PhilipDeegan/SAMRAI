@@ -13,8 +13,8 @@ debug and warning messages.
 
 The files included in this directory are as follows:
 
-   defaultloggertest.C       -  code for the test of Logger
-   userloggertest.C          -  code for the test of a subclass 
+   defaultloggertest.cpp       -  code for the test of Logger
+   userloggertest.cpp          -  code for the test of a subclass 
                                 of Logger::Appender
 
 

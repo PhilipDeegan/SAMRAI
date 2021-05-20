@@ -49,7 +49,7 @@ my $end_of_line = $/;
 
 @allfiles = ();
 $filePattern = q!(.*\.(([ChI]))$)!;
-$fileExcludePattern = q!(Grammar.[Ch]|Scanner.C)!;
+$fileExcludePattern = q!(Grammar.[Ch]|Scanner.cpp)!;
 $excludeDirPattern=q!/(.svn|CVS|automatic|include)$!;
 find( \&selectFile, "." );
 print "files=@allfiles" if ($debug > 2);

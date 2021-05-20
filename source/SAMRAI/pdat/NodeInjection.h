@@ -249,5 +249,5 @@ public:
 
 } // namespace pdat
 } // namespace SAMRAI 
-#include "SAMRAI/pdat/NodeInjection.C"
+#include "SAMRAI/pdat/NodeInjection.cpp"
 #endif

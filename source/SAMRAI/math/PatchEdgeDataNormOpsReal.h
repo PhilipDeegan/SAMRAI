@@ -248,6 +248,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchEdgeDataNormOpsReal.C"
+#include "SAMRAI/math/PatchEdgeDataNormOpsReal.cpp"
 
 #endif

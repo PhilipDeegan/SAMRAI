@@ -13,7 +13,7 @@ adaptivity based on the evolution of the solution.  In addition a variety of
 functionally defined boundary conditions are applied depending on the test.
 The files included in this directory are as follows:
  
-   main.C                                -  example main program
+   main.cpp                                -  example main program
    AdaptivePoisson.[Ch]                  -  class to set tags to solve
                                          -  Poisson's equation
    PoissonGaussianDiffcoefSolution.[Ch]  -  implements Gaussian-diffcoef

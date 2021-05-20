@@ -184,6 +184,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchCellDataMiscellaneousOpsReal.C"
+#include "SAMRAI/math/PatchCellDataMiscellaneousOpsReal.cpp"
 
 #endif

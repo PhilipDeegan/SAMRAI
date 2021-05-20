@@ -332,5 +332,5 @@ public:
 } // namespace pdat
 } // namespace SAMRAI
 
-#include "SAMRAI/pdat/CellConstantRefine.C"
+#include "SAMRAI/pdat/CellConstantRefine.cpp"
 #endif

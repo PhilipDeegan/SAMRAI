@@ -738,6 +738,6 @@ typename OuternodeData<TYPE>::template ConstView<DIM> get_const_view(
 }
 }
 
-#include "SAMRAI/pdat/OuternodeData.C"
+#include "SAMRAI/pdat/OuternodeData.cpp"
 
 #endif

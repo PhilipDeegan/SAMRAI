@@ -1,12 +1,12 @@
 blt_add_executable(
   NAME main-async_comm
-  SOURCES main-async_comm.C
+  SOURCES main-async_comm.cpp
   DEPENDS_ON
     SAMRAI_tbox)
 
 blt_add_executable(
   NAME main-peer_comm
-  SOURCES main-peer_comm.C
+  SOURCES main-peer_comm.cpp
   DEPENDS_ON
     SAMRAI_tbox)
 

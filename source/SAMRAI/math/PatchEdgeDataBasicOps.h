@@ -256,6 +256,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchEdgeDataBasicOps.C"
+#include "SAMRAI/math/PatchEdgeDataBasicOps.cpp"
 
 #endif

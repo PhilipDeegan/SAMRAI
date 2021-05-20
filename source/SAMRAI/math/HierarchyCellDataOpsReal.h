@@ -652,6 +652,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/HierarchyCellDataOpsReal.C"
+#include "SAMRAI/math/HierarchyCellDataOpsReal.cpp"
 
 #endif

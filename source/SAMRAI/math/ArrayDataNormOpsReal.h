@@ -239,6 +239,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/ArrayDataNormOpsReal.C"
+#include "SAMRAI/math/ArrayDataNormOpsReal.cpp"
 
 #endif

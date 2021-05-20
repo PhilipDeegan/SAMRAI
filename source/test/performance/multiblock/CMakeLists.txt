@@ -1,8 +1,8 @@
 set (multiblock_sources
-  main.C
-  MblkGeometry.C
-  MblkLinAdv.C
-  SkeletonOutersideDoubleWeightedAverage.C
+  main.cpp
+  MblkGeometry.cpp
+  MblkLinAdv.cpp
+  SkeletonOutersideDoubleWeightedAverage.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/stufprobc.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/trace1d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/trace2d.f

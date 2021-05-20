@@ -342,6 +342,6 @@ Array<double>::deleteObjects();
  * Default assume Array is not a standard type
  */
 
-#include "SAMRAI/tbox/Array.C"
+#include "SAMRAI/tbox/Array.cpp"
 
 #endif

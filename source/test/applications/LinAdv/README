@@ -11,7 +11,7 @@
 This README explains how to compile and run the Linear Advection application.
 The files in this directory are as follows:
 
-          main.C         -  application driver program
+          main.cpp         -  application driver program
           LinAdv.[C,h    -  C++ class containing routines specific to the
                             Linear Advection example and which are called from
                             SAMRAI AMR library routines
@@ -20,7 +20,7 @@ The files in this directory are as follows:
 
 To understand the construction of this application code from pieces
 specific to the Linear Advection model and more generic pieces in the SAMRAI
-library consider the object construction pattern in the main.C file.
+library consider the object construction pattern in the main.cpp file.
 For more details on library classes and the LinAdv class consult the
 the comments in the header files for the library classes and the
 LinAdv.h class header file.

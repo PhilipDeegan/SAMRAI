@@ -1,6 +1,6 @@
 set ( async_br_sources
-  main.C
-  ABRTest.C)
+  main.cpp
+  ABRTest.cpp)
 
 set(async_br_depends testlib)
 set(async_br_depends ${async_br_depends} ${SAMRAI_LIBRARIES})

@@ -11,7 +11,7 @@
 This is a unit test of SAMRAI's dimension classs.  The files included in this
 directory are as follows:
  
-   main.C  -  unit tester
+   main.cpp  -  unit tester
 
  
 COMPILATION AND EXECUTION

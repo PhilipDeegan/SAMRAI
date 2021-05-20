@@ -12,7 +12,7 @@ This README explains how to compile and run the Convection Diffusion example
 which uses an adaptive Runge-Kutta time integration. The files included in
 this directory are as follows:
 
-          main.C                 -  application driver program
+          main.cpp                 -  application driver program
           MainRestartData.[C,h]  -  just a holder for general run control
                                     parameters such as start and end time and
                                     number of time steps
@@ -26,7 +26,7 @@ this directory are as follows:
 
 To understand the construction of this application code from pieces
 specific to the ConvDiff model and more generic pieces in the SAMRAI
-library consider the object construction pattern in the main.C file.
+library consider the object construction pattern in the main.cpp file.
 For more details on library classes and the ConvDiff class consult
 the comments in the header files for the library classes and the
 ConvDiff.h class header file.

@@ -167,6 +167,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/EdgeDataFactory.C"
+#include "SAMRAI/pdat/EdgeDataFactory.cpp"
 
 #endif

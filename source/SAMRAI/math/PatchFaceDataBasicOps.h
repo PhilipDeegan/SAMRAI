@@ -250,6 +250,6 @@ private:
 }
 }
 
-#include "SAMRAI/math/PatchFaceDataBasicOps.C"
+#include "SAMRAI/math/PatchFaceDataBasicOps.cpp"
 
 #endif

@@ -11,7 +11,7 @@
 This test unit tests the RankGroup class in the context of the
 TreeLoadBalancer.  The files included in this directory are as follows:
 
-   main.C               -  unit tester
+   main.cpp               -  unit tester
    test_inputs/*.input  -  2d and 3d input files
 
 

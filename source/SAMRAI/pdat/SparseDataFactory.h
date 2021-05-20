@@ -164,6 +164,6 @@ private:
 } // end namespace pdat
 } // end namespace SAMRAI
 
-#include "SAMRAI/pdat/SparseDataFactory.C"
+#include "SAMRAI/pdat/SparseDataFactory.cpp"
 
 #endif

@@ -717,6 +717,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/IndexData.C"
+#include "SAMRAI/pdat/IndexData.cpp"
 
 #endif

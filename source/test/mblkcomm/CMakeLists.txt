@@ -1,12 +1,12 @@
 set (mblkcomm_sources
-  CellMultiblockTest.C
-  EdgeMultiblockTest.C
-  FaceMultiblockTest.C
-  main.C
-  MultiblockTester.C
-  NodeMultiblockTest.C
-  PatchMultiblockTestStrategy.C
-  SideMultiblockTest.C)
+  CellMultiblockTest.cpp
+  EdgeMultiblockTest.cpp
+  FaceMultiblockTest.cpp
+  main.cpp
+  MultiblockTester.cpp
+  NodeMultiblockTest.cpp
+  PatchMultiblockTestStrategy.cpp
+  SideMultiblockTest.cpp)
 
 set (mblkcomm_depends_on
   SAMRAI_hier

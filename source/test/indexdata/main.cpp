@@ -12,16 +12,16 @@
 #include <cstdlib>
 
 #include "SAMRAI/pdat/IndexVariable.h"
-#include "SAMRAI/pdat/IndexVariable.C"
+#include "SAMRAI/pdat/IndexVariable.cpp"
 #include "SAMRAI/tbox/SAMRAI_MPI.h"
 #include "SAMRAI/tbox/SAMRAIManager.h"
 #include "SAMRAI/tbox/TimerManager.h"
 #include "SAMRAI/tbox/Timer.h"
-#include "SAMRAI/pdat/CellData.C"
+#include "SAMRAI/pdat/CellData.cpp"
 #include "SAMRAI/pdat/IndexData.h"
-#include "SAMRAI/pdat/IndexData.C"
+#include "SAMRAI/pdat/IndexData.cpp"
 #include "SAMRAI/pdat/IndexDataFactory.h"
-#include "SAMRAI/pdat/IndexDataFactory.C"
+#include "SAMRAI/pdat/IndexDataFactory.cpp"
 
 #include <list>
 #include <memory>

@@ -1,6 +1,6 @@
 set (linadv_sources
-  LinAdv.C
-  main.C
+  LinAdv.cpp
+  main.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/flux2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/flux3d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/fluxcorner3d.f

@@ -169,6 +169,6 @@ private:
 }
 }
 
-#include "SAMRAI/pdat/OuternodeDataFactory.C"
+#include "SAMRAI/pdat/OuternodeDataFactory.cpp"
 
 #endif

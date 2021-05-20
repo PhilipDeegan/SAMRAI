@@ -1,5 +1,5 @@
 set (inputdb_sources
-        inputdb.C)
+        inputdb.cpp)
 
 blt_add_executable(
         NAME inputdb

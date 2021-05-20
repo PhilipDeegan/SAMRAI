@@ -1,6 +1,6 @@
 set (stencil_sources
-  Stencil.C
-  main.C)
+  Stencil.cpp
+  main.cpp)
 
 set(stencil_depends ${SAMRAI_LIBRARIES})
 

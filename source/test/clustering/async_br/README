@@ -11,7 +11,7 @@
 This is a unit test of the asynchronous Berger Rigoutsos algorithm.  The files
 included in this directory are as follows:
  
-   main.C                  -  unit tester
+   main.cpp                  -  unit tester
    ABRTest.[Ch]            -  tags cells based on sinusoidal front and computes
                               new hierarchy based on tagging
    get-input-filename.[Ch] -  utility for getting input file name

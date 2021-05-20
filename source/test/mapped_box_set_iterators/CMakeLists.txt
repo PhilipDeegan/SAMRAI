@@ -1,5 +1,5 @@
 set (mapped_box_sources
-        main-iterators.C)
+        main-iterators.cpp)
 
 blt_add_executable(
         NAME mapped_box_set_iterators

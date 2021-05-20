@@ -628,6 +628,6 @@ typename OutersideData<TYPE>::template ConstView<DIM> get_const_view(
 }
 }
 
-#include "SAMRAI/pdat/OutersideData.C"
+#include "SAMRAI/pdat/OutersideData.cpp"
 
 #endif

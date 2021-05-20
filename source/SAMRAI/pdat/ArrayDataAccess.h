@@ -62,6 +62,6 @@ public:
 }
 }
 
-#include "SAMRAI/pdat/ArrayDataAccess.C"
+#include "SAMRAI/pdat/ArrayDataAccess.cpp"
 
 #endif

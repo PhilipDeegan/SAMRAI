@@ -634,6 +634,6 @@ typename OuterfaceData<TYPE>::template ConstView<DIM> get_const_view(
 }
 }
 
-#include "SAMRAI/pdat/OuterfaceData.C"
+#include "SAMRAI/pdat/OuterfaceData.cpp"
 
 #endif

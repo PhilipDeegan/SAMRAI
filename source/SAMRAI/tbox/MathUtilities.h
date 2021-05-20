@@ -414,6 +414,6 @@ MathUtilities<double>::round(
 }
 }
 
-#include "SAMRAI/tbox/MathUtilities.C"
+#include "SAMRAI/tbox/MathUtilities.cpp"
 
 #endif

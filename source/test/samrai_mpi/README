@@ -11,10 +11,10 @@
 This directory tests the configuration options for SAMRAI_MPI, which wraps
 the interface to MPI.  The following files are contained in this directory.
 
-   main-runtime-disabled.C   - tests with MPI linked but not used
-   main-runtime-on.C         - tests with MPI linked and used 
-   main-runtime-off.C        - tests with MPI not linked and not used
-   mpi-interface-tests.C     - code that makes SAMRAI_MPI calls
+   main-runtime-disabled.cpp   - tests with MPI linked but not used
+   main-runtime-on.cpp         - tests with MPI linked and used 
+   main-runtime-off.cpp        - tests with MPI not linked and not used
+   mpi-interface-tests.cpp     - code that makes SAMRAI_MPI calls
  
 COMPILATION AND EXECUTION
 -------------------------

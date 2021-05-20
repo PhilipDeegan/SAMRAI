@@ -1,6 +1,6 @@
 set ( boundary_sources
-  main.C
-  BoundaryDataTester.C)
+  main.cpp
+  BoundaryDataTester.cpp)
 
 set(boundary_depends ${SAMRAI_LIBRARIES})
 

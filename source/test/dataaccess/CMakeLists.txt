@@ -1,5 +1,5 @@
 set ( dataaccess_sources
-  main.C)
+  main.cpp)
 
 set(dataaccess_depends ${SAMRAI_LIBRARIES})
 

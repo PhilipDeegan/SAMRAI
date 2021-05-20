@@ -26,30 +26,30 @@ set (mesh_headers
   VoucherTransitLoad.h)
 
 set (mesh_sources
-  BalanceBoxBreaker.C
-  BalanceUtilities.C
-  BergerRigoutsos.C
-  BergerRigoutsosNode.C
-  BoxGeneratorStrategy.C
-  BoxTransitSet.C
-  CascadePartitioner.C
-  CascadePartitionerTree.C
-  ChopAndPackLoadBalancer.C
-  GriddingAlgorithm.C
-  GriddingAlgorithmConnectorWidthRequestor.C
-  GriddingAlgorithmStrategy.C
-  LoadBalanceStrategy.C
-  MultiblockGriddingTagger.C
-  PartitioningParams.C
-  SpatialKey.C
-  StandardTagAndInitialize.C
-  StandardTagAndInitializeConnectorWidthRequestor.C
-  StandardTagAndInitStrategy.C
-  TagAndInitializeStrategy.C
-  TileClustering.C
-  TransitLoad.C
-  TreeLoadBalancer.C
-  VoucherTransitLoad.C
+  BalanceBoxBreaker.cpp
+  BalanceUtilities.cpp
+  BergerRigoutsos.cpp
+  BergerRigoutsosNode.cpp
+  BoxGeneratorStrategy.cpp
+  BoxTransitSet.cpp
+  CascadePartitioner.cpp
+  CascadePartitionerTree.cpp
+  ChopAndPackLoadBalancer.cpp
+  GriddingAlgorithm.cpp
+  GriddingAlgorithmConnectorWidthRequestor.cpp
+  GriddingAlgorithmStrategy.cpp
+  LoadBalanceStrategy.cpp
+  MultiblockGriddingTagger.cpp
+  PartitioningParams.cpp
+  SpatialKey.cpp
+  StandardTagAndInitialize.cpp
+  StandardTagAndInitializeConnectorWidthRequestor.cpp
+  StandardTagAndInitStrategy.cpp
+  TagAndInitializeStrategy.cpp
+  TileClustering.cpp
+  TransitLoad.cpp
+  TreeLoadBalancer.cpp
+  VoucherTransitLoad.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/mesh_coarsentags1d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/mesh_coarsentags2d.f
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/mesh_coarsentags3d.f)

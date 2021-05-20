@@ -958,6 +958,6 @@ private:
 } // namespace pdat
 } // namespace SAMRAI
 
-#include "SAMRAI/pdat/SparseData.C"
+#include "SAMRAI/pdat/SparseData.cpp"
 
 #endif // included_pdat_SparseData

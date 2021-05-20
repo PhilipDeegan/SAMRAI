@@ -1,22 +1,22 @@
 set (testHDF5_sources
-  mainHDF5.C
-  database_tests.C)
+  mainHDF5.cpp
+  database_tests.cpp)
 
 set (testHDF5AppFileOpen_sources
-  mainHDF5AppFileOpen.C
-  database_tests.C)
+  mainHDF5AppFileOpen.cpp
+  database_tests.cpp)
 
 set (testSilo_sources
-  mainSilo.C
-  database_tests.C)
+  mainSilo.cpp
+  database_tests.cpp)
 
 set (testSiloAppFileOpen_sources
-  mainSiloAppFileOpen.C
-  database_tests.C)
+  mainSiloAppFileOpen.cpp
+  database_tests.cpp)
 
 set (testMemory_sources
-  mainMemory.C
-  database_tests.C)
+  mainMemory.cpp
+  database_tests.cpp)
 
 blt_add_executable(
   NAME testHDF5

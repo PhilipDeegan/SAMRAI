@@ -1,6 +1,6 @@
 blt_add_executable(
   NAME assumed_partition
-  SOURCES main.C
+  SOURCES main.cpp
   DEPENDS_ON
     SAMRAI_geom
     SAMRAI_hier

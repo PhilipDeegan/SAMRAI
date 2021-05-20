@@ -1,6 +1,6 @@
 set (sparsedata_sources
-  main.C
-  SparseDataTester.C)
+  main.cpp
+  SparseDataTester.cpp)
 
 blt_add_executable(
   NAME main-sparsedata
@@ -14,7 +14,7 @@ blt_add_executable(
 target_compile_definitions(main-sparsedata PUBLIC TESTING=1)
 
 set (sparsedataops_sources
-  sparse_dataops.C)
+  sparse_dataops.cpp)
 
 blt_add_executable(
   NAME sparse

@@ -1,5 +1,5 @@
 set (oca_sources
-  main.C)
+  main.cpp)
 
 set (oca_depends_on
     SAMRAI_hier
