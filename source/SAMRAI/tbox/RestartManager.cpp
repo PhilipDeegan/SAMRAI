@@ -110,17 +110,8 @@ RestartManager::openRestartFile(
    const SAMRAI_MPI& mpi(SAMRAI_MPI::getSAMRAIWorld());
    int proc_num = mpi.getRank();
 
-   /* create the intermediate parts of the full path name of restart file */
-   std::string restore_buf = "/restore." + Utilities::intToString(
-         restore_num,
-         6);
-   std::string nodes_buf = "/nodes." + Utilities::nodeToString(num_nodes);
-   std::string proc_buf = "/proc." + Utilities::processorToString(
-         proc_num);
-
    /* create full path name of restart file */
-   std::string restart_filename = root_dirname + restore_buf
-      + nodes_buf + proc_buf;
+   std::string restart_filename = getRestartFileFullPath(root_dirname, restore_num);
 
    bool open_successful = true;
    /* try to mount restart file */
@@ -174,6 +165,67 @@ RestartManager::closeRestartFile()
 
    d_database_root.reset(new NullDatabase());
 }
+
+
+/*
+ *************************************************************************
+ *
+ * get the restart file directory
+ *
+ *************************************************************************
+ */
+
+std::string
+RestartManager::getRestartFileDir(
+   const std::string& root_dirname,
+   int restore_num)
+{
+   const SAMRAI_MPI& mpi(SAMRAI_MPI::getSAMRAIWorld());
+
+   int num_procs = mpi.getSize();
+
+   std::string restore_buf = "/restore." + Utilities::intToString(
+         restore_num,
+         6);
+   std::string nodes_buf = "/nodes." + Utilities::processorToString(
+         num_procs);
+
+   std::string restart_dirname = root_dirname + restore_buf + nodes_buf;
+
+   return restart_dirname;
+}
+
+/*
+ *************************************************************************
+ *
+ * get the full restart file path for the current proc
+ *
+ *************************************************************************
+ */
+
+
+std::string
+RestartManager::getRestartFileFullPath(
+   const std::string& root_dirname,
+   int restore_num)
+{
+   const SAMRAI_MPI& mpi(SAMRAI_MPI::getSAMRAIWorld());
+   /* Create necessary directories and cd proper directory for writing */
+
+   std::string restart_dirname = getRestartFileDir(root_dirname, restore_num);
+
+   /* Create full path name of restart file */
+
+   int proc_rank = mpi.getRank();
+
+   std::string restart_filename_buf =
+      "/proc." + Utilities::processorToString(proc_rank);
+
+   std::string restart_filename = restart_dirname + restart_filename_buf;
+
+   return restart_filename;
+}
+
 
 /*
  *************************************************************************
@@ -260,18 +312,9 @@ RestartManager::writeRestartFile(
    const std::string& root_dirname,
    int restore_num)
 {
-   const SAMRAI_MPI& mpi(SAMRAI_MPI::getSAMRAIWorld());
-   /* Create necessary directories and cd proper directory for writing */
-   std::string restart_dirname = createDirs(root_dirname, restore_num);
+   createDirs(root_dirname, restore_num);
 
-   /* Create full path name of restart file */
-
-   int proc_rank = mpi.getRank();
-
-   std::string restart_filename_buf =
-      "/proc." + Utilities::processorToString(proc_rank);
-
-   std::string restart_filename = restart_dirname + restart_filename_buf;
+   std::string restart_filename = getRestartFileFullPath(root_dirname, restore_num);
 
    if (hasDatabaseFactory()) {
 
@@ -346,16 +389,7 @@ RestartManager::createDirs(
    const std::string& root_dirname,
    int restore_num)
 {
-   const SAMRAI_MPI& mpi(SAMRAI_MPI::getSAMRAIWorld());
-   int num_procs = mpi.getSize();
-
-   std::string restore_buf = "/restore." + Utilities::intToString(
-         restore_num,
-         6);
-   std::string nodes_buf = "/nodes." + Utilities::processorToString(
-         num_procs);
-
-   std::string full_dirname = root_dirname + restore_buf + nodes_buf;
+   std::string full_dirname = getRestartFileDir(root_dirname, restore_num);
 
    Utilities::recursiveMkdir(full_dirname);
 

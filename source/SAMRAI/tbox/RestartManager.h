@@ -122,6 +122,23 @@ public:
    void
    closeRestartFile();
 
+
+   /**
+    * returns a std::string of the path for restart files
+    */
+   std::string
+   getRestartFileDir(
+       const std::string& root_dirname,
+       int restore_num);
+
+   /**
+    * returns a std::string for this procs restart file
+    */
+   std::string
+   getRestartFileFullPath(
+       const std::string& root_dirname,
+       int restore_num);
+
    /**
     * Returns a std::shared_ptr to the root of the database.
     */
