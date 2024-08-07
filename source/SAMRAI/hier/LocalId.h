@@ -35,26 +35,29 @@ public:
    /*!
     * @brief Default constructor.
     */
-   LocalId();
+   constexpr LocalId() : d_value(getInvalidId().d_value)
+   {
+   }
 
    /*!
     * @brief Copy constructor.
     */
-   LocalId(
-      const LocalId& other);
+   constexpr LocalId(const LocalId& other) = default;
 
    /*!
     * @brief Construct from a numerical value.
     *
     * This method is explicit to prevent automatic conversion.
     */
-   explicit LocalId(
-      const int& value);
+   constexpr explicit LocalId(
+      const int& value) : d_value(value)
+   {
+   }
 
    /*!
-    * @brief Default constructor.
+    * @brief Default destructor.
     */
-   ~LocalId();
+   ~LocalId() = default;
 
    /*!
     * @brief Assignment operator.
@@ -63,7 +66,7 @@ public:
     *
     * @return @c *this
     */
-   LocalId&
+   constexpr LocalId&
    operator = (
       const LocalId& rhs)
    {
@@ -78,7 +81,7 @@ public:
     *
     * @return @c *this
     */
-   LocalId&
+   constexpr LocalId&
    operator = (
       const int& rhs)
    {
@@ -89,7 +92,7 @@ public:
    /*!
     * @brief Access the numerical value.
     */
-   int&
+   constexpr int&
    getValue()
    {
       return d_value;
@@ -98,7 +101,7 @@ public:
    /*!
     * @brief Access the numerical value.
     */
-   const int&
+   constexpr const int&
    getValue() const
    {
       return d_value;
@@ -107,7 +110,7 @@ public:
    /*!
     * @brief Whether value is a valid one (not equal to getInvalidId()).
     */
-   bool
+   constexpr bool
    isValid() const
    {
       return d_value != s_invalid_id.getValue();
@@ -125,7 +128,7 @@ public:
    /*!
     * @brief Get the designated invalid value for this class.
     */
-   static const LocalId&
+   constexpr static const LocalId&
    getInvalidId()
    {
       return s_invalid_id;
@@ -141,7 +144,7 @@ public:
     * Pre-increment increments the value and returns the incremented
     * state.
     */
-   LocalId
+   constexpr LocalId
    operator ++ ()
    {
       ++d_value;
@@ -154,7 +157,7 @@ public:
     * Post-increment saves the value, increment it and returns an
     * object with the saved value.
     */
-   LocalId
+   constexpr LocalId
    operator ++ (
       int)
    {
@@ -168,7 +171,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator + (
       const LocalId& rhs) const
    {
@@ -180,7 +183,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator - (
       const LocalId& rhs) const
    {
@@ -192,7 +195,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator * (
       const LocalId& rhs) const
    {
@@ -204,7 +207,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator / (
       const LocalId& rhs) const
    {
@@ -216,7 +219,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator % (
       const LocalId& rhs) const
    {
@@ -228,7 +231,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId&
+   constexpr LocalId&
    operator += (
       const LocalId& rhs)
    {
@@ -241,7 +244,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId&
+   constexpr LocalId&
    operator -= (
       const LocalId& rhs)
    {
@@ -254,7 +257,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator + (
       const int& rhs) const
    {
@@ -266,7 +269,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator - (
       const int& rhs) const
    {
@@ -278,7 +281,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator * (
       const int& rhs) const
    {
@@ -290,7 +293,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator / (
       const int& rhs) const
    {
@@ -302,7 +305,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId
+   constexpr LocalId
    operator % (
       const int& rhs) const
    {
@@ -314,7 +317,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId&
+   constexpr LocalId&
    operator += (
       const int& rhs)
    {
@@ -327,7 +330,7 @@ public:
     *
     * @param[in] rhs
     */
-   LocalId&
+   constexpr LocalId&
    operator -= (
       const int& rhs)
    {
@@ -348,7 +351,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator == (
       const LocalId& rhs) const
    {
@@ -362,7 +365,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator != (
       const LocalId& rhs) const
    {
@@ -376,7 +379,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator < (
       const LocalId& rhs) const
    {
@@ -390,7 +393,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator > (
       const LocalId& rhs) const
    {
@@ -404,7 +407,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator <= (
       const LocalId& rhs) const
    {
@@ -418,7 +421,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator >= (
       const LocalId& rhs) const
    {
@@ -438,7 +441,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator == (
       const int& rhs) const
    {
@@ -452,7 +455,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator != (
       const int& rhs) const
    {
@@ -466,7 +469,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator < (
       const int& rhs) const
    {
@@ -480,7 +483,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator > (
       const int& rhs) const
    {
@@ -494,7 +497,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator <= (
       const int& rhs) const
    {
@@ -508,7 +511,7 @@ public:
     *
     * @param[in] rhs
     */
-   bool
+   constexpr bool
    operator >= (
       const int& rhs) const
    {
