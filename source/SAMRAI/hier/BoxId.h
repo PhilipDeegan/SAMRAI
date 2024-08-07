@@ -44,7 +44,7 @@ public:
     *
     * The object can be changed using initialize() or by assignment.
     */
-   BoxId();
+   constexpr BoxId() = default;
 
    /*!
     * @brief Initializing constructor.
@@ -57,10 +57,15 @@ public:
     *
     * @pre periodic_id.isValid()
     */
-   BoxId(
+   constexpr BoxId(
       const LocalId& local_id,
       const int owner_rank,
-      const PeriodicId& periodic_id = PeriodicId::zero());
+      const PeriodicId& periodic_id = PeriodicId::zero()) :
+      d_global_id(local_id, owner_rank),
+      d_periodic_id(periodic_id)
+   {
+      TBOX_CONSTEXPR_ASSERT(periodic_id.isValid());
+   }
 
    /*!
     * @brief Initializing constructor.
@@ -71,9 +76,14 @@ public:
     *
     * @pre periodic_id.isValid()
     */
-   explicit BoxId(
+   constexpr explicit BoxId(
       const GlobalId& id,
-      const PeriodicId& periodic_id = PeriodicId::zero());
+      const PeriodicId& periodic_id = PeriodicId::zero()) :
+      d_global_id(id),
+      d_periodic_id(periodic_id)
+   {
+      TBOX_CONSTEXPR_ASSERT(periodic_id.isValid());
+   }
 
    /*!
     * @brief Copy constructor.
@@ -82,13 +92,13 @@ public:
     *
     * @pre other.periodic_id.isValid()
     */
-   BoxId(
-      const BoxId& other);
+   constexpr BoxId(
+      const BoxId& other) = default;
 
    /*!
     * @brief Destructor.
     */
-   ~BoxId();
+   ~BoxId() = default;
 
    /*!
     * @brief Set all the attributes to given values.
@@ -99,13 +109,13 @@ public:
     *
     * @param[in] periodic_id
     */
-   void
+   constexpr void
    initialize(
       const LocalId& local_id,
       const int owner_rank,
       const PeriodicId& periodic_id = PeriodicId::zero())
    {
-      TBOX_ASSERT(periodic_id.isValid());
+      TBOX_CONSTEXPR_ASSERT(periodic_id.isValid());
       d_global_id.getLocalId() = local_id;
       d_global_id.getOwnerRank() = owner_rank;
       d_periodic_id = periodic_id;
@@ -114,7 +124,7 @@ public:
    /*!
     * @brief Access the GlobalId.
     */
-   const GlobalId&
+   constexpr const GlobalId&
    getGlobalId() const
    {
       return d_global_id;
@@ -123,7 +133,7 @@ public:
    /*!
     * @brief Access the owner rank.
     */
-   int
+   constexpr int
    getOwnerRank() const
    {
       return d_global_id.getOwnerRank();
@@ -151,7 +161,7 @@ public:
     * @brief Whether the PeriodicId refers to a periodic
     * image.
     */
-   bool
+   constexpr bool
    isPeriodicImage() const
    {
       return d_periodic_id != PeriodicId::zero();
@@ -161,7 +171,7 @@ public:
     * @brief Whether the BoxId is valid--meaning it has a valid
     * GlobalId and PeriodicId.
     */
-   bool
+   constexpr bool
    isValid() const
    {
       return d_periodic_id.isValid() &&
@@ -180,18 +190,18 @@ public:
     * All comparison operators use the GlobalId and PeriodicId.
     */
 
-   BoxId&
+   constexpr BoxId&
    operator = (
       const BoxId& r) = default;
 
 
-   bool
+   constexpr bool
    operator == (
       const BoxId& r) const
    {
       bool rval = d_global_id == r.d_global_id &&
          d_periodic_id == r.d_periodic_id;
-      TBOX_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
+      TBOX_CONSTEXPR_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
       return rval;
    }
 
@@ -200,11 +210,11 @@ public:
     *
     * See note on comparison for operator==(const BoxId&);
     */
-   bool
+   constexpr bool
    operator != (
       const BoxId& r) const
    {
-      TBOX_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
+      TBOX_CONSTEXPR_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
       bool rval = d_global_id != r.d_global_id ||
          d_periodic_id != r.d_periodic_id;
       return rval;
@@ -216,11 +226,11 @@ public:
     * Compare the owner ranks first; if they compare equal, compare the
     * LocalIds next; if they compare equal, compare the PeriodicIds.
     */
-   bool
+   constexpr bool
    operator < (
       const BoxId& r) const
    {
-      TBOX_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
+      TBOX_CONSTEXPR_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
       return d_global_id.getOwnerRank() < r.d_global_id.getOwnerRank() ||
              (d_global_id.getOwnerRank() == r.d_global_id.getOwnerRank() &&
               (d_global_id.getLocalId() < r.d_global_id.getLocalId() ||
@@ -234,11 +244,11 @@ public:
     * Compare the owner ranks first; if they compare equal, compare the
     * LocalIds next; if they compare equal, compare the PeriodicIds.
     */
-   bool
+   constexpr bool
    operator > (
       const BoxId& r) const
    {
-      TBOX_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
+      TBOX_CONSTEXPR_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
       return d_global_id.getOwnerRank() > r.d_global_id.getOwnerRank() ||
              (d_global_id.getOwnerRank() == r.d_global_id.getOwnerRank() &&
               (d_global_id.getLocalId() > r.d_global_id.getLocalId() ||
@@ -249,22 +259,22 @@ public:
    /*!
     * @brief Less-than-or-equal-to operator.
     */
-   bool
+   constexpr bool
    operator <= (
       const BoxId& r) const
    {
-      TBOX_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
+      TBOX_CONSTEXPR_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
       return *this < r || *this == r;
    }
 
    /*!
     * @brief Greater-than-or-equal-to operator.
     */
-   bool
+   constexpr bool
    operator >= (
       const BoxId& r) const
    {
-      TBOX_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
+      TBOX_CONSTEXPR_ASSERT(d_periodic_id.isValid() && r.d_periodic_id.isValid());
       return *this > r || *this == r;
    }
 
@@ -280,7 +290,7 @@ public:
     *
     * @see putToIntBuffer(), getFromIntBuffer().
     */
-   static int
+   constexpr static int
    commBufferSize()
    {
       return 3;
