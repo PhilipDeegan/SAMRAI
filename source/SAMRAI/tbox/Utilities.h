@@ -347,6 +347,27 @@ typedef int mode_t;
 
 #endif
 
+#ifdef DEBUG_CHECK_DIM_ASSERTIONS
+
+#define TBOX_CONSTEXPR_DIM_ASSERT(EXP)                                   \
+   do {                                                                  \
+      if (!(EXP)) {                                                      \
+         printf("Failed dimension assertion: ");                         \
+         printf( # EXP );                                                \
+         printf("\n");                                                   \
+         SAMRAI::tbox::Utilities::abort("", __FILE__, __LINE__);         \
+      }                                                                  \
+   } while (0)
+
+#else
+
+/*
+ * No dimensional assertion checking
+ */
+#define TBOX_CONSTEXPR_DIM_ASSERT(EXP)
+
+#endif
+
 /**
  * Throw an error assertion from within any C++ source code.  This is
  * is similar to TBOX_ERROR(), but is designed to be invoked after a
