@@ -168,7 +168,7 @@ public:
     * @brief Whether the PeriodicId refers to a periodic
     * image.
     */
-   constexpr bool
+   bool
    isPeriodicImage() const
    {
       return d_periodic_id != PeriodicId::zero();

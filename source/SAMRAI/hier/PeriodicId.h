@@ -32,7 +32,7 @@ public:
     * @brief Default constructor.
     */
    constexpr PeriodicId() :
-      d_value(s_invalid_id.d_value)
+      d_value(s_invalid_val)
    {
    }
 
@@ -223,6 +223,10 @@ private:
     * @brief Numerical value of the identifier.
     */
    int d_value;
+
+   static constexpr int s_zero_val = 0;
+
+   static constexpr int s_invalid_val = -1;
 
    /*!
     * @brief PeriodicId with a numerical value of zero.

@@ -12,6 +12,7 @@
 #define included_hier_BlockId
 
 #include "SAMRAI/SAMRAI_config.h"
+#include "SAMRAI/tbox/MathUtilities.h"
 #include "SAMRAI/tbox/Utilities.h"
 
 #include <iostream>
@@ -37,7 +38,7 @@ public:
     * @brief Default constructor sets the value to invalid.
     */
    constexpr BlockId() :
-      d_value(s_invalid_id.d_value)
+      d_value(s_invalid_val)
    {
    }
 
@@ -114,7 +115,7 @@ public:
    constexpr bool
    isValid() const
    {
-      return d_value != s_invalid_id.d_value;
+      return d_value != s_invalid_val;
    }
 
    /*!
@@ -341,6 +342,10 @@ private:
     * @brief Numerical value of the identifier.
     */
    unsigned int d_value;
+
+   static constexpr unsigned int s_zero_val = 0;
+   static constexpr unsigned int s_invalid_val =
+      tbox::MathUtilities<int>::getMax();
 
    /*!
     * @brief BlockId with a numerical value of zero.

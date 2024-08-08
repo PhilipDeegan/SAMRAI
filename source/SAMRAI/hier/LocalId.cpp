@@ -15,10 +15,8 @@
 namespace SAMRAI {
 namespace hier {
 
-const LocalId
-LocalId::s_invalid_id(
-   tbox::MathUtilities<int>::getMax());
-const LocalId LocalId::s_zero_id(0);
+const LocalId LocalId::s_invalid_id(s_invalid_val);
+const LocalId LocalId::s_zero_id(s_zero_val);
 
 /*
  *******************************************************************************

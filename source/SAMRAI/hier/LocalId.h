@@ -12,6 +12,7 @@
 #define included_hier_LocalId
 
 #include "SAMRAI/SAMRAI_config.h"
+#include "SAMRAI/tbox/MathUtilities.h"
 
 #include <iostream>
 
@@ -35,7 +36,7 @@ public:
    /*!
     * @brief Default constructor.
     */
-   constexpr LocalId() : d_value(s_invalid_id.d_value)
+   constexpr LocalId() : d_value(s_invalid_val)
    {
    }
 
@@ -113,7 +114,7 @@ public:
    constexpr bool
    isValid() const
    {
-      return d_value != s_invalid_id.getValue();
+      return d_value != s_invalid_val;
    }
 
    /*!
@@ -533,6 +534,9 @@ private:
     * @brief Numerical value of the identifier.
     */
    int d_value;
+
+   static constexpr int s_zero_val = 0;
+   static constexpr int s_invalid_val = tbox::MathUtilities<int>::getMax();
 
    /*!
     * @brief LocalId with a numerical value of zero.
