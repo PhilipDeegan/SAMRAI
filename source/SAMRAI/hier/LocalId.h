@@ -35,7 +35,7 @@ public:
    /*!
     * @brief Default constructor.
     */
-   constexpr LocalId() : d_value(getInvalidId().d_value)
+   constexpr LocalId() : d_value(s_invalid_id.d_value)
    {
    }
 
@@ -128,7 +128,7 @@ public:
    /*!
     * @brief Get the designated invalid value for this class.
     */
-   constexpr static const LocalId&
+   static const LocalId&
    getInvalidId()
    {
       return s_invalid_id;

@@ -49,7 +49,7 @@ public:
     * The object can be initialized using the assignment operator or
     * the non-const versions of the getOwnerRank() and getLocalId() methods.
     */
-   constexpr GlobalId() :
+   GlobalId() :
       d_owner_rank(tbox::SAMRAI_MPI::getInvalidRank()),
       d_local_id(LocalId::getInvalidId())
    {

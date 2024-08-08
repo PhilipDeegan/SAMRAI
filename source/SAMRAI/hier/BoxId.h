@@ -44,7 +44,7 @@ public:
     *
     * The object can be changed using initialize() or by assignment.
     */
-   constexpr BoxId() = default;
+   BoxId() = default;
 
    /*!
     * @brief Initializing constructor.

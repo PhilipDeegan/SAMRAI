@@ -37,7 +37,7 @@ public:
     * @brief Default constructor sets the value to invalid.
     */
    constexpr BlockId() :
-      d_value(invalidId().d_value)
+      d_value(s_invalid_id.d_value)
    {
    }
 
@@ -114,7 +114,7 @@ public:
    constexpr bool
    isValid() const
    {
-      return d_value != invalidId().d_value;
+      return d_value != s_invalid_id.d_value;
    }
 
    /*!
@@ -129,7 +129,7 @@ public:
    /*!
     * @brief Get the BlockId with a numerical value of zero.
     */
-   constexpr static const BlockId&
+   static const BlockId&
    zero()
    {
       return s_zero_id;
@@ -138,7 +138,7 @@ public:
    /*!
     * @brief Get the designated invalid value for this class.
     */
-   constexpr static const BlockId&
+   static const BlockId&
    invalidId()
    {
       return s_invalid_id;

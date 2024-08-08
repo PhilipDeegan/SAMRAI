@@ -32,7 +32,7 @@ public:
     * @brief Default constructor.
     */
    constexpr PeriodicId() :
-      d_value(invalidId().d_value)
+      d_value(s_invalid_id.d_value)
    {
    }
 
@@ -96,7 +96,7 @@ public:
    /*!
     * @brief Get the PeriodicId with a numerical value of zero.
     */
-   constexpr static const PeriodicId&
+   static const PeriodicId&
    zero()
    {
       return s_zero_id;
@@ -105,7 +105,7 @@ public:
    /*!
     * @brief Return the invalid value for PeriodicId.
     */
-   constexpr static const PeriodicId&
+   static const PeriodicId&
    invalidId()
    {
       return s_invalid_id;
