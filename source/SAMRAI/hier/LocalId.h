@@ -92,7 +92,7 @@ public:
    /*!
     * @brief Access the numerical value.
     */
-   constexpr int&
+   int&
    getValue()
    {
       return d_value;

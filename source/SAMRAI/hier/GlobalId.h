@@ -82,7 +82,7 @@ public:
    /*!
     * @brief Access the owner rank.
     */
-   constexpr int&
+   int&
    getOwnerRank()
    {
       return d_owner_rank;
@@ -100,7 +100,7 @@ public:
    /*!
     * @brief Access the LocalId.
     */
-   constexpr LocalId&
+   LocalId&
    getLocalId()
    {
       return d_local_id;

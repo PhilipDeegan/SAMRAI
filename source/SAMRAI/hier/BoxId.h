@@ -96,6 +96,13 @@ public:
       const BoxId& other) = default;
 
    /*!
+    * @brief Assignment operator
+    */
+   constexpr BoxId&
+   operator = (
+      const BoxId& r) = default;
+
+   /*!
     * @brief Destructor.
     */
    ~BoxId() = default;
@@ -109,7 +116,7 @@ public:
     *
     * @param[in] periodic_id
     */
-   constexpr void
+   void
    initialize(
       const LocalId& local_id,
       const int owner_rank,
@@ -142,7 +149,7 @@ public:
    /*!
     * @brief Access the LocalId.
     */
-   const LocalId&
+   constexpr const LocalId&
    getLocalId() const
    {
       return d_global_id.getLocalId();
@@ -151,7 +158,7 @@ public:
    /*!
     * @brief Access the PeriodicId.
     */
-   const PeriodicId&
+   constexpr const PeriodicId&
    getPeriodicId() const
    {
       return d_periodic_id;
@@ -189,11 +196,6 @@ public:
     *
     * All comparison operators use the GlobalId and PeriodicId.
     */
-
-   constexpr BoxId&
-   operator = (
-      const BoxId& r) = default;
-
 
    constexpr bool
    operator == (
