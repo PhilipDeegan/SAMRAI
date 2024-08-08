@@ -40,7 +40,7 @@ release_resources:
 ####
 # Build and test jobs for specific compilers, extends generic tioga build and
 # test job
-cce_17_0_1_rocm_6.1.2:
+amdclang_rocm_6.0.2:
   variables:
-    COMPILER: "cce-17.0.1-rocm-6.1.2"
+    COMPILER: "amdclang-rocm-6.0.2-gfx90a"
   extends: .job_on_tioga
