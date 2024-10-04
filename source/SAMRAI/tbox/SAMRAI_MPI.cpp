@@ -10,11 +10,11 @@
 
 #include "SAMRAI/tbox/SAMRAI_MPI.h"
 
-#ifdef HAVE_SYS_TIMES_H
+#ifdef SAMRAI_HAVE_SYS_TIMES_H
 #include <sys/times.h>
 #endif
 
-#ifdef HAVE_UNISTD_H
+#ifdef SAMRAI_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
@@ -598,7 +598,7 @@ SAMRAI_MPI::Wtime()
 {
    double rval = 0.0;
    if (!s_mpi_is_initialized) {
-#ifdef HAVE_SYS_TIMES_H
+#ifdef SAMRAI_HAVE_SYS_TIMES_H
       // Without MPI, use POSIX time.
       struct tms tmp_tms;
       clock_t clock_ticks_since_reference = times(&tmp_tms);
