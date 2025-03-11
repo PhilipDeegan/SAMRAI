@@ -42,5 +42,5 @@ release_resources:
 # test job
 amdclang_rocm_6.0.2:
   variables:
-    COMPILER: "amdclang-rocm-6.0.2-gfx90a"
+    COMPILER: "amdclang-rocm-6.2.1-gfx90a"
   extends: .job_on_tioga
