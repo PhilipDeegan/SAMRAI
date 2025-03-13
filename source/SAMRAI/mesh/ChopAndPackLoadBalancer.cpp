@@ -1084,12 +1084,16 @@ ChopAndPackLoadBalancer::exchangeBoxContainersAndWeightArrays(
    mpi.Allgather(&size_in, 1, MPI_INT, &counts[0], 1, MPI_INT);
    std::vector<int> displs(mpi.getSize());
    displs[0] = 0;
-   size_t total_count = counts[0];
    for (size_t i = 1; i < counts.size(); ++i) {
       displs[i] = displs[i - 1] + counts[i - 1];
+   }
+#ifdef DEBUG_CHECK_ASSERTIONS
+   size_t total_count = counts[0];
+   for (size_t i = 1; i < counts.size(); ++i) {
       total_count += counts[i];
    }
    TBOX_ASSERT(weights_out.size() == total_count);
+#endif
 
    mpi.Allgatherv(static_cast<void *>(wgts_in_ptr),
       size_in,

@@ -1393,8 +1393,6 @@ TileClustering::coalesceClusters(
 
       d_object_timers->t_coalesce->start();
 
-      hier::LocalId local_id(0);
-
       const int nblocks =
          static_cast<int>(tile_box_level.getGridGeometry()->getNumberBlocks());
 

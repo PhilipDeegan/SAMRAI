@@ -197,7 +197,7 @@ void CartesianOuterfaceDoubleWeightedAverage::coarsen(
                coarse_box_fn1.setUpper(1, coarse_box.lower(1));
                jf0bounds = filo(0);  // for face-normal 0
                kf1bounds = filo(1);  // for face-normal 1
-            } else if (side == 1) {
+            } else { // side == 1
                coarse_box_fn0.setLower(0, coarse_box.upper(0));
                coarse_box_fn0.setUpper(0, coarse_box.upper(0));
                coarse_box_fn1.setLower(1, coarse_box.upper(1));
@@ -292,7 +292,7 @@ void CartesianOuterfaceDoubleWeightedAverage::coarsen(
             if (side == 0) {
                coarse_box_fn0.setUpper(0, coarse_box.lower(0));
                if0bounds = filo(0);  // for face-normal 0
-            } else if (side == 1) {
+            } else { // side == 1
                coarse_box_fn0.setLower(0, coarse_box.upper(0));
                coarse_box_fn0.setUpper(0, coarse_box.upper(0));
                if0bounds = fihi(0);
@@ -330,7 +330,7 @@ void CartesianOuterfaceDoubleWeightedAverage::coarsen(
             if (side == 0) {
                coarse_box_fn1.setUpper(1, coarse_box_fn1.lower(1));
                jf1bounds = filo(1);  // for face-normal 1
-            } else if (side == 1) {
+            } else { // side == 1
                coarse_box_fn1.setLower(1, coarse_box_fn1.upper(1));
                jf1bounds = fihi(1);
             }
@@ -359,7 +359,7 @@ void CartesianOuterfaceDoubleWeightedAverage::coarsen(
             if (side == 0) {
                coarse_box_fn2.setUpper(2, coarse_box.lower(2));
                kf2bounds = filo(2);  // for face-normal 2
-            } else if (side == 1) {
+            } else { // side == 1
                coarse_box_fn2.setLower(2, coarse_box.upper(2));
                coarse_box_fn2.setUpper(2, coarse_box.upper(2));
                kf2bounds = fihi(2);
