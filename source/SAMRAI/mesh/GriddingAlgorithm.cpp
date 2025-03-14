@@ -3465,8 +3465,6 @@ GriddingAlgorithm::findRefinementBoxes(
       }
    }
 
-   hier::LocalId first_local_id(0);
-
    if (!bounding_container.empty()) {
       d_box_generator->setMinimumCellRequest(
          d_hierarchy->getMinimumCellRequest(tag_ln+1));

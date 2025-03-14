@@ -2117,7 +2117,9 @@ BaseGridGeometry::readBlockDataFromInput(
                       */
                      const Index& sing_node = sing_node_box.lower();
 
-                     bool found_corner[d_dim.getValue()];
+                     std::unique_ptr<bool[]> found_corner =
+                        std::make_unique<bool[]>(d_dim.getValue());
+
                      for (int d = 0; d < d_dim.getValue(); ++d) {
                         found_corner[d] = false;
                      }
@@ -2184,7 +2186,9 @@ BaseGridGeometry::readBlockDataFromInput(
 
                      const Index& sing_node = sing_node_box.lower();
 
-                     bool found_corner[d_dim.getValue()];
+                     std::unique_ptr<bool[]> found_corner =
+                        std::make_unique<bool[]>(d_dim.getValue());
+
                      for (int d = 0; d < d_dim.getValue(); ++d) {
                         found_corner[d] = false;
                      }
