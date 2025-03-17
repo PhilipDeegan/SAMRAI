@@ -41,6 +41,10 @@ if (ENABLE_CUDA)
   set(linadv_depends ${linadv_depends} cuda)
 endif ()
 
+if (ENABLE_HIP)
+  set(linadv_depends ${linadv_depends} blt::hip)
+endif ()
+
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTESTING=1") 
 

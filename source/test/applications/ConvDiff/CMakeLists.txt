@@ -31,6 +31,10 @@ endif ()
 if (ENABLE_CUDA)
   set(convdiff_depends ${convdiff_depends} cuda)
 endif ()
+
+if (ENABLE_HIP)
+  set(convdiff_depends ${convdiff_depends} blt::hip)
+endif ()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTESTING=1") 
 
 blt_add_executable(

@@ -50,6 +50,9 @@ endif ()
 if (ENABLE_CUDA)
   set(euler_depends ${euler_depends} cuda)
 endif ()
+if (ENABLE_HIP)
+  set(euler_depends ${euler_depends} blt::hip)
+endif ()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTESTING=1") 
 
 blt_add_executable(
