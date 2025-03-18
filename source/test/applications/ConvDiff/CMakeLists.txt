@@ -48,6 +48,8 @@ target_include_directories(
 
 set_target_properties(convdiff PROPERTIES LINKER_LANGUAGE CXX)
 
+target_compile_definitions(convdiff PRIVATE TESTING=1)
+
 file (GLOB test_inputs ${CMAKE_CURRENT_SOURCE_DIR}/test_inputs/*.input)
 file (GLOB test_baselines ${CMAKE_CURRENT_SOURCE_DIR}/test_inputs/*boxes*)
 

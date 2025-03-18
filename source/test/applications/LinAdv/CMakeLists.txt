@@ -45,13 +45,14 @@ if (ENABLE_HIP)
   set(linadv_depends ${linadv_depends} blt::hip)
 endif ()
 
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTESTING=1") 
 
 blt_add_executable(
   NAME linadv
   SOURCES ${linadv_sources}
   DEPENDS_ON ${linadv_depends})
+
+target_compile_definitions(linadv PRIVATE TESTING=1)
 
 target_include_directories( linadv
   PUBLIC ${PROJECT_SOURCE_DIR}/source/test/applications/LinAdv)
