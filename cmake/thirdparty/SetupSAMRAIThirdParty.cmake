@@ -37,7 +37,7 @@ if (ENABLE_RAJA OR RAJA_DIR)
   endif ()
 
   if (ENABLE_HIP)
-    list (APPEND raja_depends hip)
+    list (APPEND raja_depends blt::hip)
   endif ()
 
   if (ENABLE_OPENMP)
