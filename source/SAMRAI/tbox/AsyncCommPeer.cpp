@@ -274,7 +274,7 @@ template<class TYPE>
 bool
 AsyncCommPeer<TYPE>::beginSend(
    const TYPE* buffer,
-   int size,
+   size_t size,
    bool automatic_push_to_completion_queue)
 {
    if (getNextTaskOp() != none) {

@@ -4241,7 +4241,7 @@ RefineSchedule::communicateFillBoxes(
       comms[mesg_number].setMPI(src_to_dst.getMPI());
       comms[mesg_number].setMPITag(0, 1);
       comms[mesg_number].beginSend(&send_mesgs[*si][0],
-         static_cast<int>(send_mesgs[*si].size()));
+         send_mesgs[*si].size());
       if (comms[mesg_number].isDone()) {
          comms[mesg_number].pushToCompletionQueue();
       }

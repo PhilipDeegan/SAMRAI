@@ -2410,7 +2410,7 @@ BalanceUtilities::prebalanceBoxLevel(
          box.putToIntBuffer(&buffer[box_count * buf_size]);
          ++box_count;
       }
-      box_send->beginSend(buffer, buf_size * num_sending_boxes);
+      box_send->beginSend(buffer, static_cast<size_t>(buf_size * num_sending_boxes));
 
       if (buffer) {
          delete[] buffer;
@@ -2455,7 +2455,7 @@ BalanceUtilities::prebalanceBoxLevel(
 
                   id_buffer[b] = tmp_box_id.getLocalId().getValue();
                }
-               id_send[i].beginSend(id_buffer, num_boxes);
+               id_send[i].beginSend(id_buffer, static_cast<size_t>(num_boxes));
 
                if (id_buffer) {
                   delete[] id_buffer;
