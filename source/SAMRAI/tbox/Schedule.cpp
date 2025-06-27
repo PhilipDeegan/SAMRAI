@@ -44,7 +44,7 @@ const int Schedule::s_default_second_tag = 1;
 #if defined(HAVE_CUDA) || defined(HAVE_HIP)
 const size_t Schedule::s_default_first_message_length = 0;
 #else
-const size_t Schedule::s_default_first_message_length = 0;
+const size_t Schedule::s_default_first_message_length = 1000;
 #endif
 
 const std::string Schedule::s_default_timer_prefix("tbox::Schedule");
