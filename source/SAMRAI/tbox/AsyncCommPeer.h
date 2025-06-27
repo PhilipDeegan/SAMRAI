@@ -14,6 +14,7 @@
 
 #include "SAMRAI/tbox/AllocatorDatabase.h"
 #include "SAMRAI/tbox/AsyncCommStage.h"
+#include "SAMRAI/tbox/MathUtilities.h"
 #include "SAMRAI/tbox/SAMRAI_MPI.h"
 #include "SAMRAI/tbox/Timer.h"
 #include "SAMRAI/tbox/TimerManager.h"
@@ -71,6 +72,7 @@ private:
                  recv_start,
                  recv_check0,
                  recv_check1,
+                 recv_check2,
                  none };
 
 public:
@@ -160,7 +162,8 @@ public:
    limitFirstDataLength(
       size_t max_first_data_len)
    {
-      d_max_first_data_len = max_first_data_len;
+      d_max_first_data_len = s_int_max > max_first_data_len ?
+                             max_first_data_len : s_int_max;
    }
    //@}
 
@@ -262,6 +265,12 @@ public:
    getSecondaryTag() const
    {
       return d_tag1;
+   }
+
+   int
+   getTertiaryTag() const
+   {
+      return d_tag2;
    }
 
    //@{
@@ -483,12 +492,22 @@ public:
       std::ostream& co) const;
 
 private:
+#if 0
+   void sendLargeChunks(
+      size_t first_chunk_count,
+      size_t second_chunk_count);
+
+   size_t recvLargeChunks(
+      size_t first_chunk_count,
+      size_t second_chunk_count);
+#endif
+
    /*
     * @brief Data structure for combining integer overhead data along with
     * user data TYPE in the same MPI message.
     */
    union FlexData {
-      int d_i;
+      unsigned int d_i;
       TYPE d_t;
       FlexData();
    };
@@ -633,16 +652,21 @@ private:
     */
    int d_tag1;
 
+   int d_tag2;
+
    /*!
     * @brief Whether send completion should be reported when
     * AsyncCommPeer_DEBUG_OUTPUT is defined.
     *
     * This is non-essential data used in debugging.
     */
-   bool d_report_send_completion[2];
+   bool d_report_send_completion[3];
 
    // Make some temporary variable statuses to avoid repetitious allocations.
    int d_mpi_err;
+
+   static constexpr unsigned int s_prelim_max = MathUtilities<int>::getMax() - 512;
+   static constexpr unsigned int s_int_max = s_prelim_max - (s_prelim_max % sizeof(FlexData));
 
 #ifdef HAVE_UMPIRE
    umpire::TypedAllocator<char> d_allocator;
