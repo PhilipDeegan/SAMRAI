@@ -288,7 +288,7 @@ AsyncCommPeer<TYPE>::beginSend(
    checkMPIParams();
 #endif
    if (size > s_int_max * 2) {
-      TBOX_ERROR("Attempting to send buffer of size " << size << " which is greater than the allowed maximum of " << s_int_max * 2):
+      TBOX_ERROR("Attempting to send buffer of size " << size << " which is greater than the allowed maximum of " << s_int_max * 2);
    }
    d_external_buf = buffer;
    d_full_count = size;
