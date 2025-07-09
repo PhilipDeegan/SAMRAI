@@ -287,8 +287,10 @@ AsyncCommPeer<TYPE>::beginSend(
 #ifdef DEBUG_CHECK_ASSERTIONS
    checkMPIParams();
 #endif
-   if (size > d_max_first_data_len + s_int_max * (SAMRAI_MAX_BUFFERS-1)) {
-      TBOX_ERROR("Attempting to send buffer of size " << size << " which is greater than the allowed maximum of " << d_max_first_data_len + s_int_max * (SAMRAI_MAX_BUFFERS-1));
+   size_t max_buffer = d_max_first_data_len +
+      static_cast<size_t>(s_int_max) * (SAMRAI_MAX_BUFFERS-1);
+   if (size > max_buffer) {
+      TBOX_ERROR("Attempting to send buffer of size " << size << " which is greater than the allowed maximum of " << max_buffer);
    }
    d_external_buf = buffer;
    d_full_count = size;
