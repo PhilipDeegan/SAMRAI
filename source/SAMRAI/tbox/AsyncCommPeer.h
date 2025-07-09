@@ -23,6 +23,8 @@
 #include <algorithm>
 #include <cstring>
 
+#define SAMRAI_MAX_BUFFERS 10 
+
 namespace SAMRAI {
 namespace tbox {
 
@@ -71,8 +73,7 @@ private:
                  send_check,
                  recv_start,
                  recv_check0,
-                 recv_check1,
-                 recv_check2,
+                 recv_check,
                  none };
 
 public:
@@ -507,7 +508,7 @@ private:
     * user data TYPE in the same MPI message.
     */
    union FlexData {
-      unsigned int d_i;
+      unsigned int d_uint;
       TYPE d_t;
       FlexData();
    };
@@ -654,19 +655,22 @@ private:
 
    int d_tag2;
 
+   unsigned int d_max_sends = 3;
+
    /*!
     * @brief Whether send completion should be reported when
     * AsyncCommPeer_DEBUG_OUTPUT is defined.
     *
     * This is non-essential data used in debugging.
     */
-   bool d_report_send_completion[3];
+   bool d_report_send_completion[SAMRAI_MAX_BUFFERS];
 
    // Make some temporary variable statuses to avoid repetitious allocations.
    int d_mpi_err;
 
-   static constexpr unsigned int s_prelim_max = MathUtilities<int>::getMax() - 512;
-   static constexpr unsigned int s_int_max = s_prelim_max - (s_prelim_max % sizeof(FlexData));
+   static constexpr unsigned int s_prelim_max = MathUtilities<int>::getMax() - 256;
+   static constexpr unsigned int s_int_max = s_prelim_max - (s_prelim_max % (128*sizeof(FlexData)));
+   static constexpr unsigned int s_onemsg_signal = MathUtilities<int>::getMax();
 
 #ifdef HAVE_UMPIRE
    umpire::TypedAllocator<char> d_allocator;

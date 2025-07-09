@@ -112,7 +112,7 @@ template<class TYPE>
 AsyncCommPeer<TYPE>::AsyncCommPeer(
    AsyncCommStage* stage,
    AsyncCommStage::Handler* handler):
-   AsyncCommStage::Member(3, stage, handler),
+   AsyncCommStage::Member(SAMRAI_MAX_BUFFERS, stage, handler),
    d_peer_rank(-1),
    d_base_op(undefined),
    d_next_task_op(none),
@@ -197,7 +197,7 @@ AsyncCommPeer<TYPE>::initialize(
       TBOX_ERROR("It is illegal to re-initialize a AsyncCommPeer\n"
          << "while it has current messages.\n");
    }
-   attachStage(3, stage);
+   attachStage(SAMRAI_MAX_BUFFERS, stage);
    setHandler(handler);
    d_base_op = undefined;
    d_next_task_op = none;
@@ -287,8 +287,8 @@ AsyncCommPeer<TYPE>::beginSend(
 #ifdef DEBUG_CHECK_ASSERTIONS
    checkMPIParams();
 #endif
-   if (size > s_int_max * 2) {
-      TBOX_ERROR("Attempting to send buffer of size " << size << " which is greater than the allowed maximum of " << s_int_max * 2);
+   if (size > d_max_first_data_len + s_int_max * (SAMRAI_MAX_BUFFERS-1)) {
+      TBOX_ERROR("Attempting to send buffer of size " << size << " which is greater than the allowed maximum of " << d_max_first_data_len + s_int_max * (SAMRAI_MAX_BUFFERS-1));
    }
    d_external_buf = buffer;
    d_full_count = size;
@@ -369,8 +369,8 @@ AsyncCommPeer<TYPE>::checkSend(
             std::memcpy(static_cast<void*>(d_internal_buf),
                static_cast<const void*>(d_external_buf),
                d_full_count * sizeof(TYPE));
-            d_internal_buf[first_chunk_count].d_i = 0; // Indicates first message.
-            d_internal_buf[first_chunk_count + 1].d_i =
+            d_internal_buf[first_chunk_count].d_uint = s_onemsg_signal; // Special value indicating that only one message is sent
+            d_internal_buf[first_chunk_count + 1].d_uint =
                static_cast<unsigned int>(d_full_count); // True data count.
 
             TBOX_ASSERT(req[0] == MPI_REQUEST_NULL);
@@ -409,16 +409,24 @@ AsyncCommPeer<TYPE>::checkSend(
              * d_internal_buf.
              */
 
-            const size_t first_chunk_count = getNumberOfFlexData(
+
+            size_t first_chunk_count = getNumberOfFlexData(
                   d_max_first_data_len);
 
             size_t second_chunk_count = getNumberOfFlexData(
                   d_full_count - d_max_first_data_len);
             size_t second_data_len = d_full_count - d_max_first_data_len;
             size_t third_chunk_count = 0;
+            size_t num_max_buffers = 0;
+            size_t last_buf_size = second_data_len;
+
             if (second_data_len > s_int_max &&
                 s_int_max >= d_max_first_data_len) {
+               num_max_buffers = second_data_len / s_int_max; 
+               last_buf_size = second_data_len % s_int_max; 
+            }
 
+            if (num_max_buffers > 0 && last_buf_size > 0) {
                second_data_len = s_int_max;
 
                second_chunk_count = getNumberOfFlexData(second_data_len);
@@ -427,16 +435,20 @@ AsyncCommPeer<TYPE>::checkSend(
                   d_full_count - d_max_first_data_len - second_data_len);
             }
 
-            resizeBuffer(first_chunk_count + 2 + second_chunk_count + 2 +
+            resizeBuffer(first_chunk_count + 2 + second_chunk_count +
                          third_chunk_count);
 
             // Stuff and send first message.
-            std::memcpy(static_cast<void*>(d_internal_buf),
-               static_cast<const void*>(d_external_buf),
-               d_max_first_data_len * (sizeof(TYPE)));
-            d_internal_buf[first_chunk_count].d_i = 0;
-            d_internal_buf[first_chunk_count + 1].d_i =
-               static_cast<unsigned int>(d_full_count);
+            if (d_max_first_data_len > 0) {
+               std::memcpy(static_cast<void*>(d_internal_buf),
+                  static_cast<const void*>(d_external_buf),
+                  d_max_first_data_len * (sizeof(TYPE)));
+            }
+
+            d_internal_buf[first_chunk_count].d_uint =
+               static_cast<unsigned int>(num_max_buffers);
+            d_internal_buf[first_chunk_count + 1].d_uint =
+               static_cast<unsigned int>(last_buf_size);
             TBOX_ASSERT(req[0] == MPI_REQUEST_NULL);
 #ifdef DEBUG_CHECK_ASSERTIONS
             req[0] = MPI_REQUEST_NULL;
@@ -456,38 +468,56 @@ AsyncCommPeer<TYPE>::checkSend(
                   << ",  mpi_tag = " << d_tag0);
             }
 
-            // Stuff and send second message.
-            std::memcpy(static_cast<void*>(&d_internal_buf[first_chunk_count + 2]),
-               static_cast<const void*>(d_external_buf + d_max_first_data_len),
-               (d_full_count - d_max_first_data_len) * (sizeof(TYPE)));
-            d_internal_buf[first_chunk_count + second_chunk_count + 2].d_i = 1;
-            d_internal_buf[first_chunk_count + second_chunk_count
-                           + 3].d_i = static_cast<unsigned int>(d_full_count);
-            TBOX_ASSERT(req[1] == MPI_REQUEST_NULL);
-#ifdef DEBUG_CHECK_ASSERTIONS
-            req[1] = MPI_REQUEST_NULL;
-#endif
-            t_send_timer->start();
-            d_mpi_err = d_mpi.Isend(
-                  &d_internal_buf[first_chunk_count + 2],
-                  static_cast<int>(sizeof(FlexData) * (second_chunk_count + 2)),
-                  MPI_BYTE,
-                  d_peer_rank,
-                  d_tag1,
-                  &req[1]);
-            t_send_timer->stop();
-#ifdef AsyncCommPeer_DEBUG_OUTPUT
-            d_report_send_completion[1] = true;
-            plog << "tag1-" << d_tag1
-                 << " sending " << d_full_count << " TYPEs + 4 int as "
-                 << sizeof(FlexData) * (first_chunk_count + 2) << " and "
-                 << sizeof(FlexData) * (second_chunk_count + 2)
-                 << " byte chunks to " << d_peer_rank << " in checkSend"
-                 << std::endl;
-#endif
+            size_t buf_counter = first_chunk_count + 2;
+            size_t external_counter = d_max_first_data_len;
+            size_t remaining_chunks = (last_buf_size > 0) ?
+                                       num_max_buffers + 1 : num_max_buffers;
 
+            if (remaining_chunks) {
+               std::memcpy(static_cast<void*>(&d_internal_buf[buf_counter]),
+                  static_cast<const void*>(d_external_buf + external_counter),
+                  (d_full_count - external_counter) * (sizeof(TYPE)));
+            }
+
+            for (size_t nsend = 1; nsend <= remaining_chunks; ++nsend) {
+
+               size_t this_chunk_count = nsend <= num_max_buffers ?
+                  getNumberOfFlexData(s_int_max) :
+                  getNumberOfFlexData(last_buf_size);
+
+               TBOX_ASSERT(req[nsend] == MPI_REQUEST_NULL);
+#ifdef DEBUG_CHECK_ASSERTIONS
+               req[nsend] = MPI_REQUEST_NULL;
+#endif
+               t_send_timer->start();
+               d_mpi_err = d_mpi.Isend(
+                     &d_internal_buf[buf_counter],
+                     static_cast<int>(sizeof(FlexData) * this_chunk_count),
+                     MPI_BYTE,
+                     d_peer_rank,
+                     d_tag0 + nsend,
+                     &req[nsend]);
+
+               t_send_timer->stop();
+#ifdef AsyncCommPeer_DEBUG_OUTPUT
+               d_report_send_completion[1] = true;
+               plog << "tag1-" << d_tag1
+                    << " sending " << d_full_count << " TYPEs + 2 int as "
+                    << sizeof(FlexData) * (first_chunk_count + 2) << " and "
+                    << sizeof(FlexData) * (second_chunk_count)
+                    << " byte chunks to " << d_peer_rank << " in checkSend"
+                    << std::endl;
+#endif
+               buf_counter += this_chunk_count;
+               external_counter += s_int_max;
+
+               if (nsend+1 > d_max_sends) {
+                  d_max_sends = nsend + 1;
+               }
+            }
+#if 0
             if (third_chunk_count > 0) {
-               std::memcpy(static_cast<void*>(&d_internal_buf[first_chunk_count + second_chunk_count + 4] ),
+               std::memcpy(static_cast<void*>(&d_internal_buf[first_chunk_count + second_chunk_count + 2] ),
                   static_cast<const void*>(d_external_buf + d_max_first_data_len+ second_data_len), 
                   (d_full_count - d_max_first_data_len - second_data_len) * (sizeof(TYPE)));
                TBOX_ASSERT(req[2] == MPI_REQUEST_NULL);
@@ -496,7 +526,7 @@ AsyncCommPeer<TYPE>::checkSend(
 #endif
                t_send_timer->start();
                d_mpi_err = d_mpi.Isend(
-                  &d_internal_buf[first_chunk_count + second_chunk_count + 4],
+                  &d_internal_buf[first_chunk_count + second_chunk_count + 2],
                   static_cast<int>(sizeof(FlexData) * (third_chunk_count)),
                   MPI_BYTE,
                   d_peer_rank,
@@ -506,20 +536,21 @@ AsyncCommPeer<TYPE>::checkSend(
 #ifdef AsyncCommPeer_DEBUG_OUTPUT
                d_report_send_completion[2] = true;
                plog << "tag2-" << d_tag2
-                    << " sending " << d_full_count << " TYPEs + 4 int as "
+                    << " sending " << d_full_count << " TYPEs + 2 int as "
                     << sizeof(FlexData) * (first_chunk_count + 2) << " and "
-                    << sizeof(FlexData) * (second_chunk_count + 2) << " and "
-                    << sizeof(FlexData) * (third_chunk_count + 2)
+                    << sizeof(FlexData) * (second_chunk_count) << " and "
+                    << sizeof(FlexData) * (third_chunk_count)
                     << " byte chunks to " << d_peer_rank << " in checkSend"
                     << std::endl;
 #endif
  
             }
+#endif
          }
       }
       if (d_next_task_op == send_start || d_next_task_op == send_check) {
          // Determine if send completed.
-         for (int ic = 0; ic < 3; ++ic) {
+         for (unsigned int ic = 0; ic < SAMRAI_MAX_BUFFERS; ++ic) {
             if (req[ic] != MPI_REQUEST_NULL) {
                SAMRAI_MPI::Status* mpi_status = getStatusPointer();
                resetStatus(mpi_status[ic]);
@@ -545,8 +576,17 @@ AsyncCommPeer<TYPE>::checkSend(
             }
          }
 
-         if (req[0] != MPI_REQUEST_NULL || req[1] != MPI_REQUEST_NULL ||
-             req[2] != MPI_REQUEST_NULL) {
+         bool complete = true;
+         for (unsigned int ic = 0; ic < d_max_sends; ++ic) {
+            if (req[ic] != MPI_REQUEST_NULL) {
+               complete = false;
+               break;
+            }
+         }
+
+         //if (req[0] != MPI_REQUEST_NULL || req[1] != MPI_REQUEST_NULL ||
+         //    req[2] != MPI_REQUEST_NULL) {
+         if (!complete) {
             // Sends not completed.  Need to repeat send_check.
             d_next_task_op = send_check;
          } else {
@@ -733,9 +773,17 @@ AsyncCommPeer<TYPE>::checkRecv(
             TBOX_ASSERT(mpi_status[0].MPI_SOURCE == d_peer_rank);
             TBOX_ASSERT(req[0] == MPI_REQUEST_NULL);
             // Get full count embedded in message.
-            d_full_count = d_first_recv_buf[count - 1].d_i;
+            size_t num_max_buffers = d_first_recv_buf[count - 2].d_uint;
+            size_t last_buf_size = d_first_recv_buf[count - 1].d_uint;
+            if (num_max_buffers == s_onemsg_signal) {
+               d_full_count = last_buf_size;
+            } else {
+               d_full_count = d_max_first_data_len +
+                  (num_max_buffers * s_int_max) + last_buf_size;
+            }
+            //d_full_count = d_first_recv_buf[count - 1].d_uint;
 
-            TBOX_ASSERT(d_first_recv_buf[count - 2].d_i == 0); // Sequence number check.
+            //TBOX_ASSERT(d_first_recv_buf[count - 2].d_uint == 0); // Sequence number check.
             TBOX_ASSERT(getNumberOfFlexData(d_full_count) >= count - 2);
 
             if (d_full_count > d_max_first_data_len) {
@@ -756,15 +804,15 @@ AsyncCommPeer<TYPE>::checkRecv(
 
                // If the first Irecv didn't use d_internal_buf, then
                // the message in the second Irecv will contain the entire
-               // buffer of data for this communicattion instance, and we need
+               // buffer of data for this communication instance, and we need
                // to add 2 to the buffer size to make room for the trailing
                // metadata.
-               if (d_internal_buf_size == 0) {
-                  new_internal_buf_size += 2;
-               }
+               //if (d_internal_buf_size == 0) {
+               //   new_internal_buf_size += 2;
+               //}
                resizeBuffer(new_internal_buf_size);
 
-               size_t third_chunk_count = 0;
+               //size_t third_chunk_count = 0;
                if (second_data_len > s_int_max &&
                    s_int_max >= d_max_first_data_len) {
 
@@ -772,60 +820,47 @@ AsyncCommPeer<TYPE>::checkRecv(
 
                   second_chunk_count = getNumberOfFlexData(second_data_len);
 
-                  third_chunk_count = getNumberOfFlexData(
-                     d_full_count - d_max_first_data_len - second_data_len);
+                  //third_chunk_count = getNumberOfFlexData(
+                  //   d_full_count - d_max_first_data_len - second_data_len);
                }
 
-               TBOX_ASSERT(req[1] == MPI_REQUEST_NULL);
-               req[1] = MPI_REQUEST_NULL;
-               t_recv_timer->start();
-               d_mpi_err = d_mpi.Irecv(
-                     (TYPE *)(d_internal_buf) + d_max_first_data_len,
-                     static_cast<int>(sizeof(FlexData) * (second_chunk_count + 2)),
-                     MPI_BYTE,
-                     d_peer_rank,
-                     d_tag1,
-                     &req[1]);
-               t_recv_timer->stop();
-               if (d_mpi_err != MPI_SUCCESS) {
-                  TBOX_ERROR("Error in MPI_Irecv.\n"
-                     << "mpi_communicator = " << d_mpi.getCommunicator()
-                     << ",  mpi_tag = " << d_tag0);
-               }
-#ifdef AsyncCommPeer_DEBUG_OUTPUT
-               plog << "tag1-" << d_tag1
-                    << " receiving " << second_data_len
-                    << " from " << d_peer_rank
-                    << " in checkRecv"
-                    << std::endl;
-#endif
-               if (third_chunk_count > 0) {
-                  TBOX_ASSERT(req[2] == MPI_REQUEST_NULL);
-                  req[2] = MPI_REQUEST_NULL;
+               size_t internal_counter = d_max_first_data_len;
+               size_t remaining_chunks = (last_buf_size > 0) ?
+                                          num_max_buffers + 1 : num_max_buffers;
+
+               for (size_t nrecv = 1; nrecv <= remaining_chunks; ++nrecv) {
+
+                  TBOX_ASSERT(req[nrecv] == MPI_REQUEST_NULL);
+                  req[nrecv] = MPI_REQUEST_NULL;
+
+                  size_t this_chunk_count = nrecv <= num_max_buffers ?
+                     getNumberOfFlexData(s_int_max) :
+                     getNumberOfFlexData(last_buf_size);
+
+
                   t_recv_timer->start();
                   d_mpi_err = d_mpi.Irecv(
-                        (TYPE *)(d_internal_buf) + d_max_first_data_len +
-                        second_data_len,
-                        static_cast<int>(sizeof(FlexData) * third_chunk_count),
+                        (TYPE *)(d_internal_buf) + internal_counter,
+                        static_cast<int>(sizeof(FlexData) * this_chunk_count),
                         MPI_BYTE,
                         d_peer_rank,
-                        d_tag2,
-                        &req[2]);
+                        d_tag0 + nrecv,
+                        &req[nrecv]);
                   t_recv_timer->stop();
-
                   if (d_mpi_err != MPI_SUCCESS) {
                      TBOX_ERROR("Error in MPI_Irecv.\n"
                         << "mpi_communicator = " << d_mpi.getCommunicator()
-                        << ",  mpi_tag = " << d_tag0);
+                        << ",  mpi_tag = " << d_tag0 + nrecv);
                   }
 #ifdef AsyncCommPeer_DEBUG_OUTPUT
-                  plog << "tag2-" << d_tag2
-                       << " receiving " << d_full_count - d_max_first_data_len
-                                           - second_data_len
+                  plog << "tag1-" << d_tag1
+                       << " receiving " << second_data_len
                        << " from " << d_peer_rank
                        << " in checkRecv"
                        << std::endl;
 #endif
+
+                  internal_counter += s_int_max;
 
                }
             } else {
@@ -841,115 +876,34 @@ AsyncCommPeer<TYPE>::checkRecv(
 
       if (!breakout &&
             (d_next_task_op == recv_start || d_next_task_op == recv_check0 ||
-             d_next_task_op == recv_check1 || d_next_task_op == recv_check2)) { 
+             d_next_task_op == recv_check)) {
 
          task_entered = true;
  
-         // Check on the second message.
-
-         if (req[1] != MPI_REQUEST_NULL) {
-            resetStatus(mpi_status[1]);
-            d_mpi_err = SAMRAI_MPI::Test(&req[1], &flag, &mpi_status[1]);
-            if (d_mpi_err != MPI_SUCCESS) {
-               TBOX_ERROR("Error in MPI_Test.\n"
-                  << "Error-in-status is "
-                  << (d_mpi_err == MPI_ERR_IN_STATUS) << '\n'
-                  << "MPI_ERROR value is " << mpi_status[1].MPI_ERROR
-                  << '\n'
-                  << "mpi_communicator = " << d_mpi.getCommunicator()
-                  << ",  mpi_tag = " << d_tag1);
-            }
-#if 0
-            if (flag == 1) {
-               // Second message received.
-               const size_t first_chunk_count = getNumberOfFlexData(
-                     d_max_first_data_len);
-               size_t second_chunk_count = getNumberOfFlexData(
-                     d_full_count - d_max_first_data_len);
-               size_t second_data_len = d_full_count - d_max_first_data_len;
-               if (second_data_len > s_int_max && second_data_len < s_int_max*2 &&
-                   s_int_max >= d_max_first_data_len) {
-
-                  second_data_len = s_int_max;
-                  second_chunk_count = getNumberOfFlexData(second_data_len);
-
+         // Check on the messages after 0.
+         for (int rc = 1; rc < SAMRAI_MAX_BUFFERS; ++rc) {
+            if (req[rc] != MPI_REQUEST_NULL) {
+               resetStatus(mpi_status[rc]);
+               d_mpi_err = SAMRAI_MPI::Test(&req[rc], &flag, &mpi_status[rc]);
+               if (d_mpi_err != MPI_SUCCESS) {
+                  TBOX_ERROR("Error in MPI_Test.\n"
+                     << "Error-in-status is "
+                     << (d_mpi_err == MPI_ERR_IN_STATUS) << '\n'
+                     << "MPI_ERROR value is " << mpi_status[rc].MPI_ERROR
+                     << '\n'
+                     << "mpi_communicator = " << d_mpi.getCommunicator()
+                     << ",  mpi_tag = " << d_tag0+rc);
                }
-
-#ifdef DEBUG_CHECK_ASSERTIONS
-               int icount = -1;
-               SAMRAI_MPI::Get_count(&mpi_status[1], MPI_BYTE, &icount);
-               const size_t count = icount / sizeof(FlexData); // Convert byte count to item count.
-#ifdef AsyncCommPeer_DEBUG_OUTPUT
-               plog << "tag1-" << d_tag1
-                    << " received " << count << " FlexType from "
-                    << d_peer_rank << " in checkRecv"
-                    << std::endl;
-#endif
-               TBOX_ASSERT(count == second_chunk_count + 2);
-               TBOX_ASSERT(mpi_status[1].MPI_TAG == d_tag1);
-               TBOX_ASSERT(mpi_status[1].MPI_SOURCE == d_peer_rank);
-               TBOX_ASSERT(req[1] == MPI_REQUEST_NULL);
-#endif
             }
-#endif
          }
 
-         if (req[2] != MPI_REQUEST_NULL) {
-            resetStatus(mpi_status[2]);
-            d_mpi_err = SAMRAI_MPI::Test(&req[2], &flag, &mpi_status[2]);
-            if (d_mpi_err != MPI_SUCCESS) {
-               TBOX_ERROR("Error in MPI_Test.\n"
-                  << "Error-in-status is "
-                  << (d_mpi_err == MPI_ERR_IN_STATUS) << '\n'
-                  << "MPI_ERROR value is " << mpi_status[2].MPI_ERROR
-                  << '\n'
-                  << "mpi_communicator = " << d_mpi.getCommunicator()
-                  << ",  mpi_tag = " << d_tag2);
+         for (int rc = 1; rc < SAMRAI_MAX_BUFFERS; ++rc) {
+            if (req[rc] != MPI_REQUEST_NULL) {
+               d_next_task_op = recv_check;
+               break;
+            } else {
+               d_next_task_op = none;
             }
-#if 0
-            if (flag == 1) {
-               // Third message received.
-               const size_t first_chunk_count = getNumberOfFlexData(
-                     d_max_first_data_len);
-               size_t second_chunk_count = getNumberOfFlexData(
-                     d_full_count - d_max_first_data_len);
-               size_t second_data_len = d_full_count - d_max_first_data_len;
-               size_t third_chunk_count = 0;
-               if (second_data_len > s_int_max && second_data_len < s_int_max*2 &&
-                   s_int_max >= d_max_first_data_len) {
-
-                  second_data_len = s_int_max;
-
-                  second_chunk_count = getNumberOfFlexData(second_data_len);
-
-                  third_chunk_count = getNumberOfFlexData(
-                     d_full_count - d_max_first_data_len - second_data_len);
-               }
-
-#ifdef DEBUG_CHECK_ASSERTIONS
-               int icount = -1;
-               SAMRAI_MPI::Get_count(&mpi_status[2], MPI_BYTE, &icount);
-               const size_t count = icount / sizeof(FlexData); // Convert byte count to item count.
-#ifdef AsyncCommPeer_DEBUG_OUTPUT
-               plog << "tag2-" << d_tag2
-                    << " received " << count << " FlexType from "
-                    << d_peer_rank << " in checkRecv"
-                    << std::endl;
-#endif
-               TBOX_ASSERT(count == third_chunk_count);
-               TBOX_ASSERT(mpi_status[2].MPI_TAG == d_tag2);
-               TBOX_ASSERT(mpi_status[2].MPI_SOURCE == d_peer_rank);
-               TBOX_ASSERT(req[2] == MPI_REQUEST_NULL);
-#endif
-            }
-#endif
-         }
-         if (req[1] != MPI_REQUEST_NULL) {
-            d_next_task_op = recv_check1;
-         } else if (req[2] != MPI_REQUEST_NULL) {
-            d_next_task_op = recv_check2;
-         } else {
-            d_next_task_op = none;
          }
       }
 
@@ -1229,7 +1183,7 @@ template<class TYPE>
 AsyncCommPeer<TYPE>::FlexData::FlexData()
 {
 #ifdef DEBUG_INITIALIZE_UNDEFINED
-   memset(&d_i, 0, std::max(sizeof(int), sizeof(TYPE)));
+   memset(&d_uint, 0, std::max(sizeof(int), sizeof(TYPE)));
 #endif
 }
 
