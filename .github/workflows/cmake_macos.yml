@@ -39,5 +39,5 @@ jobs:
         [ "${{ matrix.mode }}" = "shared" ] && CMAKE_CONFIG="-DBUILD_SHARED_LIBS=ON"
         cmake $GITHUB_WORKSPACE -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
               -DCMAKE_BUILD_TYPE=Release $CMAKE_CONFIG
-        make -j 2 VERBOSE=1
+        make VERBOSE=1
         ctest -j 2 --output-on-failure
