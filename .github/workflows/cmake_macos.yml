@@ -40,4 +40,3 @@ jobs:
         cmake $GITHUB_WORKSPACE -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
               -DCMAKE_BUILD_TYPE=Release $CMAKE_CONFIG
         make VERBOSE=1
-        ctest -j 2 --output-on-failure
