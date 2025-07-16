@@ -77,6 +77,7 @@ set_source_files_properties(
   Fortran)
 
 set (solv_depends
+  SAMRAI_geom
   SAMRAI_hier
   SAMRAI_math
   SAMRAI_tbox

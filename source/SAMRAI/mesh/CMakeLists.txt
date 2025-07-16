@@ -59,6 +59,7 @@ process_m4(NAME fortran/mesh_coarsentags2d)
 process_m4(NAME fortran/mesh_coarsentags3d)
 
 set (mesh_depends
+  SAMRAI_pdat
   SAMRAI_hier
   SAMRAI_tbox
   SAMRAI_xfer)

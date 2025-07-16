@@ -27,6 +27,7 @@ set_source_files_properties(
   Fortran)
 
 set (appu_depends
+  SAMRAI_geom
   SAMRAI_hier
   SAMRAI_pdat
   SAMRAI_tbox)
