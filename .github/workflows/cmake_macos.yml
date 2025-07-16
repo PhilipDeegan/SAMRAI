@@ -1,0 +1,42 @@
+name: CMake MacOS
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-latest]
+        mode: [static, shared]
+
+    steps:
+
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+
+    - name: Install system deps (openmpi, hdf5, ccache,...)
+      run: |
+        brew reinstall gcc
+        brew install open-mpi hdf5-mpi
+        echo "/usr/local/opt/ccache/libexec" >> $GITHUB_PATH
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        CMAKE_CONFIG=""
+        [ "${{ matrix.mode }}" = "shared" ] && CMAKE_CONFIG="-DBUILD_SHARED_LIBS=ON"
+        cmake $GITHUB_WORKSPACE -DENABLE_SAMRAI_TESTS=OFF \
+              -DCMAKE_BUILD_TYPE=Debug $CMAKE_CONFIG
+        make VERBOSE=1

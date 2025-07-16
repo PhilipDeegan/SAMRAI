@@ -38,6 +38,7 @@ set (algs_sources
   ${CMAKE_CURRENT_BINARY_DIR}/fortran/algs_upfluxsum3d.f)
 
 set (algs_depends
+  SAMRAI_mesh
   SAMRAI_hier
   SAMRAI_tbox
   SAMRAI_pdat)
