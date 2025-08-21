@@ -4,3 +4,6 @@
 [submodule ".radiuss-ci"]
 	path = .radiuss-ci
 	url = https://github.com/LLNL/radiuss-ci.git
+[submodule ".radiuss-shared-ci"]
+	path = .radiuss-shared-ci
+	url = https://github.com/LLNL/radiuss-shared-ci.git
