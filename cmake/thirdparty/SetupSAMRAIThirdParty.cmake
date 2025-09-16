@@ -64,7 +64,7 @@ if (ENABLE_CALIPER OR caliper_DIR)
 
   find_package(caliper REQUIRED)
 
-  set (HAVE_CALIPER True)
+  set (SAMRAI_HAVE_CALIPER True)
   set (ENABLE_CALIPER On)
 
   blt_register_library(
