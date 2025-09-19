@@ -135,10 +135,10 @@ public:
     * copied.
     *
     * Only data on the intersection of the source and destination patch data
-    * will be copied.  If portions of the destination level remain unfilled,
-    * then the algorithm recursively fills those unfilled portions by
-    * interpolating source data from coarser levels in the AMR hierarchy.  The
-    * source and destination patch levels must reside in the same index space.
+    * will be copied.  Non-interesecting portions will be recursively filled by
+    * the algorithm from coarser levels in the AMR hierarchy.
+    * Refinement is done before copy.
+    * The source and destination patch levels must reside in the same index space.
     * However, the levels do not have to be in the same AMR patch hierarchy.
     * In general, this constructor is called by a RefineAlgorithm object.
     *
