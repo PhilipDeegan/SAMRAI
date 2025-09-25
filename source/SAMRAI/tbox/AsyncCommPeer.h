@@ -268,12 +268,6 @@ public:
       return d_tag1;
    }
 
-   int
-   getTertiaryTag() const
-   {
-      return d_tag2;
-   }
-
    //@{
 
    /*!
@@ -493,15 +487,6 @@ public:
       std::ostream& co) const;
 
 private:
-#if 0
-   void sendLargeChunks(
-      size_t first_chunk_count,
-      size_t second_chunk_count);
-
-   size_t recvLargeChunks(
-      size_t first_chunk_count,
-      size_t second_chunk_count);
-#endif
 
    /*
     * @brief Data structure for combining integer overhead data along with
@@ -637,25 +622,38 @@ private:
    size_t d_internal_buf_size;
    FlexData* d_internal_buf = nullptr;
 
+   /*!
+    * @brief Small buffer for count information only
+    *
+    * Buffer used in instances where MPI messages will only contain
+    * metadata information about the size of data and number of data
+    * buffers that will be sent in future messages.
+    */
    FlexData* d_count_buf = nullptr;
+
+   /*!
+    * @brief Buffer for the first receive
+    */
    FlexData* d_first_recv_buf = nullptr;
 
    /*!
-    *
+    * @brief The SAMRAI_MPI object
     */
    SAMRAI_MPI d_mpi;
+
    /*!
     * @brief Tag for the first message.
     */
    int d_tag0;
    /*!
-    * @brief Tag for the first message.
+    * @brief Tag for the second message.
     */
    int d_tag1;
 
-   int d_tag2;
-
-   unsigned int d_max_sends = 3;
+   /*!
+    * @brief Counter of the maximum number of sends that this object has sent.
+    */
+   unsigned int d_max_sends = 1;
 
    /*!
     * @brief Whether send completion should be reported when
@@ -668,8 +666,27 @@ private:
    // Make some temporary variable statuses to avoid repetitious allocations.
    int d_mpi_err;
 
+   /*
+    * These are static constexpr values used to handle cases where a
+    * buffer passed to beginSend is larger than the maximum value allowed by
+    * the int type.  Due to the MPI API using int to indicate the size of
+    * buffers, we cannot pass a buffer larger than the int maximum into
+    * MPI send/recv calls.  We compute s_int_max as the size at which this
+    * class does special operations to split beginSend's buffer into chunks
+    * that are passed in a series of MPI sends.
+    *
+    * First we set s_prelim_max as a value just short of the true INT_MAX,
+    * as a safety measure to not push all the way to the limit, and then
+    * to set s_int_max, we adjust it to be a multiple of 128, which may be
+    * helpful to align with byte sizes of typical data types.
+    */
    static constexpr unsigned int s_prelim_max = MathUtilities<int>::getMax() - 256;
    static constexpr unsigned int s_int_max = s_prelim_max - (s_prelim_max % (128*sizeof(FlexData)));
+
+   /*!
+    * A constant used as a signal value to indicate that a single MPI
+    * send/recv pair has communicated all needed data in one message.
+    */
    static constexpr unsigned int s_onemsg_signal = MathUtilities<int>::getMax();
 
 #ifdef HAVE_UMPIRE

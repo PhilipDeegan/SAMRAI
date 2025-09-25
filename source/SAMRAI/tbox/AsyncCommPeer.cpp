@@ -80,7 +80,6 @@ AsyncCommPeer<TYPE>::AsyncCommPeer():
    d_mpi(SAMRAI_MPI::getSAMRAIWorld()),
    d_tag0(-1),
    d_tag1(-1),
-   d_tag2(-1),
 #ifdef HAVE_UMPIRE
    d_allocator(umpire::ResourceManager::getInstance().getAllocator(umpire::resource::Host)),
 #endif
@@ -125,7 +124,6 @@ AsyncCommPeer<TYPE>::AsyncCommPeer(
    d_mpi(SAMRAI_MPI::getSAMRAIWorld()),
    d_tag0(-1),
    d_tag1(-1),
-   d_tag2(-1),
 #ifdef HAVE_UMPIRE
    d_allocator(umpire::ResourceManager::getInstance().getAllocator(umpire::resource::Host)),
 #endif
@@ -371,9 +369,17 @@ AsyncCommPeer<TYPE>::checkSend(
             std::memcpy(static_cast<void*>(d_internal_buf),
                static_cast<const void*>(d_external_buf),
                d_full_count * sizeof(TYPE));
-            d_internal_buf[first_chunk_count].d_uint = s_onemsg_signal; // Special value indicating that only one message is sent
+            /*
+             * The entire send operation will be completed with one message.
+             * These two metadata values at the end of d_internal_buf will
+             * tell the receiving rank that it has received all data.
+             * s_onemsg signal is a special value that serves as an inicator
+             * that there is only one message, and d_full_count is the
+             * true size of data as passed into beginSend().
+             */
+            d_internal_buf[first_chunk_count].d_uint = s_onemsg_signal;
             d_internal_buf[first_chunk_count + 1].d_uint =
-               static_cast<unsigned int>(d_full_count); // True data count.
+               static_cast<unsigned int>(d_full_count);
 
             TBOX_ASSERT(req[0] == MPI_REQUEST_NULL);
             req[0] = MPI_REQUEST_NULL;
@@ -401,16 +407,20 @@ AsyncCommPeer<TYPE>::checkSend(
 #endif
          } else {
             /*
-             * Send oversized data in two chunks.  The first chunk contains the
-             * first d_max_first_data_len items.  The second contains the rest.
-             * Each chunk is appended with a sequence number and the true size of
-             * the data the user wants to send.
+             * Send oversized data in chunks.  The first chunk contains the
+             * first d_max_first_data_len items.  The second contains the rest,
+             * if its size is less than or equal to s_int_max.
              *
-             * Note that we allocate d_internal_buf to hold each chunk with its
-             * overhead data.  Thus, the two chunks will not be contiguous in
-             * d_internal_buf.
+             * If the second chunk is greater than s_int_max, then it
+             * will be further divided into multiple chunks.  Each chunk
+             * will be size s_int_max until there is a remainder chunk
+             * less than s_int_max.
+             *
+             * Metadata values num_max_buffers and last_buf_size are
+             * computed.  num_max_buffers is the number of max-sized chunks
+             * to be sent, and last_buf_size is the size of the final
+             * remainder chunk
              */
-
 
             size_t first_chunk_count = getNumberOfFlexData(
                   d_max_first_data_len);
@@ -418,7 +428,7 @@ AsyncCommPeer<TYPE>::checkSend(
             size_t second_chunk_count = getNumberOfFlexData(
                   d_full_count - d_max_first_data_len);
             size_t second_data_len = d_full_count - d_max_first_data_len;
-            size_t third_chunk_count = 0;
+            size_t extra_chunk_count = 0;
             size_t num_max_buffers = 0;
             size_t last_buf_size = second_data_len;
 
@@ -428,17 +438,17 @@ AsyncCommPeer<TYPE>::checkSend(
                last_buf_size = second_data_len % s_int_max; 
             }
 
-            if (num_max_buffers > 0 && last_buf_size > 0) {
+            if (num_max_buffers > 0) {
                second_data_len = s_int_max;
 
                second_chunk_count = getNumberOfFlexData(second_data_len);
 
-               third_chunk_count = getNumberOfFlexData(
+               extra_chunk_count = getNumberOfFlexData(
                   d_full_count - d_max_first_data_len - second_data_len);
             }
 
             resizeBuffer(first_chunk_count + 2 + second_chunk_count +
-                         third_chunk_count);
+                         extra_chunk_count);
 
             // Stuff and send first message.
             if (d_max_first_data_len > 0) {
@@ -447,6 +457,8 @@ AsyncCommPeer<TYPE>::checkSend(
                   d_max_first_data_len * (sizeof(TYPE)));
             }
 
+            // Metadata values num_max_buffers and last_buf_size appended
+            // to the first chunk, to tell the receiving rank what to expect.
             d_internal_buf[first_chunk_count].d_uint =
                static_cast<unsigned int>(num_max_buffers);
             d_internal_buf[first_chunk_count + 1].d_uint =
@@ -472,6 +484,11 @@ AsyncCommPeer<TYPE>::checkSend(
 
             size_t buf_counter = first_chunk_count + 2;
             size_t external_counter = d_max_first_data_len;
+
+            /*
+             * The number of remaining chunks is num_max_buffers + 1, except
+             * in the specific case that the last_buf_size is zero.
+             */
             size_t remaining_chunks = (last_buf_size > 0) ?
                                        num_max_buffers + 1 : num_max_buffers;
 
@@ -501,15 +518,7 @@ AsyncCommPeer<TYPE>::checkSend(
                      &req[nsend]);
 
                t_send_timer->stop();
-#ifdef AsyncCommPeer_DEBUG_OUTPUT
-               d_report_send_completion[1] = true;
-               plog << "tag1-" << d_tag1
-                    << " sending " << d_full_count << " TYPEs + 2 int as "
-                    << sizeof(FlexData) * (first_chunk_count + 2) << " and "
-                    << sizeof(FlexData) * (second_chunk_count)
-                    << " byte chunks to " << d_peer_rank << " in checkSend"
-                    << std::endl;
-#endif
+
                buf_counter += this_chunk_count;
                external_counter += s_int_max;
 
@@ -517,42 +526,12 @@ AsyncCommPeer<TYPE>::checkSend(
                   d_max_sends = nsend + 1;
                }
             }
-#if 0
-            if (third_chunk_count > 0) {
-               std::memcpy(static_cast<void*>(&d_internal_buf[first_chunk_count + second_chunk_count + 2] ),
-                  static_cast<const void*>(d_external_buf + d_max_first_data_len+ second_data_len), 
-                  (d_full_count - d_max_first_data_len - second_data_len) * (sizeof(TYPE)));
-               TBOX_ASSERT(req[2] == MPI_REQUEST_NULL);
-#ifdef DEBUG_CHECK_ASSERTIONS
-               req[2] = MPI_REQUEST_NULL;
-#endif
-               t_send_timer->start();
-               d_mpi_err = d_mpi.Isend(
-                  &d_internal_buf[first_chunk_count + second_chunk_count + 2],
-                  static_cast<int>(sizeof(FlexData) * (third_chunk_count)),
-                  MPI_BYTE,
-                  d_peer_rank,
-                  d_tag2,
-                  &req[2]);
-               t_send_timer->stop();
-#ifdef AsyncCommPeer_DEBUG_OUTPUT
-               d_report_send_completion[2] = true;
-               plog << "tag2-" << d_tag2
-                    << " sending " << d_full_count << " TYPEs + 2 int as "
-                    << sizeof(FlexData) * (first_chunk_count + 2) << " and "
-                    << sizeof(FlexData) * (second_chunk_count) << " and "
-                    << sizeof(FlexData) * (third_chunk_count)
-                    << " byte chunks to " << d_peer_rank << " in checkSend"
-                    << std::endl;
-#endif
- 
-            }
-#endif
          }
       }
+
       if (d_next_task_op == send_start || d_next_task_op == send_check) {
          // Determine if send completed.
-         for (unsigned int ic = 0; ic < SAMRAI_MAX_BUFFERS; ++ic) {
+         for (unsigned int ic = 0; ic < d_max_sends; ++ic) {
             if (req[ic] != MPI_REQUEST_NULL) {
                SAMRAI_MPI::Status* mpi_status = getStatusPointer();
                resetStatus(mpi_status[ic]);
@@ -586,8 +565,6 @@ AsyncCommPeer<TYPE>::checkSend(
             }
          }
 
-         //if (req[0] != MPI_REQUEST_NULL || req[1] != MPI_REQUEST_NULL ||
-         //    req[2] != MPI_REQUEST_NULL) {
          if (!complete) {
             // Sends not completed.  Need to repeat send_check.
             d_next_task_op = send_check;
@@ -783,9 +760,7 @@ AsyncCommPeer<TYPE>::checkRecv(
                d_full_count = d_max_first_data_len +
                   (num_max_buffers * s_int_max) + last_buf_size;
             }
-            //d_full_count = d_first_recv_buf[count - 1].d_uint;
 
-            //TBOX_ASSERT(d_first_recv_buf[count - 2].d_uint == 0); // Sequence number check.
             TBOX_ASSERT(getNumberOfFlexData(d_full_count) >= count - 2);
 
             if (d_full_count > d_max_first_data_len) {
@@ -804,26 +779,14 @@ AsyncCommPeer<TYPE>::checkRecv(
                size_t new_internal_buf_size =
                   d_internal_buf_size + second_chunk_count;
 
-               // If the first Irecv didn't use d_internal_buf, then
-               // the message in the second Irecv will contain the entire
-               // buffer of data for this communication instance, and we need
-               // to add 2 to the buffer size to make room for the trailing
-               // metadata.
-               //if (d_internal_buf_size == 0) {
-               //   new_internal_buf_size += 2;
-               //}
                resizeBuffer(new_internal_buf_size);
 
-               //size_t third_chunk_count = 0;
                if (second_data_len > s_int_max &&
                    s_int_max >= d_max_first_data_len) {
 
                   second_data_len = s_int_max;
 
                   second_chunk_count = getNumberOfFlexData(second_data_len);
-
-                  //third_chunk_count = getNumberOfFlexData(
-                  //   d_full_count - d_max_first_data_len - second_data_len);
                }
 
                size_t internal_counter = d_max_first_data_len;
@@ -855,7 +818,7 @@ AsyncCommPeer<TYPE>::checkRecv(
                         << ",  mpi_tag = " << d_tag0 + nrecv);
                   }
 #ifdef AsyncCommPeer_DEBUG_OUTPUT
-                  plog << "tag1-" << d_tag1
+                  plog << "tag1-" << d_tag0 + nrecv
                        << " receiving " << second_data_len
                        << " from " << d_peer_rank
                        << " in checkRecv"
@@ -931,7 +894,7 @@ template<class TYPE>
 void
 AsyncCommPeer<TYPE>::checkMPIParams()
 {
-   if (getPrimaryTag() < 0 || getSecondaryTag() < 0 || getTertiaryTag() < 0) {
+   if (getPrimaryTag() < 0 || getSecondaryTag() < 0) {
       TBOX_ERROR("AsyncCommPeer: Invalid MPI tag values "
          << d_tag0 << " and " << d_tag1
          << "\nUse setMPITag() to set it.");
@@ -963,7 +926,6 @@ AsyncCommPeer<TYPE>::logCurrentState(
    co << "State=" << 10 * d_base_op + d_next_task_op
       << "  tag-0=" << d_tag0
       << "  tag-1=" << d_tag1
-      << "  tag-2=" << d_tag2
       << "  communicator=" << d_mpi.getCommunicator()
       << "  extern. buff=" << d_external_buf
       << "  size=" << d_full_count
@@ -990,7 +952,6 @@ AsyncCommPeer<TYPE>::setMPITag(
    }
    d_tag0 = tag0;
    d_tag1 = tag1;
-   d_tag2 = tag1 + 1;
 }
 
 /*
