@@ -80,6 +80,8 @@ endif ()
 
 set(SAMRAI_MAXIMUM_DIMENSION ${MAXDIM})
 
+set(SAMRAI_MAX_COMM_BUFFERS ${SAMRAI_MAX_COMM_BUFFERS})
+
 configure_file(${PROJECT_SOURCE_DIR}/config/SAMRAI_config.h.cmake.in ${CMAKE_BINARY_DIR}/include/SAMRAI/SAMRAI_config.h)
 
 install(FILES ${CMAKE_BINARY_DIR}/include/SAMRAI/SAMRAI_config.h

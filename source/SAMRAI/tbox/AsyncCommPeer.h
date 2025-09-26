@@ -23,8 +23,6 @@
 #include <algorithm>
 #include <cstring>
 
-#define SAMRAI_MAX_BUFFERS 10 
-
 namespace SAMRAI {
 namespace tbox {
 
@@ -661,7 +659,7 @@ private:
     *
     * This is non-essential data used in debugging.
     */
-   bool d_report_send_completion[SAMRAI_MAX_BUFFERS];
+   bool d_report_send_completion[SAMRAI_MAX_COMM_BUFFERS];
 
    // Make some temporary variable statuses to avoid repetitious allocations.
    int d_mpi_err;

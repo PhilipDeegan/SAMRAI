@@ -111,7 +111,7 @@ template<class TYPE>
 AsyncCommPeer<TYPE>::AsyncCommPeer(
    AsyncCommStage* stage,
    AsyncCommStage::Handler* handler):
-   AsyncCommStage::Member(SAMRAI_MAX_BUFFERS, stage, handler),
+   AsyncCommStage::Member(SAMRAI_MAX_COMM_BUFFERS, stage, handler),
    d_peer_rank(-1),
    d_base_op(undefined),
    d_next_task_op(none),
@@ -195,7 +195,7 @@ AsyncCommPeer<TYPE>::initialize(
       TBOX_ERROR("It is illegal to re-initialize a AsyncCommPeer\n"
          << "while it has current messages.\n");
    }
-   attachStage(SAMRAI_MAX_BUFFERS, stage);
+   attachStage(SAMRAI_MAX_COMM_BUFFERS, stage);
    setHandler(handler);
    d_base_op = undefined;
    d_next_task_op = none;
@@ -248,7 +248,7 @@ AsyncCommPeer<TYPE>::completeCurrentOperation()
    while (!isDone()) {
 
       t_wait_timer->start();
-      int errf = SAMRAI_MPI::Waitall(SAMRAI_MAX_BUFFERS,
+      int errf = SAMRAI_MPI::Waitall(SAMRAI_MAX_COMM_BUFFERS,
             req,
             mpi_status);
       t_wait_timer->stop();
@@ -286,7 +286,7 @@ AsyncCommPeer<TYPE>::beginSend(
    checkMPIParams();
 #endif
    size_t max_buffer = d_max_first_data_len +
-      static_cast<size_t>(s_int_max) * (SAMRAI_MAX_BUFFERS-1);
+      static_cast<size_t>(s_int_max) * (SAMRAI_MAX_COMM_BUFFERS-1);
    if (size > max_buffer) {
       TBOX_ERROR("Attempting to send buffer of size " << size << " which is greater than the allowed maximum of " << max_buffer);
    }
@@ -846,7 +846,7 @@ AsyncCommPeer<TYPE>::checkRecv(
          task_entered = true;
  
          // Check on the messages after 0.
-         for (int rc = 1; rc < SAMRAI_MAX_BUFFERS; ++rc) {
+         for (int rc = 1; rc < SAMRAI_MAX_COMM_BUFFERS; ++rc) {
             if (req[rc] != MPI_REQUEST_NULL) {
                resetStatus(mpi_status[rc]);
                d_mpi_err = SAMRAI_MPI::Test(&req[rc], &flag, &mpi_status[rc]);
@@ -862,7 +862,7 @@ AsyncCommPeer<TYPE>::checkRecv(
             }
          }
 
-         for (int rc = 1; rc < SAMRAI_MAX_BUFFERS; ++rc) {
+         for (int rc = 1; rc < SAMRAI_MAX_COMM_BUFFERS; ++rc) {
             if (req[rc] != MPI_REQUEST_NULL) {
                d_next_task_op = recv_check;
                break;
