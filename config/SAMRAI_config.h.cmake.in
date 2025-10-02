@@ -349,6 +349,8 @@
 /* Maximum dimension allowed */
 #define SAMRAI_MAXIMUM_DIMENSION @SAMRAI_MAXIMUM_DIMENSION@
 
+#define SAMRAI_MAX_COMM_BUFFERS @SAMRAI_MAX_COMM_BUFFERS@
+
 #define SAMRAI_RAJA_WORKGROUP_THREADS @SAMRAI_RAJA_WORKGROUP_THREADS@
 
 /* Define to 1 if you have the ANSI C header files. */

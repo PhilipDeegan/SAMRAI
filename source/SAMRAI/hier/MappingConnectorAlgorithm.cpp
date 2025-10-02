@@ -1084,7 +1084,7 @@ MappingConnectorAlgorithm::privateModify_discoverAndSend(
       tbox::AsyncCommPeer<int>& outgoing_comm = all_comms[comm_offset];
       outgoing_comm.beginSend(
          &send_mesg[0],
-         static_cast<int>(send_mesg.size()));
+         send_mesg.size());
       ++comm_offset;
       ++outgoing_ranks_itr;
       TBOX_ASSERT((outgoing_ranks_itr == outgoing_ranks.end()) ==
