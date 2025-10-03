@@ -1,4 +1,5 @@
 set(ENABLE_MPI Off CACHE BOOL "")
+set(CMAKE_HIP_COMPILER "/usr/tce/packages/rocmcc-tce/rocmcc-6.2.1/bin/amdclang++" CACHE PATH "")
 set(CMAKE_CXX_COMPILER "/usr/tce/packages/rocmcc-tce/rocmcc-6.2.1/bin/amdclang++" CACHE PATH "")
 set(CMAKE_C_COMPILER "/usr/tce/packages/rocmcc-tce/rocmcc-6.2.1/bin/amdclang" CACHE PATH "")
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "")
