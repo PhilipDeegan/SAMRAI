@@ -29,11 +29,12 @@ Index::s_initialize_finalize_handler(
    tbox::StartupShutdownManager::priorityTimers);
 
 Index::Index(
-   const tbox::Dimension& dim):
-   d_dim(dim)
+   const tbox::Dimension& dim) noexcept :
+   d_dim(dim),
+   d_index{}
 {
 #ifdef DEBUG_INITIALIZE_UNDEFINED
-   for (int i = 0; i < SAMRAI::MAX_DIM_VAL; ++i) {
+   for (unsigned int i = 0; i < SAMRAI::MAX_DIM_VAL; ++i) {
       d_index[i] = tbox::MathUtilities<int>::getMin();
    }
 #endif
@@ -41,15 +42,16 @@ Index::Index(
 
 Index::Index(
    const tbox::Dimension& dim,
-   const int value):
-   d_dim(dim)
+   int value) noexcept :
+   d_dim(dim),
+   d_index{}
 {
-   for (int i = 0; i < d_dim.getValue(); ++i) {
+   for (unsigned int i = 0; i < d_dim.getValue(); ++i) {
       d_index[i] = value;
    }
 
 #ifdef DEBUG_INITIALIZE_UNDEFINED
-   for (int i = d_dim.getValue(); i < SAMRAI::MAX_DIM_VAL; ++i) {
+   for (unsigned int i = d_dim.getValue(); i < SAMRAI::MAX_DIM_VAL; ++i) {
       d_index[i] = tbox::MathUtilities<int>::getMin();
    }
 #endif
@@ -57,8 +59,9 @@ Index::Index(
 
 Index::Index(
    const int i,
-   const int j):
-   d_dim(2)
+   const int j) noexcept :
+   d_dim(2),
+   d_index{}
 {
    TBOX_DIM_ASSERT(tbox::Dimension::getMaxDimension() >= tbox::Dimension(2));
 
@@ -71,8 +74,9 @@ Index::Index(
 Index::Index(
    const int i,
    const int j,
-   const int k):
-   d_dim(3)
+   const int k) noexcept :
+   d_dim(3),
+   d_index{}
 {
    TBOX_DIM_ASSERT(tbox::Dimension::getMaxDimension() >= tbox::Dimension(3));
 
@@ -88,16 +92,17 @@ Index::Index(
 }
 
 Index::Index(
-   const std::vector<int>& a):
-   d_dim(static_cast<unsigned short>(a.size()))
+   const std::vector<int>& a) noexcept :
+   d_dim(static_cast<unsigned short>(a.size())),
+   d_index{}
 {
    TBOX_ASSERT(a.size() > 0);
-   for (int i = 0; i < d_dim.getValue(); ++i) {
+   for (unsigned int i = 0; i < d_dim.getValue(); ++i) {
       d_index[i] = a[i];
    }
 
 #ifdef DEBUG_INITIALIZE_UNDEFINED
-   for (int i = d_dim.getValue(); i < SAMRAI::MAX_DIM_VAL; ++i) {
+   for (unsigned int i = d_dim.getValue(); i < SAMRAI::MAX_DIM_VAL; ++i) {
       d_index[i] = tbox::MathUtilities<int>::getMin();
    }
 #endif
@@ -105,41 +110,40 @@ Index::Index(
 
 Index::Index(
    const tbox::Dimension& dim,
-   const int array[]):
-   d_dim(dim)
+   const int array[]) noexcept :
+   d_dim(dim),
+   d_index{}
 {
-   for (int i = 0; i < d_dim.getValue(); ++i) {
+   for (unsigned int i = 0; i < d_dim.getValue(); ++i) {
       d_index[i] = array[i];
    }
 }
 
 Index::Index(
-   const Index& rhs):
-   d_dim(rhs.d_dim)
+   const Index& rhs) noexcept :
+   d_dim(rhs.d_dim),
+   d_index{}
 {
-   for (int i = 0; i < d_dim.getValue(); ++i) {
+   for (unsigned int i = 0; i < d_dim.getValue(); ++i) {
       d_index[i] = rhs.d_index[i];
    }
 }
 
 Index::Index(
-   const IntVector& rhs):
-   d_dim(rhs.getDim())
+   const IntVector& rhs) noexcept :
+   d_dim(rhs.getDim()),
+   d_index{}
 {
    TBOX_ASSERT(rhs.getNumBlocks() == 1);
-   for (int i = 0; i < d_dim.getValue(); ++i) {
+   for (unsigned int i = 0; i < d_dim.getValue(); ++i) {
       d_index[i] = rhs[i];
    }
-}
-
-Index::~Index()
-{
 }
 
 void
 Index::initializeCallback()
 {
-   for (unsigned short d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
+   for (unsigned int d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
       s_zeros[d] = new Index(tbox::Dimension(static_cast<unsigned short>(d + 1)), 0);
       s_ones[d] = new Index(tbox::Dimension(static_cast<unsigned short>(d + 1)), 1);
 
@@ -153,7 +157,7 @@ Index::initializeCallback()
 void
 Index::finalizeCallback()
 {
-   for (int d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
+   for (unsigned int d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
       delete s_zeros[d];
       delete s_ones[d];
 
