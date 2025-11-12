@@ -16,8 +16,8 @@
 namespace SAMRAI {
 namespace hier {
 
-IntVector * IntVector::s_zeros[SAMRAI::MAX_DIM_VAL];
-IntVector * IntVector::s_ones[SAMRAI::MAX_DIM_VAL];
+std::array<std::optional<IntVector>, SAMRAI::MAX_DIM_VAL> IntVector::s_zeros{};
+std::array<std::optional<IntVector>, SAMRAI::MAX_DIM_VAL> IntVector::s_ones{};
 
 tbox::StartupShutdownManager::Handler
 IntVector::s_initialize_finalize_handler(
@@ -305,8 +305,9 @@ void
 IntVector::initializeCallback()
 {
    for (unsigned short d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
-      s_zeros[d] = new IntVector(tbox::Dimension(static_cast<unsigned short>(d + 1)), 0);
-      s_ones[d] = new IntVector(tbox::Dimension(static_cast<unsigned short>(d + 1)), 1);
+      tbox::Dimension dim(d + 1);
+      s_zeros[d].emplace(dim, 0);
+      s_ones[d].emplace(dim, 1);
    }
 }
 
@@ -314,8 +315,8 @@ void
 IntVector::finalizeCallback()
 {
    for (int d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
-      delete s_zeros[d];
-      delete s_ones[d];
+      s_zeros[d].reset();
+      s_ones[d].reset();
    }
 }
 

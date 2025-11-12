@@ -21,6 +21,7 @@
 
 #include <vector>
 #include <iostream>
+#include <optional>
 
 namespace SAMRAI {
 
@@ -1130,7 +1131,8 @@ public:
    getZero(
       const tbox::Dimension& dim)
    {
-      return *(s_zeros[dim.getValue() - 1]);
+      TBOX_ASSERT(s_zeros[dim.getValue() - 1].has_value());
+      return (s_zeros[dim.getValue() - 1].value());
    }
 
    /*!
@@ -1143,7 +1145,8 @@ public:
    getOne(
       const tbox::Dimension& dim)
    {
-      return *(s_ones[dim.getValue() - 1]);
+      TBOX_ASSERT(s_ones[dim.getValue() - 1].has_value());
+      return (s_ones[dim.getValue() - 1].value());
    }
 
    /*!
@@ -1217,8 +1220,8 @@ private:
 
    std::vector<int> d_vector;
 
-   static IntVector* s_zeros[SAMRAI::MAX_DIM_VAL];
-   static IntVector* s_ones[SAMRAI::MAX_DIM_VAL];
+   static std::array<std::optional<IntVector>, SAMRAI::MAX_DIM_VAL> s_zeros;
+   static std::array<std::optional<IntVector>, SAMRAI::MAX_DIM_VAL> s_ones;
 
    static tbox::StartupShutdownManager::Handler
       s_initialize_finalize_handler;
