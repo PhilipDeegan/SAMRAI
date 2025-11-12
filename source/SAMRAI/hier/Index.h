@@ -17,6 +17,8 @@
 #include "SAMRAI/tbox/Dimension.h"
 #include "SAMRAI/tbox/Utilities.h"
 
+#include <optional>
+
 namespace SAMRAI {
 namespace hier {
 
@@ -650,9 +652,10 @@ public:
     */
    static const Index&
    getZeroIndex(
-      const tbox::Dimension& dim) noexcept
+      const tbox::Dimension& dim)
    {
-      return *(s_zeros[dim.getValue() - 1]);
+      TBOX_ASSERT(s_zeros[dim.getValue() - 1].has_value());
+      return (s_zeros[dim.getValue() - 1].value());
    }
 
    /*!
@@ -662,9 +665,10 @@ public:
     */
    static const Index&
    getOneIndex(
-      const tbox::Dimension& dim) noexcept
+      const tbox::Dimension& dim)
    {
-      return *(s_ones[dim.getValue() - 1]);
+      TBOX_ASSERT(s_ones[dim.getValue() - 1].has_value());
+      return (s_ones[dim.getValue() - 1].value());
    }
 
    /*!
@@ -675,9 +679,10 @@ public:
     */
    static const Index&
    getMinIndex(
-      const tbox::Dimension& dim) noexcept
+      const tbox::Dimension& dim)
    {
-      return *(s_mins[dim.getValue() - 1]);
+      TBOX_ASSERT(s_mins[dim.getValue() - 1].has_value());
+      return (s_mins[dim.getValue() - 1].value());
    }
 
    /*!
@@ -688,9 +693,10 @@ public:
     */
    static const Index&
    getMaxIndex(
-      const tbox::Dimension& dim) noexcept
+      const tbox::Dimension& dim)
    {
-      return *(s_maxs[dim.getValue() - 1]);
+      TBOX_ASSERT(s_maxs[dim.getValue() - 1].has_value());
+      return (s_maxs[dim.getValue() - 1].value());
    }
 
    /*!
@@ -791,11 +797,10 @@ private:
    static void
    finalizeCallback();
 
-   static Index* s_zeros[SAMRAI::MAX_DIM_VAL];
-   static Index* s_ones[SAMRAI::MAX_DIM_VAL];
-
-   static Index* s_maxs[SAMRAI::MAX_DIM_VAL];
-   static Index* s_mins[SAMRAI::MAX_DIM_VAL];
+   static std::array<std::optional<Index>, SAMRAI::MAX_DIM_VAL> s_zeros;
+   static std::array<std::optional<Index>, SAMRAI::MAX_DIM_VAL> s_ones;
+   static std::array<std::optional<Index>, SAMRAI::MAX_DIM_VAL> s_maxs;
+   static std::array<std::optional<Index>, SAMRAI::MAX_DIM_VAL> s_mins;
 
    static tbox::StartupShutdownManager::Handler
       s_initialize_finalize_handler;

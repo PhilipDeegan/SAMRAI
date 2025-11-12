@@ -14,11 +14,10 @@
 namespace SAMRAI {
 namespace hier {
 
-Index * Index::s_zeros[SAMRAI::MAX_DIM_VAL];
-Index * Index::s_ones[SAMRAI::MAX_DIM_VAL];
-
-Index * Index::s_mins[SAMRAI::MAX_DIM_VAL];
-Index * Index::s_maxs[SAMRAI::MAX_DIM_VAL];
+std::array<std::optional<Index>, SAMRAI::MAX_DIM_VAL> Index::s_zeros{};
+std::array<std::optional<Index>, SAMRAI::MAX_DIM_VAL> Index::s_ones{};
+std::array<std::optional<Index>, SAMRAI::MAX_DIM_VAL> Index::s_mins{};
+std::array<std::optional<Index>, SAMRAI::MAX_DIM_VAL> Index::s_maxs{};
 
 tbox::StartupShutdownManager::Handler
 Index::s_initialize_finalize_handler(
@@ -143,26 +142,23 @@ Index::Index(
 void
 Index::initializeCallback()
 {
-   for (unsigned int d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
-      s_zeros[d] = new Index(tbox::Dimension(static_cast<unsigned short>(d + 1)), 0);
-      s_ones[d] = new Index(tbox::Dimension(static_cast<unsigned short>(d + 1)), 1);
-
-      s_mins[d] = new Index(tbox::Dimension(static_cast<unsigned short>(d + 1)),
-            tbox::MathUtilities<int>::getMin());
-      s_maxs[d] = new Index(tbox::Dimension(static_cast<unsigned short>(d + 1)),
-            tbox::MathUtilities<int>::getMax());
+   for (unsigned short d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
+      tbox::Dimension dim(d + 1);
+      s_zeros[d].emplace(dim, 0);
+      s_ones[d].emplace(dim, 1);
+      s_mins[d].emplace(dim, tbox::MathUtilities<int>::getMin());
+      s_maxs[d].emplace(dim, tbox::MathUtilities<int>::getMax());
    }
 }
 
 void
 Index::finalizeCallback()
 {
-   for (unsigned int d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
-      delete s_zeros[d];
-      delete s_ones[d];
-
-      delete s_mins[d];
-      delete s_maxs[d];
+   for (unsigned short d = 0; d < SAMRAI::MAX_DIM_VAL; ++d) {
+      s_zeros[d].reset();
+      s_ones[d].reset();
+      s_mins[d].reset();
+      s_maxs[d].reset();
    }
 }
 
