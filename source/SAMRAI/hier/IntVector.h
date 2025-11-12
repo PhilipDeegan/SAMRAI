@@ -1152,8 +1152,16 @@ public:
     * For an single-block IntVector, set the ith entry of this to the
     * position of the ith smallest value in the argument IntVector.
     *
-    * If the IntVectors are multilbock, each section of the IntVector
+    * If the IntVectors are multiblock, each section of the IntVector
     * associated with a block is sorted independently.
+    *
+    * Any values existing in this IntVector will be overwritten by this
+    * method.  If this IntVector has a different block size than the input
+    * vector, this IntVector will be resized to the input vector's size.
+    *
+    * @pre d_dim == values.getDim()
+    *
+    * @param values input IntVector to be sorted
     */
    void
    sortIntVector(

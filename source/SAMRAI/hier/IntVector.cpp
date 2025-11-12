@@ -264,6 +264,10 @@ void
 IntVector::sortIntVector(
    const IntVector& values)
 {
+   TBOX_ASSERT(d_dim = values.getDim());
+   d_num_blocks = values.getNumBlocks();
+   d_vector.resize(values.d_vector.size());
+
    for (BlockId::block_t b = 0; b < d_num_blocks; ++b ) {
       unsigned int offset = b*d_dim.getValue();
       for (unsigned int d = 0; d < d_dim.getValue(); ++d) {
@@ -274,7 +278,7 @@ IntVector::sortIntVector(
          for (unsigned int d1 = d0 + 1; d1 < d_dim.getValue(); ++d1) {
             unsigned int v0 = static_cast<unsigned int>(d_vector[offset + d0]);
             unsigned int v1 = static_cast<unsigned int>(d_vector[offset + d1]);
-            if (values(v0) > values(v1)) {
+            if (values(b, v0) > values(b, v1)) {
                int tmp_d = d_vector[offset + d0];
                d_vector[offset + d0] = d_vector[offset + d1];
                d_vector[offset + d1] = tmp_d;
@@ -286,7 +290,7 @@ IntVector::sortIntVector(
            d < static_cast<unsigned int>(d_dim.getValue() - 1); ++d) {
          unsigned int v0 = static_cast<unsigned int>(d_vector[offset + d]);
          unsigned int v1 = static_cast<unsigned int>(d_vector[offset + d + 1]);
-         TBOX_ASSERT(values(v0) <= values(v1));
+         TBOX_ASSERT(values(b, v0) <= values(b, v1));
       }
 #endif
    }
