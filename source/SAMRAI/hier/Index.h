@@ -140,9 +140,9 @@ public:
    virtual ~Index() noexcept = default;
 
    /**
-    * @brief Returns true if all components are equal to a given integer.
+    * @brief Returns true if all components are equal.
     */
-   bool
+   constexpr bool
    operator == (
       const Index& rhs) const noexcept
    {
@@ -154,9 +154,9 @@ public:
    }
 
    /**
-    * @brief Returns true if some components are not equal to a given integer.
+    * @brief Returns true if one or more components are not equal.
     */
-   bool
+   constexpr bool
    operator != (
       const Index& rhs) const noexcept
    {
@@ -203,7 +203,7 @@ public:
     *
     * @pre getDim() == rhs.getDim()
     */
-   Index&
+   constexpr Index&
    operator += (
       const Index& rhs) noexcept
    {
@@ -232,7 +232,7 @@ public:
    /**
     * @brief Plus-equals operator for an Index and an integer.
     */
-   Index&
+   constexpr Index&
    operator += (
       int rhs) noexcept
    {
@@ -259,7 +259,7 @@ public:
     *
     * @pre getDim() == rhs.getDim()
     */
-   Index&
+   constexpr Index&
    operator -= (
       const Index& rhs) noexcept
    {
@@ -323,7 +323,7 @@ public:
    /**
     * @brief Minus-equals operator for an Index and an integer.
     */
-   Index&
+   constexpr Index&
    operator -= (
       int rhs) noexcept
    {
@@ -383,7 +383,7 @@ public:
    /**
     * @brief Times-equals operator for an Index and an integer.
     */
-   Index&
+   constexpr Index&
    operator *= (
       int rhs) noexcept
    {
@@ -443,7 +443,7 @@ public:
    /**
     * @brief Assign-quotient operator for an Index and an integer.
     */
-   Index&
+   constexpr Index&
    operator /= (
       int rhs) noexcept
    {
@@ -470,7 +470,7 @@ public:
     *
     * @pre (i >= 0) && (i < getDim().getValue())
     */
-   int&
+   constexpr int&
    operator [] (
       const unsigned int i) noexcept
    {
@@ -483,7 +483,7 @@ public:
     *
     * @pre (i >= 0) && (i < getDim().getValue())
     */
-   const int&
+   constexpr const int&
    operator [] (
       const unsigned int i) const noexcept
    {
@@ -496,7 +496,7 @@ public:
     *
     * @pre (i >= 0) && (i < getDim().getValue())
     */
-   int&
+   constexpr int&
    operator () (
       const unsigned int i) noexcept
    {
@@ -509,7 +509,7 @@ public:
     *
     * @pre (i >= 0) && (i < getDim().getValue())
     */
-   const int&
+   constexpr const int&
    operator () (
       const unsigned int i) const noexcept
    {
@@ -523,7 +523,7 @@ public:
     *
     * @pre getDim() == rhs.getDim()
     */
-   bool
+   constexpr bool
    operator > (
       const Index& rhs) const noexcept
    {
@@ -541,7 +541,7 @@ public:
     *
     * @pre getDim() == rhs.getDim()
     */
-   bool
+   constexpr bool
    operator >= (
       const Index& rhs) const noexcept
    {
@@ -559,7 +559,7 @@ public:
     *
     * @pre getDim() == rhs.getDim()
     */
-   bool
+   constexpr bool
    operator < (
       const Index& rhs) const noexcept
    {
@@ -577,7 +577,7 @@ public:
     *
     * @pre getDim() == rhs.getDim()
     */
-   bool
+   constexpr bool
    operator <= (
       const Index& rhs) const noexcept
    {
@@ -594,7 +594,7 @@ public:
     *
     * @pre getDim() == rhs.getDim()
     */
-   void
+   constexpr void
    min(
       const Index& rhs) noexcept
    {
@@ -611,7 +611,7 @@ public:
     *
     * @pre getDim() == rhs.getDim()
     */
-   void
+   constexpr void
    max(
       const Index& rhs) noexcept
    {
@@ -719,7 +719,7 @@ public:
    /*!
     * @brief Get the Dimension of the Index
     */
-   const tbox::Dimension&
+   constexpr const tbox::Dimension&
    getDim() const noexcept
    {
       return d_dim;

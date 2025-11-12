@@ -96,7 +96,7 @@ Index::Index(
    d_dim(static_cast<unsigned short>(a.size())),
    d_index{}
 {
-   TBOX_ASSERT(a.size() > 0);
+   TBOX_ASSERT(a.size() > 0 && a.size() <= SAMRAI::MAX_DIM_VAL);
    for (unsigned int i = 0; i < d_dim.getValue(); ++i) {
       d_index[i] = a[i];
    }
