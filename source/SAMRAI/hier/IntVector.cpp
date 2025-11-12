@@ -264,7 +264,7 @@ void
 IntVector::sortIntVector(
    const IntVector& values)
 {
-   TBOX_ASSERT(d_dim = values.getDim());
+   TBOX_ASSERT(d_dim == values.getDim());
    d_num_blocks = values.getNumBlocks();
    d_vector.resize(values.d_vector.size());
 
