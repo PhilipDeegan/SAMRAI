@@ -101,7 +101,7 @@ public:
     * @param vec Vector of integers with a size equal to the desired dimension
     * @param num_blocks
     */
-   IntVector(
+   explicit IntVector(
       const std::vector<int>& vec,
       size_t num_blocks = 1);
 
@@ -129,11 +129,13 @@ public:
 
    /*!
     * @brief Copy constructor.
-    *
-    * @pre rhs.getNumBlocks() >= 1
     */
-   IntVector(
-      const IntVector& rhs);
+   IntVector(const IntVector& rhs) = default;
+
+   /*!
+    * @brief Move copy constructor.
+    */
+   IntVector(IntVector&& rhs) = default;
 
    /*!
     * @brief Construct an IntVector from another IntVector.
@@ -193,6 +195,19 @@ public:
    }
 
    /*!
+    * @brief Move assignment operator
+    *
+    * @pre getDim() == rhs.getDim()
+    */
+   IntVector& operator=(IntVector&& rhs)
+   {
+      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      d_num_blocks = rhs.d_num_blocks;
+      d_vector = std::move(rhs.d_vector);
+      return *this;
+   }
+
+   /*!
     * @brief Assignment operator assigning the values of an Index to an
     * IntVector.
     *
@@ -205,14 +220,14 @@ public:
       const Index& rhs);
 
    /*!
-    * @brief The IntVector destructor does nothing interesting.
+    * @brief default destructor
     */
-   virtual ~IntVector();
+   ~IntVector() noexcept = default;
 
    /*!
     * @brief Return the number of blocks for this IntVector
     */
-   size_t getNumBlocks() const
+   size_t getNumBlocks() const noexcept
    {
       return d_num_blocks;
    }
@@ -250,7 +265,7 @@ public:
     */
    int&
    operator [] (
-      const unsigned int i)
+      const unsigned int i) noexcept
    {
       TBOX_ASSERT(i < d_dim.getValue());
       TBOX_ASSERT(d_num_blocks == 1);
@@ -266,7 +281,7 @@ public:
     */
    const int&
    operator [] (
-      const unsigned int i) const
+      const unsigned int i) const noexcept
    {
       TBOX_ASSERT(i < d_dim.getValue());
       TBOX_ASSERT(d_num_blocks == 1);
@@ -282,7 +297,7 @@ public:
     */
    int&
    operator () (
-      const unsigned int i)
+      const unsigned int i) noexcept
    {
       TBOX_ASSERT(i < d_dim.getValue());
       TBOX_ASSERT(d_num_blocks == 1);
@@ -298,7 +313,7 @@ public:
     */
    const int&
    operator () (
-      const unsigned int i) const
+      const unsigned int i) const noexcept
    {
       TBOX_ASSERT(i < d_dim.getValue());
       TBOX_ASSERT(d_num_blocks == 1);
@@ -317,7 +332,7 @@ public:
    int&
    operator () (
       const BlockId::block_t b,
-      const unsigned int i)
+      const unsigned int i) noexcept
    {
       TBOX_ASSERT(b < d_num_blocks);
       TBOX_ASSERT(i < d_dim.getValue());
@@ -337,7 +352,7 @@ public:
    const int&
    operator () (
       const BlockId::block_t b,
-      const unsigned int i) const
+      const unsigned int i) const noexcept
    {
       TBOX_ASSERT(b < d_num_blocks);
       TBOX_ASSERT(i < d_dim.getValue());
@@ -372,7 +387,7 @@ public:
     */
    IntVector&
    operator += (
-      const IntVector& rhs)
+      const IntVector& rhs) noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -412,7 +427,7 @@ public:
     */
    IntVector&
    operator += (
-      const int rhs)
+      const int rhs) noexcept
    {
       size_t length = d_num_blocks * d_dim.getValue();
       for (unsigned int i = 0; i < length; ++i) {
@@ -442,7 +457,7 @@ public:
     */
    IntVector&
    operator -= (
-      const IntVector& rhs)
+      const IntVector& rhs) noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -482,7 +497,7 @@ public:
     */
    IntVector&
    operator -= (
-      const int rhs)
+      const int rhs) noexcept
    {
       size_t length = d_num_blocks * d_dim.getValue();
       for (unsigned int i = 0; i < length; ++i) {
@@ -512,7 +527,7 @@ public:
     */
    IntVector&
    operator *= (
-      const IntVector& rhs)
+      const IntVector& rhs) noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -552,7 +567,7 @@ public:
     */
    IntVector&
    operator *= (
-      const int rhs)
+      const int rhs) noexcept
    {
       size_t length = d_num_blocks * d_dim.getValue();
       for (unsigned int i = 0; i < length; ++i) {
@@ -581,7 +596,7 @@ public:
     */
    IntVector&
    operator /= (
-      const IntVector& rhs)
+      const IntVector& rhs) noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -621,7 +636,7 @@ public:
     */
    IntVector&
    operator /= (
-      const int rhs)
+      const int rhs) noexcept
    {
       size_t length = d_num_blocks * d_dim.getValue();
       for (unsigned int i = 0; i < length; ++i) {
@@ -652,7 +667,7 @@ public:
     */
    void
    ceilingDivide(
-      const IntVector& denominator)
+      const IntVector& denominator) noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, denominator);
       TBOX_ASSERT(d_num_blocks == denominator.d_num_blocks ||
@@ -724,7 +739,7 @@ public:
     */
    bool
    operator == (
-      int rhs) const
+      int rhs) const noexcept
    {
       bool result = true;
       size_t length = d_num_blocks * d_dim.getValue();
@@ -739,7 +754,7 @@ public:
     */
    bool
    operator != (
-      int rhs) const
+      int rhs) const noexcept
    {
       return !(*this == rhs);
    }
@@ -753,7 +768,7 @@ public:
     */
    bool
    operator == (
-      const IntVector& rhs) const
+      const IntVector& rhs) const noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -782,7 +797,7 @@ public:
     */
    bool
    operator != (
-      const IntVector& rhs) const
+      const IntVector& rhs) const noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       return !(*this == rhs);
@@ -797,7 +812,7 @@ public:
     */
    bool
    operator < (
-      const IntVector& rhs) const
+      const IntVector& rhs) const noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -827,7 +842,7 @@ public:
     */
    bool
    operator <= (
-      const IntVector& rhs) const
+      const IntVector& rhs) const noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -857,7 +872,7 @@ public:
     */
    bool
    operator > (
-      const IntVector& rhs) const
+      const IntVector& rhs) const noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -887,7 +902,7 @@ public:
     */
    bool
    operator >= (
-      const IntVector& rhs) const
+      const IntVector& rhs) const noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -916,7 +931,7 @@ public:
     */
    void
    min(
-      const IntVector& rhs)
+      const IntVector& rhs) noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -943,7 +958,7 @@ public:
     * @brief Return the minimum entry in an integer vector.
     */
    int
-   min() const
+   min() const noexcept
    {
       int min = d_vector[0];
       size_t length = d_num_blocks * d_dim.getValue();
@@ -960,7 +975,7 @@ public:
     */
    void
    max(
-      const IntVector& rhs)
+      const IntVector& rhs) noexcept
    {
       TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
       TBOX_ASSERT(d_num_blocks == rhs.d_num_blocks || rhs.d_num_blocks == 1);
@@ -987,7 +1002,7 @@ public:
     * @brief Return the maximum entry in an integer vector.
     */
    int
-   max() const
+   max() const noexcept
    {
       int max = d_vector[0];
       size_t length = d_num_blocks * d_dim.getValue();
@@ -1074,7 +1089,7 @@ public:
     * @param block_id  Optional block on which to compute the product.
     */
    long int
-   getProduct(const BlockId& block_id = BlockId::invalidId()) const
+   getProduct(const BlockId& block_id = BlockId::invalidId()) const noexcept
    {
 #ifdef DEBUG_CHECK_ASSERTIONS
       TBOX_ASSERT(block_id == BlockId::invalidId() ||
@@ -1116,7 +1131,7 @@ public:
     * @brief Return the dimension of this object.
     */
    const tbox::Dimension&
-   getDim() const
+   getDim() const noexcept
    {
       return d_dim;
    }
@@ -1195,7 +1210,7 @@ private:
    /*
     * Unimplemented default constructor
     */
-   IntVector();
+   IntVector() = delete;
 
    /*!
     * @brief Initialize static objects and register shutdown routine.

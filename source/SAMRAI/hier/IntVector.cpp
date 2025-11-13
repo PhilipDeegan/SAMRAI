@@ -106,15 +106,6 @@ IntVector::IntVector(
 }
 
 IntVector::IntVector(
-   const IntVector& rhs):
-   d_dim(rhs.getDim()),
-   d_num_blocks(rhs.d_num_blocks),
-   d_vector(rhs.d_vector)
-{
-   TBOX_ASSERT(d_num_blocks >= 1);
-}
-
-IntVector::IntVector(
    const IntVector& rhs,
    size_t num_blocks):
    d_dim(rhs.getDim()),
@@ -149,15 +140,6 @@ IntVector::IntVector(
          d_vector[offset + i] = rhs[i];
       } 
    }
-}
-
-/*
- * *************************************************************************
- * Destructor 
- * *************************************************************************
- */
-IntVector::~IntVector()
-{
 }
 
 /*
