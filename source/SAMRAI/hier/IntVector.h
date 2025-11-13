@@ -173,7 +173,7 @@ public:
     * @param rhs
     * @param num_blocks
     */
-   IntVector(
+   explicit IntVector(
       const Index& rhs,
       size_t num_blocks = 1);
 
