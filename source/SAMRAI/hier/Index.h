@@ -209,7 +209,7 @@ public:
    operator += (
       const Index& rhs) noexcept
    {
-      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      TBOX_CONSTEXPR_ASSERT(getDim() == rhs.getDim());
       for (unsigned int i = 0; i < d_dim.getValue(); ++i) {
          d_index[i] += rhs.d_index[i];
       }
@@ -265,7 +265,7 @@ public:
    operator -= (
       const Index& rhs) noexcept
    {
-      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      TBOX_CONSTEXPR_ASSERT(getDim() == rhs.getDim());
       for (unsigned int i = 0; i < d_dim.getValue(); ++i) {
          d_index[i] -= rhs.d_index[i];
       }
@@ -470,52 +470,52 @@ public:
    /**
     * @brief Return the specified component of the Index.
     *
-    * @pre (i >= 0) && (i < getDim().getValue())
+    * @pre (i < getDim().getValue())
     */
    constexpr int&
    operator [] (
       const unsigned int i) noexcept
    {
-      TBOX_ASSERT(i < getDim().getValue());
+      TBOX_CONSTEXPR_ASSERT(i < getDim().getValue());
       return d_index[i];
    }
 
    /**
     * @brief Return the specified component of the vector as a const reference.
     *
-    * @pre (i >= 0) && (i < getDim().getValue())
+    * @pre (i < getDim().getValue())
     */
    constexpr const int&
    operator [] (
       const unsigned int i) const noexcept
    {
-      TBOX_ASSERT(i < getDim().getValue());
+      TBOX_CONSTEXPR_ASSERT(i < getDim().getValue());
       return d_index[i];
    }
 
    /**
     * @brief Return the specified component of the Index.
     *
-    * @pre (i >= 0) && (i < getDim().getValue())
+    * @pre (i < getDim().getValue())
     */
    constexpr int&
    operator () (
       const unsigned int i) noexcept
    {
-      TBOX_ASSERT(i < getDim().getValue());
+      TBOX_CONSTEXPR_ASSERT(i < getDim().getValue());
       return d_index[i];
    }
 
    /**
     * @brief Return the specified component of the Index as a const reference.
     *
-    * @pre (i >= 0) && (i < getDim().getValue())
+    * @pre (i < getDim().getValue())
     */
    constexpr const int&
    operator () (
       const unsigned int i) const noexcept
    {
-      TBOX_ASSERT(i < getDim().getValue());
+      TBOX_CONSTEXPR_ASSERT(i < getDim().getValue());
       return d_index[i];
    }
 
@@ -529,7 +529,7 @@ public:
    operator > (
       const Index& rhs) const noexcept
    {
-      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      TBOX_CONSTEXPR_ASSERT(getDim() == rhs.getDim());
       bool result = true;
       for (unsigned int i = 0; result && (i < getDim().getValue()); ++i) {
          result = result && (d_index[i] > rhs.d_index[i]);
@@ -547,7 +547,7 @@ public:
    operator >= (
       const Index& rhs) const noexcept
    {
-      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      TBOX_CONSTEXPR_ASSERT(getDim() == rhs.getDim());
       bool result = true;
       for (unsigned int i = 0; result && (i < getDim().getValue()); ++i) {
          result = result && (d_index[i] >= rhs.d_index[i]);
@@ -565,7 +565,7 @@ public:
    operator < (
       const Index& rhs) const noexcept
    {
-      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      TBOX_CONSTEXPR_ASSERT(getDim() == rhs.getDim());
       bool result = true;
       for (unsigned int i = 0; result && (i < getDim().getValue()); ++i) {
          result = result && (d_index[i] < rhs.d_index[i]);
@@ -583,7 +583,7 @@ public:
    operator <= (
       const Index& rhs) const noexcept
    {
-      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      TBOX_CONSTEXPR_ASSERT(getDim() == rhs.getDim());
       bool result = true;
       for (unsigned int i = 0; result && (i < getDim().getValue()); ++i) {
          result = result && (d_index[i] <= rhs.d_index[i]);
@@ -600,7 +600,7 @@ public:
    min(
       const Index& rhs) noexcept
    {
-      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      TBOX_CONSTEXPR_ASSERT(getDim() == rhs.getDim());
       for (dir_t i = 0; i < getDim().getValue(); ++i) {
          if (rhs.d_index[i] < d_index[i]) {
             d_index[i] = rhs.d_index[i];
@@ -617,7 +617,7 @@ public:
    max(
       const Index& rhs) noexcept
    {
-      TBOX_ASSERT_OBJDIM_EQUALITY2(*this, rhs);
+      TBOX_CONSTEXPR_ASSERT(getDim() == rhs.getDim());
       for (unsigned int i = 0; i < getDim().getValue(); ++i) {
          if (rhs.d_index[i] > d_index[i]) {
             d_index[i] = rhs.d_index[i];
