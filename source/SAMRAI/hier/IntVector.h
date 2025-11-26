@@ -19,6 +19,7 @@
 #include "SAMRAI/tbox/MathUtilities.h"
 #include "SAMRAI/tbox/Utilities.h"
 
+#include <array>
 #include <vector>
 #include <iostream>
 #include <optional>
