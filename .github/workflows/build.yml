@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+
+    - name: Setup
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libopenmpi-dev openmpi-bin libhdf5-openmpi-dev ccache
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{github.workspace}}/build
+
+    - name: Build
+      working-directory: ${{github.workspace}}/build
+      run: |        
+        cmake $GITHUB_WORKSPACE 
+        make VERBOSE=2
+        
