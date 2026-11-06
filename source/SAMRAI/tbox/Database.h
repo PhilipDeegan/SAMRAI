@@ -802,6 +802,80 @@ public:
       const size_t nelements);
 
    /**
+    * Create a fixed-size double array entry in the database with the
+    * specified key name, without writing any data. The array is sized
+    * to hold total_nelements and is intended to be filled in afterwards
+    * with one or more calls to putDoubleArrayChunk(), so that a caller
+    * never needs to hold the whole array in memory at once.
+    *
+    * The default implementation errors out; only database
+    * implementations that support chunked I/O (e.g. HDFDatabase)
+    * override this.
+    *
+    * @param key             Key name in database.
+    * @param total_nelements Total number of elements the array will hold.
+    *
+    * @pre !key.empty()
+    * @pre total_nelements > 0
+    */
+   virtual void
+   createDoubleArray(
+      const std::string& key,
+      const size_t total_nelements);
+
+   /**
+    * Write nelements of data into a double array previously declared
+    * with createDoubleArray(), starting at the given offset. May be
+    * called multiple times with disjoint [offset, offset + nelements)
+    * ranges to fill the array piece by piece, avoiding the need to
+    * ever hold the full array in memory.
+    *
+    * The default implementation errors out; only database
+    * implementations that support chunked I/O (e.g. HDFDatabase)
+    * override this.
+    *
+    * @param key       Key name in database.
+    * @param data      Chunk of data to write.
+    * @param offset    Offset (in elements) into the array to write to.
+    * @param nelements Number of elements in this chunk.
+    *
+    * @pre !key.empty()
+    * @pre data != 0
+    */
+   virtual void
+   putDoubleArrayChunk(
+      const std::string& key,
+      const double* const data,
+      const size_t offset,
+      const size_t nelements);
+
+   /**
+    * Read nelements of data from a double array with the specified key,
+    * starting at the given offset, into the caller-provided buffer. May
+    * be called multiple times with disjoint ranges to read the array
+    * piece by piece, avoiding the need to ever hold the full array in
+    * memory.
+    *
+    * The default implementation errors out; only database
+    * implementations that support chunked I/O (e.g. HDFDatabase)
+    * override this.
+    *
+    * @param key       Key name in database.
+    * @param data      Buffer to read this chunk into.
+    * @param offset    Offset (in elements) into the array to read from.
+    * @param nelements Number of elements in this chunk.
+    *
+    * @pre !key.empty()
+    * @pre data != 0
+    */
+   virtual void
+   getDoubleArrayChunk(
+      const std::string& key,
+      double* data,
+      const size_t offset,
+      const size_t nelements);
+
+   /**
     * Return whether the specified key represents a float entry.  If
     * the key does not exist, then false is returned.
     *
@@ -1033,6 +1107,80 @@ public:
    getIntegerArray(
       const std::string& key,
       int* data,
+      const size_t nelements);
+
+   /**
+    * Create a fixed-size integer array entry in the database with the
+    * specified key name, without writing any data. The array is sized
+    * to hold total_nelements and is intended to be filled in afterwards
+    * with one or more calls to putIntegerArrayChunk(), so that a caller
+    * never needs to hold the whole array in memory at once.
+    *
+    * The default implementation errors out; only database
+    * implementations that support chunked I/O (e.g. HDFDatabase)
+    * override this.
+    *
+    * @param key             Key name in database.
+    * @param total_nelements Total number of elements the array will hold.
+    *
+    * @pre !key.empty()
+    * @pre total_nelements > 0
+    */
+   virtual void
+   createIntegerArray(
+      const std::string& key,
+      const size_t total_nelements);
+
+   /**
+    * Write nelements of data into an integer array previously declared
+    * with createIntegerArray(), starting at the given offset. May be
+    * called multiple times with disjoint [offset, offset + nelements)
+    * ranges to fill the array piece by piece, avoiding the need to
+    * ever hold the full array in memory.
+    *
+    * The default implementation errors out; only database
+    * implementations that support chunked I/O (e.g. HDFDatabase)
+    * override this.
+    *
+    * @param key       Key name in database.
+    * @param data      Chunk of data to write.
+    * @param offset    Offset (in elements) into the array to write to.
+    * @param nelements Number of elements in this chunk.
+    *
+    * @pre !key.empty()
+    * @pre data != 0
+    */
+   virtual void
+   putIntegerArrayChunk(
+      const std::string& key,
+      const int* const data,
+      const size_t offset,
+      const size_t nelements);
+
+   /**
+    * Read nelements of data from an integer array with the specified
+    * key, starting at the given offset, into the caller-provided
+    * buffer. May be called multiple times with disjoint ranges to read
+    * the array piece by piece, avoiding the need to ever hold the full
+    * array in memory.
+    *
+    * The default implementation errors out; only database
+    * implementations that support chunked I/O (e.g. HDFDatabase)
+    * override this.
+    *
+    * @param key       Key name in database.
+    * @param data      Buffer to read this chunk into.
+    * @param offset    Offset (in elements) into the array to read from.
+    * @param nelements Number of elements in this chunk.
+    *
+    * @pre !key.empty()
+    * @pre data != 0
+    */
+   virtual void
+   getIntegerArrayChunk(
+      const std::string& key,
+      int* data,
+      const size_t offset,
       const size_t nelements);
 
    /**

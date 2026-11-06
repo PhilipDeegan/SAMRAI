@@ -1617,6 +1617,192 @@ HDFDatabase::getDoubleVector(
 /*
  *************************************************************************
  *
+ * Create a fixed-size double array entry in the database with the
+ * specified key name, without writing any data, so that it can be
+ * filled in afterwards one chunk at a time via putDoubleArrayChunk().
+ *
+ *************************************************************************
+ */
+
+void
+HDFDatabase::createDoubleArray(
+   const std::string& key,
+   const size_t total_nelements)
+{
+   TBOX_ASSERT(!key.empty());
+
+   herr_t errf;
+   NULL_USE(errf);
+
+   if (total_nelements == 0) {
+      TBOX_ERROR("HDFDatabase::createDoubleArray() error in database "
+         << d_database_name
+         << "\n    Attempt to create zero-length array with key = "
+         << key << std::endl);
+   }
+
+   hsize_t dim[] = { total_nelements };
+   hid_t space = H5Screate_simple(1, dim, 0);
+   TBOX_ASSERT(space >= 0);
+
+   hsize_t chunk_dim[] = { total_nelements < 4096 ? total_nelements : hsize_t(4096) };
+   hid_t plist = H5Pcreate(H5P_DATASET_CREATE);
+   TBOX_ASSERT(plist >= 0);
+   errf = H5Pset_chunk(plist, 1, chunk_dim);
+   TBOX_ASSERT(errf >= 0);
+
+#if (H5_VERS_MAJOR > 1) || ((H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 6))
+   hid_t dataset = H5Dcreate(d_group_id, key.c_str(), H5T_SAMRAI_DOUBLE,
+         space, H5P_DEFAULT, plist, H5P_DEFAULT);
+#else
+   hid_t dataset = H5Dcreate(d_group_id, key.c_str(), H5T_SAMRAI_DOUBLE,
+         space, plist);
+#endif
+   TBOX_ASSERT(dataset >= 0);
+
+   // Write attribute so we know what kind of data this is.
+   writeAttribute(KEY_DOUBLE_ARRAY, dataset);
+
+   errf = H5Pclose(plist);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(space);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Dclose(dataset);
+   TBOX_ASSERT(errf >= 0);
+}
+
+/*
+ *************************************************************************
+ *
+ * Write nelements of data into a double array previously declared with
+ * createDoubleArray(), starting at the given offset, using a
+ * hyperslab selection so that only this chunk needs to be held in
+ * memory.
+ *
+ *************************************************************************
+ */
+
+void
+HDFDatabase::putDoubleArrayChunk(
+   const std::string& key,
+   const double * const data,
+   const size_t offset,
+   const size_t nelements)
+{
+   TBOX_ASSERT(!key.empty());
+   TBOX_ASSERT(data != 0);
+
+   herr_t errf;
+   NULL_USE(errf);
+
+   if (nelements == 0) {
+      return;
+   }
+
+#if (H5_VERS_MAJOR > 1) || ((H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 6))
+   hid_t dataset = H5Dopen(d_group_id, key.c_str(), H5P_DEFAULT);
+#else
+   hid_t dataset = H5Dopen(d_group_id, key.c_str());
+#endif
+   TBOX_ASSERT(dataset >= 0);
+
+   hid_t filespace = H5Dget_space(dataset);
+   TBOX_ASSERT(filespace >= 0);
+
+   hsize_t foffset[] = { offset };
+   hsize_t fcount[] = { nelements };
+   errf = H5Sselect_hyperslab(filespace, H5S_SELECT_SET, foffset, 0, fcount, 0);
+   TBOX_ASSERT(errf >= 0);
+
+   hsize_t mdim[] = { nelements };
+   hid_t memspace = H5Screate_simple(1, mdim, 0);
+   TBOX_ASSERT(memspace >= 0);
+
+   errf = H5Dwrite(dataset, H5T_NATIVE_DOUBLE, memspace, filespace,
+         H5P_DEFAULT, data);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(memspace);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(filespace);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Dclose(dataset);
+   TBOX_ASSERT(errf >= 0);
+}
+
+/*
+ *************************************************************************
+ *
+ * Read nelements of data from a double array with the specified key,
+ * starting at the given offset, using a hyperslab selection so that
+ * only this chunk needs to be held in memory.
+ *
+ *************************************************************************
+ */
+
+void
+HDFDatabase::getDoubleArrayChunk(
+   const std::string& key,
+   double* data,
+   const size_t offset,
+   const size_t nelements)
+{
+   TBOX_ASSERT(!key.empty());
+   TBOX_ASSERT(data != 0);
+
+   if (!isDouble(key)) {
+      TBOX_ERROR("HDFDatabase::getDoubleArrayChunk() error in database "
+         << d_database_name
+         << "\n    Key = " << key << " is not a double array." << std::endl);
+   }
+
+   herr_t errf;
+   NULL_USE(errf);
+
+   if (nelements == 0) {
+      return;
+   }
+
+#if (H5_VERS_MAJOR > 1) || ((H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 6))
+   hid_t dataset = H5Dopen(d_group_id, key.c_str(), H5P_DEFAULT);
+#else
+   hid_t dataset = H5Dopen(d_group_id, key.c_str());
+#endif
+   TBOX_ASSERT(dataset >= 0);
+
+   hid_t filespace = H5Dget_space(dataset);
+   TBOX_ASSERT(filespace >= 0);
+
+   hsize_t foffset[] = { offset };
+   hsize_t fcount[] = { nelements };
+   errf = H5Sselect_hyperslab(filespace, H5S_SELECT_SET, foffset, 0, fcount, 0);
+   TBOX_ASSERT(errf >= 0);
+
+   hsize_t mdim[] = { nelements };
+   hid_t memspace = H5Screate_simple(1, mdim, 0);
+   TBOX_ASSERT(memspace >= 0);
+
+   errf = H5Dread(dataset, H5T_NATIVE_DOUBLE, memspace, filespace,
+         H5P_DEFAULT, data);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(memspace);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(filespace);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Dclose(dataset);
+   TBOX_ASSERT(errf >= 0);
+}
+
+/*
+ *************************************************************************
+ *
  * Return true or false depending on whether the specified key
  * represents a float entry.  If the key does not exist, then false
  * is returned.
@@ -1929,6 +2115,192 @@ HDFDatabase::getIntegerVector(
    TBOX_ASSERT(errf >= 0);
 
    return intArray;
+}
+
+/*
+ *************************************************************************
+ *
+ * Create a fixed-size integer array entry in the database with the
+ * specified key name, without writing any data, so that it can be
+ * filled in afterwards one chunk at a time via putIntegerArrayChunk().
+ *
+ *************************************************************************
+ */
+
+void
+HDFDatabase::createIntegerArray(
+   const std::string& key,
+   const size_t total_nelements)
+{
+   TBOX_ASSERT(!key.empty());
+
+   herr_t errf;
+   NULL_USE(errf);
+
+   if (total_nelements == 0) {
+      TBOX_ERROR("HDFDatabase::createIntegerArray() error in database "
+         << d_database_name
+         << "\n    Attempt to create zero-length array with key = "
+         << key << std::endl);
+   }
+
+   hsize_t dim[] = { total_nelements };
+   hid_t space = H5Screate_simple(1, dim, 0);
+   TBOX_ASSERT(space >= 0);
+
+   hsize_t chunk_dim[] = { total_nelements < 4096 ? total_nelements : hsize_t(4096) };
+   hid_t plist = H5Pcreate(H5P_DATASET_CREATE);
+   TBOX_ASSERT(plist >= 0);
+   errf = H5Pset_chunk(plist, 1, chunk_dim);
+   TBOX_ASSERT(errf >= 0);
+
+#if (H5_VERS_MAJOR > 1) || ((H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 6))
+   hid_t dataset = H5Dcreate(d_group_id, key.c_str(), H5T_SAMRAI_INT,
+         space, H5P_DEFAULT, plist, H5P_DEFAULT);
+#else
+   hid_t dataset = H5Dcreate(d_group_id, key.c_str(), H5T_SAMRAI_INT,
+         space, plist);
+#endif
+   TBOX_ASSERT(dataset >= 0);
+
+   // Write attribute so we know what kind of data this is.
+   writeAttribute(KEY_INT_ARRAY, dataset);
+
+   errf = H5Pclose(plist);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(space);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Dclose(dataset);
+   TBOX_ASSERT(errf >= 0);
+}
+
+/*
+ *************************************************************************
+ *
+ * Write nelements of data into an integer array previously declared
+ * with createIntegerArray(), starting at the given offset, using a
+ * hyperslab selection so that only this chunk needs to be held in
+ * memory.
+ *
+ *************************************************************************
+ */
+
+void
+HDFDatabase::putIntegerArrayChunk(
+   const std::string& key,
+   const int * const data,
+   const size_t offset,
+   const size_t nelements)
+{
+   TBOX_ASSERT(!key.empty());
+   TBOX_ASSERT(data != 0);
+
+   herr_t errf;
+   NULL_USE(errf);
+
+   if (nelements == 0) {
+      return;
+   }
+
+#if (H5_VERS_MAJOR > 1) || ((H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 6))
+   hid_t dataset = H5Dopen(d_group_id, key.c_str(), H5P_DEFAULT);
+#else
+   hid_t dataset = H5Dopen(d_group_id, key.c_str());
+#endif
+   TBOX_ASSERT(dataset >= 0);
+
+   hid_t filespace = H5Dget_space(dataset);
+   TBOX_ASSERT(filespace >= 0);
+
+   hsize_t foffset[] = { offset };
+   hsize_t fcount[] = { nelements };
+   errf = H5Sselect_hyperslab(filespace, H5S_SELECT_SET, foffset, 0, fcount, 0);
+   TBOX_ASSERT(errf >= 0);
+
+   hsize_t mdim[] = { nelements };
+   hid_t memspace = H5Screate_simple(1, mdim, 0);
+   TBOX_ASSERT(memspace >= 0);
+
+   errf = H5Dwrite(dataset, H5T_NATIVE_INT, memspace, filespace,
+         H5P_DEFAULT, data);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(memspace);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(filespace);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Dclose(dataset);
+   TBOX_ASSERT(errf >= 0);
+}
+
+/*
+ *************************************************************************
+ *
+ * Read nelements of data from an integer array with the specified
+ * key, starting at the given offset, using a hyperslab selection so
+ * that only this chunk needs to be held in memory.
+ *
+ *************************************************************************
+ */
+
+void
+HDFDatabase::getIntegerArrayChunk(
+   const std::string& key,
+   int* data,
+   const size_t offset,
+   const size_t nelements)
+{
+   TBOX_ASSERT(!key.empty());
+   TBOX_ASSERT(data != 0);
+
+   if (!isInteger(key)) {
+      TBOX_ERROR("HDFDatabase::getIntegerArrayChunk() error in database "
+         << d_database_name
+         << "\n    Key = " << key << " is not an integer array." << std::endl);
+   }
+
+   herr_t errf;
+   NULL_USE(errf);
+
+   if (nelements == 0) {
+      return;
+   }
+
+#if (H5_VERS_MAJOR > 1) || ((H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 6))
+   hid_t dataset = H5Dopen(d_group_id, key.c_str(), H5P_DEFAULT);
+#else
+   hid_t dataset = H5Dopen(d_group_id, key.c_str());
+#endif
+   TBOX_ASSERT(dataset >= 0);
+
+   hid_t filespace = H5Dget_space(dataset);
+   TBOX_ASSERT(filespace >= 0);
+
+   hsize_t foffset[] = { offset };
+   hsize_t fcount[] = { nelements };
+   errf = H5Sselect_hyperslab(filespace, H5S_SELECT_SET, foffset, 0, fcount, 0);
+   TBOX_ASSERT(errf >= 0);
+
+   hsize_t mdim[] = { nelements };
+   hid_t memspace = H5Screate_simple(1, mdim, 0);
+   TBOX_ASSERT(memspace >= 0);
+
+   errf = H5Dread(dataset, H5T_NATIVE_INT, memspace, filespace,
+         H5P_DEFAULT, data);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(memspace);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Sclose(filespace);
+   TBOX_ASSERT(errf >= 0);
+
+   errf = H5Dclose(dataset);
+   TBOX_ASSERT(errf >= 0);
 }
 
 /*

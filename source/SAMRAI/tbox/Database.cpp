@@ -778,6 +778,50 @@ Database::getDoubleArray(
    }
 }
 
+void
+Database::createDoubleArray(
+   const std::string& key,
+   const size_t total_nelements)
+{
+   NULL_USE(total_nelements);
+   TBOX_ERROR("Database::createDoubleArray() error in database "
+      << getName()
+      << "\n    Chunked array I/O is not supported by this database type, key = "
+      << key << std::endl);
+}
+
+void
+Database::putDoubleArrayChunk(
+   const std::string& key,
+   const double* const data,
+   const size_t offset,
+   const size_t nelements)
+{
+   NULL_USE(data);
+   NULL_USE(offset);
+   NULL_USE(nelements);
+   TBOX_ERROR("Database::putDoubleArrayChunk() error in database "
+      << getName()
+      << "\n    Chunked array I/O is not supported by this database type, key = "
+      << key << std::endl);
+}
+
+void
+Database::getDoubleArrayChunk(
+   const std::string& key,
+   double* data,
+   const size_t offset,
+   const size_t nelements)
+{
+   NULL_USE(data);
+   NULL_USE(offset);
+   NULL_USE(nelements);
+   TBOX_ERROR("Database::getDoubleArrayChunk() error in database "
+      << getName()
+      << "\n    Chunked array I/O is not supported by this database type, key = "
+      << key << std::endl);
+}
+
 /*
  * Integer
  */
@@ -899,6 +943,50 @@ Database::getIntegerArray(
    for (size_t i = 0; i < tsize; ++i) {
       data[i] = tmp[i];
    }
+}
+
+void
+Database::createIntegerArray(
+   const std::string& key,
+   const size_t total_nelements)
+{
+   NULL_USE(total_nelements);
+   TBOX_ERROR("Database::createIntegerArray() error in database "
+      << getName()
+      << "\n    Chunked array I/O is not supported by this database type, key = "
+      << key << std::endl);
+}
+
+void
+Database::putIntegerArrayChunk(
+   const std::string& key,
+   const int* const data,
+   const size_t offset,
+   const size_t nelements)
+{
+   NULL_USE(data);
+   NULL_USE(offset);
+   NULL_USE(nelements);
+   TBOX_ERROR("Database::putIntegerArrayChunk() error in database "
+      << getName()
+      << "\n    Chunked array I/O is not supported by this database type, key = "
+      << key << std::endl);
+}
+
+void
+Database::getIntegerArrayChunk(
+   const std::string& key,
+   int* data,
+   const size_t offset,
+   const size_t nelements)
+{
+   NULL_USE(data);
+   NULL_USE(offset);
+   NULL_USE(nelements);
+   TBOX_ERROR("Database::getIntegerArrayChunk() error in database "
+      << getName()
+      << "\n    Chunked array I/O is not supported by this database type, key = "
+      << key << std::endl);
 }
 
 /*

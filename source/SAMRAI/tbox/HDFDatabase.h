@@ -321,6 +321,48 @@ public:
       const std::string& key);
 
    /**
+    * Create a fixed-size double array entry, sized to hold
+    * total_nelements, without writing any data. Intended to be filled
+    * in afterwards with one or more calls to putDoubleArrayChunk().
+    *
+    * @pre !key.empty()
+    * @pre total_nelements > 0
+    */
+   virtual void
+   createDoubleArray(
+      const std::string& key,
+      const size_t total_nelements);
+
+   /**
+    * Write nelements of data into a double array previously declared
+    * with createDoubleArray(), starting at the given offset.
+    *
+    * @pre !key.empty()
+    * @pre data != 0
+    */
+   virtual void
+   putDoubleArrayChunk(
+      const std::string& key,
+      const double* const data,
+      const size_t offset,
+      const size_t nelements);
+
+   /**
+    * Read nelements of data from a double array with the specified key,
+    * starting at the given offset, into the caller-provided buffer.
+    *
+    * @pre !key.empty()
+    * @pre data != 0
+    * @pre isDouble(key)
+    */
+   virtual void
+   getDoubleArrayChunk(
+      const std::string& key,
+      double* data,
+      const size_t offset,
+      const size_t nelements);
+
+   /**
     * Return true or false depending on whether the specified key
     * represents a float entry.  If the key does not exist or if
     * the string is empty, then false is returned.
@@ -387,6 +429,49 @@ public:
    virtual std::vector<int>
    getIntegerVector(
       const std::string& key);
+
+   /**
+    * Create a fixed-size integer array entry, sized to hold
+    * total_nelements, without writing any data. Intended to be filled
+    * in afterwards with one or more calls to putIntegerArrayChunk().
+    *
+    * @pre !key.empty()
+    * @pre total_nelements > 0
+    */
+   virtual void
+   createIntegerArray(
+      const std::string& key,
+      const size_t total_nelements);
+
+   /**
+    * Write nelements of data into an integer array previously declared
+    * with createIntegerArray(), starting at the given offset.
+    *
+    * @pre !key.empty()
+    * @pre data != 0
+    */
+   virtual void
+   putIntegerArrayChunk(
+      const std::string& key,
+      const int* const data,
+      const size_t offset,
+      const size_t nelements);
+
+   /**
+    * Read nelements of data from an integer array with the specified
+    * key, starting at the given offset, into the caller-provided
+    * buffer.
+    *
+    * @pre !key.empty()
+    * @pre data != 0
+    * @pre isInteger(key)
+    */
+   virtual void
+   getIntegerArrayChunk(
+      const std::string& key,
+      int* data,
+      const size_t offset,
+      const size_t nelements);
 
    /**
     * Return true or false depending on whether the specified key
